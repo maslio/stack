@@ -1,0 +1,25 @@
+<script setup lang="ts">
+const emit = defineEmits<{
+  save: [id: string]
+}>()
+const { request } = useDirectus()
+const { $t } = useNuxtApp()
+const fields = [
+  { field: 'email', label: 'Email', autocomplete: 'username' },
+  { field: 'password', label: $t('password') },
+]
+
+async function save(data: Record<string, any>) {
+  const user = await request(createUser(data))
+  emit('save', user.id)
+}
+</script>
+
+<template>
+  <Form
+    type="create"
+    collection="directus_users"
+    :fields
+    :submit="save"
+  />
+</template>

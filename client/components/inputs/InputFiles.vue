@@ -33,7 +33,7 @@ const { isOverDropZone } = useDropZone(el, {
       class="fit flex items-center justify-center rounded-xl text-faint"
       border="2 neutral dashed"
     >
-      {{ $t('files_upload') }}
+      {{ $t('upload_files') }}
     </button>
   </div>
 </template>

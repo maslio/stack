@@ -72,7 +72,8 @@ async function uploadNext() {
       <template #left>
         <div class="h-10 w-10 flex items-center justify-center">
           <Icon
-            v-if="file.error" name="material-symbols:error"
+            v-if="file.error"
+            name="material-symbols:error"
             class="shake text-negative"
           />
           <Spinner v-else-if="!file.directusFile" />

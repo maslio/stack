@@ -1,78 +1,40 @@
 import { Buffer } from 'node:buffer'
-import { type AssetsQuery, type DirectusClient, type RestClient, createDirectus, readAssetArrayBuffer, rest, staticToken } from '@directus/sdk'
+import { type AssetsQuery, readAssetArrayBuffer } from '@directus/sdk'
 import { type H3Event, getCookie } from 'h3'
-import { jwtDecode } from 'jwt-decode'
-
-type Client = DirectusClient<DirectusSchema> & RestClient<DirectusSchema>
-type ClientAny = DirectusClient<any> & RestClient<any>
-
-let clientAdmin: Client
-let clientRemote: Client
-
-function adminClient() {
-  if (!clientAdmin) {
-    const { directusUrl, directusToken } = useRuntimeConfig()
-    clientAdmin = createDirectus<DirectusSchema>(directusUrl as string)
-      .with(rest())
-      .with(staticToken(directusToken as string))
-  }
-  return clientAdmin
-}
-
-function remoteClient() {
-  if (!clientRemote) {
-    const { remoteDirectusUrl, remoteDirectusToken } = useRuntimeConfig()
-    clientRemote = createDirectus<DirectusSchema>(remoteDirectusUrl as string)
-      .with(rest())
-      .with(staticToken(remoteDirectusToken as string))
-  }
-  return clientRemote
-}
-
-function userClient(event: H3Event) {
-  const { directusUrl } = useRuntimeConfig()
-  const token = getCookie(event, 'directus_session_token')
-  if (!token)
-    throw createError({ status: 401 })
-  return createDirectus<DirectusSchema>(directusUrl as string)
-    .with(rest())
-    .with(staticToken(token))
-}
+import { type Client, getClient } from '../directus/client'
+import { hasAccess } from '../directus/auth'
+import type { SubscribeOptions } from '../directus/subscription'
+import { createSubscription } from '../directus/subscription'
 
 export function useDirectus(event: H3Event | 'admin' | 'remote') {
-  const client = event === 'admin'
-    ? adminClient()
-    : event === 'remote'
-      ? remoteClient()
-      : userClient(event)
-  const requestAny: ClientAny['request'] = options => client.request(options)
+  const client = getClient(event)
   const request: Client['request'] = options => client.request(options)
+  const requestAny: Client['request'] = options => client.request(options)
   async function getImage(id: string, query?: AssetsQuery) {
     const arrayBuffer = await request(readAssetArrayBuffer(id, query))
     const buffer = Buffer.from(arrayBuffer)
     return buffer.toString('base64')
   }
+  let connected = false
+  async function connect() {
+    if (connected)
+      return
+    connected = true
+    await client.connect()
+  }
+
+  async function subscribe(collection: keyof DirectusSchema, options: SubscribeOptions = {}) {
+    await connect()
+    return createSubscription(client, collection, options)
+  }
   return {
     client,
     request,
-    getImage,
     requestAny,
+    connect,
+    subscribe,
+    getImage,
   }
-}
-
-interface SessionData {
-  id: string
-  role: string
-  app_access: 1
-  admin_access: 1
-  session: string
-  iat: number
-  exp: number
-  iss: string
-}
-
-export function decodeDirectusToken(token: string) {
-  return jwtDecode<SessionData>(token)
 }
 
 export function useAccess(...policies: DirectusPolicy[]): void {
@@ -80,6 +42,6 @@ export function useAccess(...policies: DirectusPolicy[]): void {
   const user = event.context.user
   if (!user)
     throw createError({ status: 401 })
-  if (policies.filter(p => user.policies.includes(p)).length === 0)
+  if (!hasAccess(user, policies))
     throw createError({ status: 403 })
 }

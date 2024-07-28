@@ -50,12 +50,12 @@ export async function useItem(collection: string, key: string | number, options:
 
   const fields = getOption(options, 'fields')
 
-  const data = await useAsyncData(useId(), async () => {
+  const asyncData = await useAsyncData(useId(), async () => {
     const query = getQuery({ fields })
     return await requestAny(readItem(collection, key, query))
   })
 
-  const item = computed(() => data.data.value as Item)
+  const item = computed(() => asyncData.data.value as Item)
 
   async function updateItem(data: Item) {
     return await requestAny(_updateItem(collection, key, data))
@@ -64,10 +64,21 @@ export async function useItem(collection: string, key: string | number, options:
     return await requestAny(_deleteItems(collection, [key as string]))
   }
 
+  if (options.live) {
+    const params = new URLSearchParams({ collection, key: String(key) })
+    const eventSource = new EventSource(`/_db/live?${params}`)
+    eventSource.onmessage = (message) => {
+      const { event, data } = JSON.parse(message.data)
+      if (event === 'update' && data[0]) {
+        asyncData.data.value = data[0]
+      }
+    }
+  }
+
   return {
     item,
-    refresh: data.refresh,
-    status: data.status,
+    refresh: asyncData.refresh,
+    status: asyncData.status,
     updateItem,
     deleteItem,
   }

@@ -2,8 +2,8 @@ import type { AuthenticationClient, DirectusClient, RestClient, WebSocketClient 
 import type { AuthUser } from '../../types'
 import { type Ref, useNuxtApp, useState } from '#imports'
 
-type Client = DirectusClient<DirectusSchema> & RestClient<DirectusSchema> & AuthenticationClient<DirectusSchema>
-type ClientAny = DirectusClient<any> & RestClient<any> & AuthenticationClient<any>
+// type Client = DirectusClient<DirectusSchema> & RestClient<DirectusSchema> & AuthenticationClient<DirectusSchema>
+type Client = DirectusClient<any> & RestClient<any> & AuthenticationClient<any>
 
 export function useDirectus() {
   const nuxtApp = useNuxtApp()
@@ -11,7 +11,7 @@ export function useDirectus() {
 
   const request: Client['request'] = options => client.request(options)
 
-  const requestAny: ClientAny['request'] = options => client.request(options)
+  const requestAny: Client['request'] = options => client.request(options)
 
   const user: Ref<AuthUser | null> = useState<AuthUser>('user')
 

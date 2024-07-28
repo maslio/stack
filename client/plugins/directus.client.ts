@@ -1,7 +1,5 @@
-import { authentication, createDirectus, rest } from '@directus/sdk'
+import { authentication, createDirectus, realtime, rest, staticToken } from '@directus/sdk'
 import { defineNuxtPlugin } from '#imports'
-// @ts-expect-error directus
-import type { DirectusSchema } from '#build/directus.d.ts'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const url = `${location.protocol}//${location.host}/_db`
@@ -9,6 +7,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const client = createDirectus<DirectusSchema>(url)
     .with(rest({ credentials: 'include' }))
     .with(authentication('session', { credentials: 'include' }))
+    .with(realtime())
 
   nuxtApp.provide('directus', client)
 })

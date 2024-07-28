@@ -28,21 +28,24 @@ const modelMulti = ref<User['id'][]>([])
 </script>
 
 <template>
-  <InputSelect
-    v-slot="{ item }"
-    v-model="modelSingle"
-    label="User"
-    :options="users"
-    value-key="id"
-    label-key="name"
-  >
-    <div>{{ item.name }}</div>
-  </InputSelect>
-  <InputSelectMulti
-    v-model="modelMulti"
-    label="Users"
-    :options="users"
-    value-key="id"
-    label-key="name"
-  />
+  <Card>
+    <InputSelect
+      v-slot="{ item }"
+      v-model="modelSingle"
+      label="User"
+      :options="users"
+      value-key="id"
+      label-key="name"
+      search
+    >
+      <div>{{ item.name }}</div>
+    </InputSelect>
+    <InputSelectMulti
+      v-model="modelMulti"
+      label="Users"
+      :options="users"
+      value-key="id"
+      label-key="name"
+    />
+  </Card>
 </template>

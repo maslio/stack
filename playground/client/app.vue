@@ -34,10 +34,6 @@ const next = openRef()
         label="UI inputs"
         :open="{ ref: next, component: UiInputs }"
       />
-      <Item
-        label="UI selects"
-        :open="{ ref: next, component: UiSelects }"
-      />
     </Card>
     <Card>
       <Item

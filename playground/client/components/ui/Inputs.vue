@@ -12,4 +12,5 @@
     <InputText label="Text" />
     <InputNumber label="Sum" :decimal="2" />
   </Card>
+  <UiSelects />
 </template>

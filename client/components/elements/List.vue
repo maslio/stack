@@ -12,7 +12,8 @@ const props = withDefaults(defineProps<{
   limit?: number
   increment?: number
   debounce?: string | number
-  search?: string
+  search?: string | null
+  showSearch?: boolean
   showTotal?: boolean
   transition?: boolean
 }>(), {

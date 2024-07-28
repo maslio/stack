@@ -24,28 +24,22 @@ function onCalendarSelect(value: string) {
 
 const presets = [{
   value: dateFormat(subDays(new Date(), 1)),
-  item: {
-    label: $t('yesterday'),
-    value: formatPresetDate(subDays(new Date(), 1)),
-  },
+  label: $t('yesterday'),
+  format: formatPresetDate(subDays(new Date(), 1)),
 }, {
   value: dateFormat(new Date()),
-  item: {
-    label: $t('today'),
-    value: formatPresetDate(new Date()),
-  },
+  label: $t('today'),
+  format: formatPresetDate(new Date()),
 }, {
   value: dateFormat(addDays(new Date(), 1)),
-  item: {
-    label: $t('tomorrow'),
-    value: formatPresetDate(addDays(new Date(), 1)),
-  },
+  label: $t('tomorrow'),
+  format: formatPresetDate(addDays(new Date(), 1)),
 }]
 
 const value = computed(() => {
   const preset = presets.find(p => p.value === model.value)
   if (preset)
-    return preset.item.label
+    return preset.label
   return formatPresetDate(new Date(model.value))
 })
 </script>
@@ -59,7 +53,18 @@ const value = computed(() => {
   />
   <Open ref="open" :label>
     <DateInput v-model="model" />
-    <Select v-model="model" :options="presets" />
+    <Select
+      v-slot="{ item }"
+      v-model="model"
+      :options="presets"
+    >
+      <div class="flex justify-between">
+        <div>{{ item.label }}</div>
+        <div class="text-faint">
+          {{ item.format }}
+        </div>
+      </div>
+    </Select>
     <DateCalendar :selected="[model]" @select="onCalendarSelect" />
   </Open>
 </template>

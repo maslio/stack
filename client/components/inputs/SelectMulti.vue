@@ -13,12 +13,12 @@ const props = defineProps<{
 const model = defineModel<any[]>({ default: [] })
 const valueKey = ref(props.valueKey ?? 'value') as Ref<keyof T>
 const labelKey = ref(props.labelKey ?? 'label') as Ref<keyof T>
-const inputSearch = ref('')
+const inputSearch = ref(props.search ? '' : null)
 
 const items = computed(() => {
-  const input = inputSearch.value.trim().toLowerCase()
-  if (!input)
+  if (!inputSearch.value)
     return props.options
+  const input = inputSearch.value.trim().toLowerCase()
   return props.options.filter(o =>
     String(o[labelKey.value])?.toLowerCase().includes(input)
     || String(o[valueKey.value])?.toLowerCase().includes(input),

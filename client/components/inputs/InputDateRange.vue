@@ -178,10 +178,8 @@ const presetsFiltered = computed(() => {
     .filter(p => p.type === presetsTab.value)
     .map(p => ({
       value: rangeToString([p.start, p.end]),
-      item: {
-        label: p.label,
-        value: p.value,
-      },
+      label: p.label,
+      format: p.value,
     }))
 })
 
@@ -256,7 +254,18 @@ const value = computed(() => {
     </Card>
     <Card>
       <Tabs v-model="presetsTab" :tabs="presetsTabs" />
-      <Select v-model="modelString" :options="presetsFiltered" />
+      <Select
+        v-slot="{ item }"
+        v-model="modelString"
+        :options="presetsFiltered"
+      >
+        <div class="flex justify-between">
+          <div>{{ item.label }}</div>
+          <div class="text-faint">
+            {{ item.format }}
+          </div>
+        </div>
+      </Select>
     </Card>
     <DateCalendar :selected="calendarSelected" @select="onCalendarSelect" />
   </Open>

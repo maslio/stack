@@ -8,7 +8,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       })
       el.addEventListener('click', (e: Event) => {
         // @ts-expect-error if click is from keyboard
-        if (e.pointerType === '')
+        if (!e.pointerType)
           binding.value?.(e)
       })
     },

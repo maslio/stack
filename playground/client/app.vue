@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {
+  DataProducts,
   LazySystemTasks,
   LazyUserList,
   UiElements,
   UiInputs,
+  UiSelects,
 } from '#components'
 
 const next = openRef()
@@ -31,6 +33,16 @@ const next = openRef()
       <Item
         label="UI inputs"
         :open="{ ref: next, component: UiInputs }"
+      />
+      <Item
+        label="UI selects"
+        :open="{ ref: next, component: UiSelects }"
+      />
+    </Card>
+    <Card>
+      <Item
+        label="Data products"
+        :open="{ ref: next, component: DataProducts }"
       />
     </Card>
     <Open ref="next" />

@@ -1,58 +1,59 @@
-<script setup lang="ts">
-import Checkbox from '../elements/Checkbox.vue'
-import Item, { type Props as ItemProps } from '../elements/Item.vue'
-import List from '../elements/List.vue'
-import { computed, ref } from '#imports'
-
+<script setup lang="ts" generic="T">
 defineOptions({
   inheritAttrs: false,
 })
+const props = defineProps<{
+  options: T[]
+  labelKey?: keyof T
+  valueKey?: keyof T
+  search?: boolean
+}>()
 
-const props = defineProps<Props>()
-export interface Option {
-  value: string | number
-  item: ItemProps
-}
-export type Value = string | number
-export interface Props {
-  options: Option[]
-  input?: boolean
-}
-const model = defineModel<Value>()
+defineSlots<{
+  default: (props: { item: T }) => any
+}>()
+
+const model = defineModel()
+const valueKey = ref(props.valueKey ?? 'value') as Ref<keyof T>
+const labelKey = ref(props.labelKey ?? 'label') as Ref<keyof T>
+const inputSearch = ref('')
 
 const items = computed(() => {
-  const _input = ''
-  const input = _input.trim().toLowerCase()
+  const input = inputSearch.value.trim().toLowerCase()
   if (!input)
     return props.options
   return props.options.filter(o =>
-    o.item.label?.toLowerCase().includes(input)
-    || o.item.caption?.toLowerCase().includes(input)
-    || o.item.value?.toLowerCase().includes(input),
+    String(o[labelKey.value])?.toLowerCase().includes(input)
+    || String(o[valueKey.value])?.toLowerCase().includes(input),
   )
 })
 
-function onSelect(option: Option) {
-  model.value = option.value
+function onSelect(option: T) {
+  model.value = option[valueKey.value]
 }
-const list = ref()
 </script>
 
 <template>
   <List
-    ref="list"
+    v-model:search="inputSearch"
     :items
-    item-key="value"
+    :item-key="valueKey"
   >
     <template #default="{ item }">
       <Item
-        v-bind="item.item"
-        :selected="model === item.value"
+        :selected="model === item[valueKey]"
         :option="true"
         clickable
         @click="onSelect(item)"
       >
-        <Checkbox :selected="model === item.value" />
+        <div class="flex-1">
+          <slot v-if="$slots.default" name="default" :item />
+          <Text
+            v-else
+            :label="String(item[labelKey])"
+          />
+        </div>
+        <Checkbox :selected="model === item[valueKey]" />
       </Item>
     </template>
   </List>

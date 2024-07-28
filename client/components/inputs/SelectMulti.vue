@@ -1,42 +1,34 @@
-<script setup lang="ts">
-import Item from '../elements/Item.vue'
-import List from '../elements/List.vue'
-import type { Option, Value } from './Select.vue'
-import { ref, watch } from '#imports'
+<script setup lang="ts" generic="T">
+defineOptions({
+  inheritAttrs: false,
+})
+const props = defineProps<{
+  options: T[]
+  labelKey?: keyof T
+  valueKey?: keyof T
+  search?: boolean
+  label: string
+  autoClose?: boolean
+}>()
+const model = defineModel<any[]>({ default: [] })
+const valueKey = ref(props.valueKey ?? 'value') as Ref<keyof T>
+const labelKey = ref(props.labelKey ?? 'label') as Ref<keyof T>
+const inputSearch = ref('')
 
-export interface Props {
-  options: Option[]
-  input?: boolean
-}
-const props = defineProps<Props>()
-const model = defineModel<Value[]>({ default: [] })
-
-// function items(_input: string) {
-//   const input = _input.trim().toLocaleLowerCase()
-//   if (!input)
-//     return props.options
-//   return props.options.filter(o =>
-//     o.item.label?.toLowerCase().includes(input)
-//     || o.item.caption?.toLowerCase().includes(input)
-//     || o.item.value?.toLowerCase().includes(input),
-//   )
-// }
-
-const items = ref([])
-const input = ref('')
-function refresh() {
-  items.value = props.options.filter(o =>
-    o.item.label?.toLowerCase().includes(input.value)
-    || o.item.caption?.toLowerCase().includes(input.value)
-    || o.item.value?.toLowerCase().includes(input.value),
+const items = computed(() => {
+  const input = inputSearch.value.trim().toLowerCase()
+  if (!input)
+    return props.options
+  return props.options.filter(o =>
+    String(o[labelKey.value])?.toLowerCase().includes(input)
+    || String(o[valueKey.value])?.toLowerCase().includes(input),
   )
-}
-refresh()
+})
 
-function onSelect(option: Option) {
-  model.value = model.value.includes(option.value)
-    ? model.value.filter(value => value !== option.value)
-    : [...model.value, option.value]
+function onSelect(option: T) {
+  model.value = model.value.includes(option[valueKey.value])
+    ? model.value.filter(value => value !== option[valueKey.value])
+    : [...model.value, option[valueKey.value]]
 }
 const list = ref()
 watch(() => props.options, () => list.value.fetch())
@@ -44,10 +36,28 @@ watch(() => props.options, () => list.value.fetch())
 
 <template>
   <List
+    v-model:search="inputSearch"
     :items
-    item-key="value"
+    :item-key="valueKey"
   >
     <template #default="{ item }">
+      <Item
+        :selected="model === item[valueKey]"
+        :option="true"
+        clickable
+        @click="onSelect(item)"
+      >
+        <div class="flex-1">
+          <slot v-if="$slots.default" name="default" :item />
+          <Text
+            v-else
+            :label="String(item[labelKey])"
+          />
+        </div>
+        <Checkbox :selected="model.includes(item[valueKey])" />
+      </Item>
+    </template>
+    <!-- <template #default="{ item }">
       <Item
         v-bind="item.item"
         :selected="model === item.value"
@@ -57,6 +67,6 @@ watch(() => props.options, () => list.value.fetch())
       >
         <Checkbox :selected="model.includes(item.value)" />
       </Item>
-    </template>
+    </template> -->
   </List>
 </template>

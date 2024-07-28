@@ -1,31 +1,34 @@
-<script setup lang="ts">
-import Item from '../elements/Item.vue'
-import { openRef } from '../../utils/open'
-import type { Props as SelectProps } from './Select.vue'
-import Select from './Select.vue'
-import { computed } from '#imports'
-
-interface Props extends SelectProps {
-  label: string
-  autoClose?: boolean
-}
+<script setup lang="ts" generic="T">
 defineOptions({
   inheritAttrs: false,
 })
-const { options, autoClose } = defineProps<Props>()
-const model = defineModel<string | number>()
+const props = defineProps<{
+  options: T[]
+  labelKey?: keyof T
+  valueKey?: keyof T
+  search?: boolean
+  label: string
+  autoClose?: boolean
+}>()
+defineSlots<{
+  default: (props: { item: T }) => any
+}>()
+
+const model = defineModel()
+const valueKey = ref(props.valueKey ?? 'value') as Ref<keyof T>
+const labelKey = ref(props.labelKey ?? 'label') as Ref<keyof T>
 const value = computed(() => {
   if (model.value == null)
     return ''
-  const option = options.find(o => o.value === model.value)
+  const option = props.options.find(o => o[valueKey.value] === model.value)
   if (option)
-    return option.item.label
+    return String(option[labelKey.value])
   return String(model.value)
 })
 const open = openRef()
 function onUpdate() {
-  if (autoClose)
-    open?.value.close()
+  if (props.autoClose)
+    open.value?.close()
 }
 </script>
 
@@ -34,8 +37,12 @@ function onUpdate() {
   <Open ref="open">
     <Select
       v-model="model"
-      v-bind="$props"
+      v-bind="props"
       @update:model-value="onUpdate"
-    />
+    >
+      <template v-if="$slots.default" #default="{ item }">
+        <slot name="default" :item />
+      </template>
+    </Select>
   </Open>
 </template>

@@ -1,25 +1,41 @@
-<script setup lang="ts">
-import Item from '../elements/Item.vue'
-import SelectMulti from './SelectMulti.vue'
-import type { Value } from './Select.vue'
-import type { Props as SelectProps } from './SelectMulti.vue'
-import { computed } from '#imports'
-
-interface Props extends SelectProps {
+<script setup lang="ts" generic="T">
+defineOptions({
+  inheritAttrs: false,
+})
+const props = defineProps<{
+  options: T[]
+  labelKey?: keyof T
+  valueKey?: keyof T
+  search?: boolean
   label: string
-}
-defineProps<Props>()
-const model = defineModel<Value[]>({ default: [] })
+  autoClose?: boolean
+}>()
+defineSlots<{
+  default: (props: { item: T }) => any
+}>()
 
+const model = defineModel<any[]>({ default: [] })
 const value = computed(() => {
   return String(model.value.length)
 })
+const open = openRef()
+function onUpdate() {
+  if (props.autoClose)
+    open.value?.close()
+}
 </script>
 
 <template>
-  <Item :label :value>
-    <template #page>
-      <SelectMulti v-model="model" v-bind="$props" />
-    </template>
-  </Item>
+  <Item :label :value :open="{ ref: open }" />
+  <Open ref="open">
+    <SelectMulti
+      v-model="model"
+      v-bind="props"
+      @update:model-value="onUpdate"
+    >
+      <template v-if="$slots.default" #default="{ item }">
+        <slot name="default" :item />
+      </template>
+    </SelectMulti>
+  </Open>
 </template>

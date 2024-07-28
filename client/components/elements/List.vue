@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<{
   data?: ReturnType<typeof useAsyncData<T[] | null, any>>
   total?: ReturnType<typeof useAsyncData<number | null, any>>
   items?: T[]
-  itemKey?: string & keyof T
+  itemKey?: keyof T
   limit?: number
   increment?: number
   debounce?: string | number

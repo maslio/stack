@@ -11,16 +11,27 @@ export interface Props {
 const props = defineProps<Props>()
 const model = defineModel<Value[]>({ default: [] })
 
-function items(_input: string) {
-  const input = _input.trim().toLocaleLowerCase()
-  if (!input)
-    return props.options
-  return props.options.filter(o =>
-    o.item.label?.toLowerCase().includes(input)
-    || o.item.caption?.toLowerCase().includes(input)
-    || o.item.value?.toLowerCase().includes(input),
+// function items(_input: string) {
+//   const input = _input.trim().toLocaleLowerCase()
+//   if (!input)
+//     return props.options
+//   return props.options.filter(o =>
+//     o.item.label?.toLowerCase().includes(input)
+//     || o.item.caption?.toLowerCase().includes(input)
+//     || o.item.value?.toLowerCase().includes(input),
+//   )
+// }
+
+const items = ref([])
+const input = ref('')
+function refresh() {
+  items.value = props.options.filter(o =>
+    o.item.label?.toLowerCase().includes(input.value)
+    || o.item.caption?.toLowerCase().includes(input.value)
+    || o.item.value?.toLowerCase().includes(input.value),
   )
 }
+refresh()
 
 function onSelect(option: Option) {
   model.value = model.value.includes(option.value)
@@ -33,15 +44,19 @@ watch(() => props.options, () => list.value.fetch())
 
 <template>
   <List
-    v-slot="{ item }" :items
-    keys="value"
-    :input :input-debounce="0"
+    :items
+    item-key="value"
   >
-    <Item
-      v-bind="item.item"
-      :selected="model.includes(item.value)"
-      option
-      @click="onSelect(item)"
-    />
+    <template #default="{ item }">
+      <Item
+        v-bind="item.item"
+        :selected="model === item.value"
+        :option="true"
+        clickable
+        @click="onSelect(item)"
+      >
+        <Checkbox :selected="model.includes(item.value)" />
+      </Item>
+    </template>
   </List>
 </template>

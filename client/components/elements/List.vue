@@ -1,11 +1,6 @@
 <!-- eslint-disable ts/no-use-before-define -->
 <script setup lang="ts" generic="T">
-import InputString from '../inputs/InputString.vue'
-import Separator from './Separator.vue'
-import Item from './Item.vue'
-import Card from './Card.vue'
 import type { Ref, useAsyncData } from '#imports'
-import { computed, onKeyStroke, ref, toReactive, useNuxtApp, useToNumber, watchDebounced } from '#imports'
 
 const props = withDefaults(defineProps<{
   label?: string
@@ -13,7 +8,7 @@ const props = withDefaults(defineProps<{
   data?: ReturnType<typeof useAsyncData<T[] | null, any>>
   total?: ReturnType<typeof useAsyncData<number | null, any>>
   items?: T[]
-  itemKey: string & keyof T
+  itemKey?: string & keyof T
   limit?: number
   increment?: number
   debounce?: string | number
@@ -159,7 +154,7 @@ const focus = (function () {
         >
           <div
             v-for="(item, index) in items"
-            :key="String(item[props.itemKey])"
+            :key="String(item[props.itemKey ?? 'id' as keyof T])"
             :class="{ focused: (focus.active && index === focus.index) }"
             class="flex children:flex-1"
           >
@@ -181,7 +176,7 @@ const focus = (function () {
           <Item clickable @click="increaseLimit">
             <template #main>
               <div text-center>
-                {{ $t('show_more', { count: hasMore }) }}
+                {{ `${$t('show_more')} ${hasMore}` }}
               </div>
             </template>
           </Item>

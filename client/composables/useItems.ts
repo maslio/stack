@@ -1,5 +1,6 @@
 import { aggregate, readItems } from '@directus/sdk'
 import { omit } from 'lodash-es'
+import { useSubscription } from './useSubscription'
 
 type AsyncData = ReturnType<typeof useAsyncData>
 
@@ -10,6 +11,7 @@ interface UseItemsOptions {
   limit?: any
   watch?: any[]
   count?: boolean
+  live?: boolean
 }
 interface UseItems {
   items: Ref<Record<string, any>[]>
@@ -62,8 +64,9 @@ export async function useItems(collection: string, options: UseItemsOptions = {}
   const fields = getOption(options, 'fields')
   const search = getOption(options, 'search')
   const limit = getOption(options, 'limit')
+
   const watch = getWatch(options, [filter, fields, search, limit])
-  const data = await useAsyncData(id, async () => {
+  const asyncData = useAsyncData(id, async () => {
     const query = getQuery({ filter, fields, search, limit })
     const requests = [requestAny(readItems(collection, query))]
     if (options.count) {
@@ -74,13 +77,39 @@ export async function useItems(collection: string, options: UseItemsOptions = {}
     }
     const [items, count] = await Promise.all(requests)
     return { items, count: options.count ? count![0]!.count.id : null }
-  }, { watch })
-  const items = computed<Record<string, any>[]>(() => data.data.value?.items as Record<string, any>[])
-  const count = computed<number>(() => data.data.value?.count)
+  }, { watch, immediate: false })
+
+  const items = computed<Record<string, any>[]>(() => asyncData.data.value?.items as Record<string, any>[])
+  const count = computed<number>(() => asyncData.data.value?.count)
+
+  if (options.live) {
+    useSubscription(collection, {
+      query: getQuery({ filter, fields, search, limit }),
+      onCreate: () => { asyncData.refresh() },
+      onDelete: () => { asyncData.refresh() },
+      onUpdate: (data) => {
+        if (asyncData.data.value?.items?.length) {
+          const items = [...asyncData.data.value.items]
+          for (const one of data) {
+            const index = items?.findIndex(item => item.id === one.id)
+            if (index !== -1)
+              items[index] = one
+          }
+          asyncData.data.value = {
+            items,
+            count: asyncData.data.value?.count,
+          }
+        }
+      },
+    })
+  }
+
+  await asyncData.execute()
+
   return {
     items,
-    refresh: data.refresh,
-    status: data.status,
+    refresh: asyncData.refresh,
+    status: asyncData.status,
     count,
   }
 }

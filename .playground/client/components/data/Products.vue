@@ -1,10 +1,28 @@
 <script setup lang="ts">
-const { item } = await useItem('products', 1, {
+import ProductsEdit from './ProductsEdit.vue'
+
+const { items } = await useItems('products', {
   fields: ['name'],
   live: true,
 })
+const next = openRef()
 </script>
 
 <template>
-  <div>{{ item }}</div>
+  <List v-slot="{ item }" :items>
+    <Item
+      :label="item.name"
+      :open="{
+        ref: next,
+        component: ProductsEdit,
+        props: {
+          id: item.id,
+          onUpdate: () => {
+            next?.close()
+          },
+        },
+      }"
+    />
+  </List>
+  <Open ref="next" />
 </template>

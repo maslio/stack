@@ -43,8 +43,5 @@ export async function useSubscription(client: Client, collection: string, option
     }
   }
   start()
-  function stop() {
-    unsubscribe()
-  }
-  return { stop }
+  return unsubscribe
 }

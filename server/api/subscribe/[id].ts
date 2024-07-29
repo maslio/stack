@@ -18,11 +18,15 @@ export default defineEventHandler(async (event) => {
     }))
   }
 
-  await subscribe(collection, {
+  const unsubscribe = await subscribe(collection, {
     query,
     onUpdate(items) { send('update', items) },
     onDelete(items) { send('delete', items) },
     onCreate(items) { send('create', items) },
+  })
+
+  eventStream.onClosed(() => {
+    unsubscribe()
   })
 
   return eventStream.send()

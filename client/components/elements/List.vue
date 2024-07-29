@@ -48,7 +48,6 @@ watch(() => props.search, (value) => {
 const list = ref<HTMLDivElement>()
 
 const items = computed<T[]>(() => {
-  // console.log(props.data.data.value.length)
   if (props.data)
     return props.data.data.value as T[]
   if (props.items)

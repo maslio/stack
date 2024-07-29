@@ -53,8 +53,10 @@ export async function useItem(collection: string, key: string | number, options:
 
   const query = getQuery({ fields })
 
-  const asyncData = await useAsyncData(useId(), async () => {
+  const asyncData = useAsyncData(useId(), async () => {
     return await requestAny(readItem(collection, key, query))
+  }, {
+    immediate: false,
   })
 
   const item = computed(() => asyncData.data.value as Record<string, any>)
@@ -74,6 +76,8 @@ export async function useItem(collection: string, key: string | number, options:
       },
     })
   }
+
+  await asyncData.execute()
 
   return {
     item,

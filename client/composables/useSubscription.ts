@@ -6,11 +6,15 @@ export interface Options {
 }
 
 export async function useSubscription(collection: string, options: Options) {
+  let eventSource: EventSource | null = null
+  onBeforeUnmount(() => {
+    eventSource?.close()
+  })
   const id = await $fetch('/api/subscribe', {
     method: 'POST',
     body: { collection, query: options.query },
   })
-  const eventSource = new EventSource(`/api/subscribe/${id}`)
+  eventSource = new EventSource(`/api/subscribe/${id}`)
   eventSource.onmessage = (message) => {
     const { event, data } = JSON.parse(message.data)
     if (event === 'create' && data[0])

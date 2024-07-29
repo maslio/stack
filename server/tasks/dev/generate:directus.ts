@@ -86,9 +86,6 @@ async function generate(directusUrl: string, directusToken: string) {
 
 function tsType(field: Field) {
   const key = field.field
-  // if (key === 'response')
-  //   console.log(field)
-
   let type: string
   switch (field.type) {
     case 'uuid':

@@ -7,7 +7,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         binding.value?.(e)
       })
       el.addEventListener('click', (e: Event) => {
-        // @ts-expect-error if click is from keyboard
+        // @ts-expect-error click from keyboard enter key
         if (!e.pointerType)
           binding.value?.(e)
       })

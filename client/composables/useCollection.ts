@@ -8,10 +8,10 @@ type ID = number | string
 
 export function useCollection(collection: string) {
   const { requestAny } = useDirectus()
-  async function createItem(data: Item) {
+  async function createItem(data: Record<string, any>) {
     return await requestAny(_createItem(collection, data))
   }
-  async function updateItem(id: ID, data: Item) {
+  async function updateItem(id: ID, data: Record<string, any>) {
     return await requestAny(_updateItem(collection, id, data))
   }
   async function deleteItem(id: ID) {

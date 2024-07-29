@@ -7,7 +7,7 @@ export type Client = DirectusClient<any> & RestClient<any> & WebSocketClient<any
 let clientAdmin: Client
 let clientRemote: Client
 
-export function getClient(event: H3Event | 'admin' | 'remote') {
+export function useDirectusClient(event: H3Event | 'admin' | 'remote') {
   return event === 'admin'
     ? getAdminClient()
     : event === 'remote'
@@ -18,7 +18,7 @@ export function getClient(event: H3Event | 'admin' | 'remote') {
 function getAdminClient() {
   if (!clientAdmin) {
     const { directusUrl, directusToken } = useRuntimeConfig()
-    clientAdmin = createDirectus<DirectusSchema>(directusUrl as string, {
+    clientAdmin = createDirectus(directusUrl as string, {
       globals: { WebSocket },
     })
       .with(rest())
@@ -31,7 +31,7 @@ function getAdminClient() {
 function getRemoteClient() {
   if (!clientRemote) {
     const { remoteDirectusUrl, remoteDirectusToken } = useRuntimeConfig()
-    clientRemote = createDirectus<DirectusSchema>(remoteDirectusUrl as string)
+    clientRemote = createDirectus(remoteDirectusUrl as string)
       .with(rest())
       .with(realtime())
       .with(staticToken(remoteDirectusToken as string))
@@ -44,7 +44,7 @@ function getUserClient(event: H3Event) {
   const token = getCookie(event, 'directus_session_token')
   if (!token)
     throw createError({ status: 401 })
-  return createDirectus<DirectusSchema>(directusUrl as string, {
+  return createDirectus(directusUrl as string, {
     globals: { WebSocket },
   })
     .with(rest())

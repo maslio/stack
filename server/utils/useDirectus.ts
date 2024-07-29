@@ -1,13 +1,11 @@
 import { Buffer } from 'node:buffer'
 import { type AssetsQuery, readAssetArrayBuffer } from '@directus/sdk'
-import { type H3Event, getCookie } from 'h3'
-import { type Client, getClient } from '../directus/client'
-import { hasAccess } from '../directus/auth'
-import type { SubscribeOptions } from '../directus/subscription'
-import { createSubscription } from '../directus/subscription'
+import type { H3Event } from 'h3'
+import { type Client, useDirectusClient } from './useDirectusClient'
+import { type Options as SubscribeOptions, useSubscription } from './useSubscription'
 
 export function useDirectus(event: H3Event | 'admin' | 'remote') {
-  const client = getClient(event)
+  const client = useDirectusClient(event)
   const request: Client['request'] = options => client.request(options)
   const requestAny: Client['request'] = options => client.request(options)
   async function getImage(id: string, query?: AssetsQuery) {
@@ -23,9 +21,9 @@ export function useDirectus(event: H3Event | 'admin' | 'remote') {
     await client.connect()
   }
 
-  async function subscribe(collection: keyof DirectusSchema, options: SubscribeOptions = {}) {
+  async function subscribe(collection: string, options: SubscribeOptions = {}) {
     await connect()
-    return createSubscription(client, collection, options)
+    return useSubscription(client, collection, options)
   }
   return {
     client,
@@ -35,13 +33,4 @@ export function useDirectus(event: H3Event | 'admin' | 'remote') {
     subscribe,
     getImage,
   }
-}
-
-export function useAccess(...policies: DirectusPolicy[]): void {
-  const event = useEvent() as H3Event
-  const user = event.context.user
-  if (!user)
-    throw createError({ status: 401 })
-  if (!hasAccess(user, policies))
-    throw createError({ status: 403 })
 }

@@ -1,5 +1,5 @@
-import type { User } from '../../directus/auth'
+import type { AuthUser } from '../../utils/useAuth'
 
 export default defineEventHandler(async (event) => {
-  return event.context.user as User
+  return event.context.user as AuthUser
 })

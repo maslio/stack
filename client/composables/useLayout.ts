@@ -1,6 +1,3 @@
-import type { ComputedRef, Ref } from 'vue'
-import { inject } from '#imports'
-
 export interface LayoutProvide {
   id: string
   isMini: ComputedRef<boolean>

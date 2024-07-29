@@ -3,6 +3,7 @@ import {
   updateItem as _updateItem,
   readItem,
 } from '@directus/sdk'
+import { useSubscription } from './useSubscription'
 
 type AsyncData = ReturnType<typeof useAsyncData>
 
@@ -13,7 +14,7 @@ interface UseItemOptions {
 }
 
 export interface UseItem {
-  item: Ref<Item>
+  item: Ref<Record<string, any>>
   refresh: AsyncData['refresh']
   status: AsyncData['status']
   updateItem: (date: Record<string, any>) => Promise<Record<string, any>>
@@ -50,14 +51,15 @@ export async function useItem(collection: string, key: string | number, options:
 
   const fields = getOption(options, 'fields')
 
+  const query = getQuery({ fields })
+
   const asyncData = await useAsyncData(useId(), async () => {
-    const query = getQuery({ fields })
     return await requestAny(readItem(collection, key, query))
   })
 
-  const item = computed(() => asyncData.data.value as Item)
+  const item = computed(() => asyncData.data.value as Record<string, any>)
 
-  async function updateItem(data: Item) {
+  async function updateItem(data: Record<string, any>) {
     return await requestAny(_updateItem(collection, key, data))
   }
   async function deleteItem() {
@@ -65,14 +67,12 @@ export async function useItem(collection: string, key: string | number, options:
   }
 
   if (options.live) {
-    const params = new URLSearchParams({ collection, key: String(key) })
-    const eventSource = new EventSource(`/_db/live?${params}`)
-    eventSource.onmessage = (message) => {
-      const { event, data } = JSON.parse(message.data)
-      if (event === 'update' && data[0]) {
+    useSubscription(collection, {
+      query,
+      onUpdate(data) {
         asyncData.data.value = data[0]
-      }
-    }
+      },
+    })
   }
 
   return {

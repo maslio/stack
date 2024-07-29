@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path'
 const currentDir = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
-  compatibilityDate: '2024-07-17',
+  compatibilityDate: '2024-07-29',
   future: { compatibilityVersion: 4 },
   srcDir: 'client',
   serverDir: 'server',
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
   ],
   image: {
     directus: {
-      baseURL: '/_db/assets',
+      baseURL: '/api/db/assets',
     },
   },
   components: {

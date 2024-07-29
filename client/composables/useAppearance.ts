@@ -1,3 +1,5 @@
+import { updateUser } from '@directus/sdk'
+
 type Mode = 'auto' | 'light' | 'dark'
 function toNuxtMode(value: Mode) {
   return value === 'auto' ? 'system' : value

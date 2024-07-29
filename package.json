@@ -1,5 +1,5 @@
 {
-  "name": "@maslio/sdk",
+  "name": "@maslio/stack",
   "type": "module",
   "version": "0.1.0",
   "private": true,
@@ -7,9 +7,9 @@
     "node": "20"
   },
   "scripts": {
-    "dev": "nuxi dev playground",
-    "dev:db": "docker compose -f ./playground/directus/docker-compose.yaml up -d",
-    "postinstall": "nuxt prepare playground"
+    "dev": "nuxi dev .playground",
+    "dev:db": "docker compose -f .playground/directus/docker-compose.yaml up -d",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@directus/sdk": "^16.1.1",

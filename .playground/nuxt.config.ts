@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  compatibilityDate: '2024-07-17',
+  compatibilityDate: '2024-07-29',
   future: { compatibilityVersion: 4 },
   extends: ['..'],
   srcDir: 'client',

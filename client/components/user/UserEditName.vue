@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { updateUser } from '@directus/sdk'
 import type { User } from '@directus/types'
 import { pick } from 'lodash-es'
 

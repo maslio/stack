@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { deleteUsers } from '@directus/sdk'
+
 const { user } = defineProps<{
-  user: Item
+  user: Record<string, any>
 }>()
 const { request } = useDirectus()
 async function click() {

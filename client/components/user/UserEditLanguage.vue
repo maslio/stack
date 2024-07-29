@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { updateUser } from '@directus/sdk'
+
 interface User {
   id: string
   language: string | null
@@ -16,9 +18,7 @@ const { $t, $languages } = useNuxtApp()
 const { request, user: me } = useDirectus()
 const options = $languages.map(value => ({
   value,
-  item: {
-    label: $t(`language_${value}`),
-  },
+  label: $t(`language.${value}`),
 }))
 const langauge = ref(user.language ?? 'en-US')
 async function save() {

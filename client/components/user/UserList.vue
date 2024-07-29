@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { readUsers } from '@directus/sdk'
+
 defineProps<{
   create?: boolean
 }>()
 
 const { request } = useDirectus()
-const data = useAsyncData('user.list', async () => {
+const { data: users, refresh } = useAsyncData('user.list', async () => {
   const users = await request(readUsers({ fields: [
     'id',
     'avatar',
@@ -21,8 +23,8 @@ const create = openRef()
 <template>
   <List
     v-slot="{ item: user }"
+    :items="users"
     item-key="id"
-    :data
   >
     <Item
       :open="{
@@ -48,11 +50,11 @@ const create = openRef()
   <Open ref="edit" v-slot="{ props }">
     <UserEdit
       :id="props.id"
-      @save="data.refresh()"
-      @delete="data.refresh(); edit?.close()"
+      @save="refresh()"
+      @delete="refresh(); edit?.close()"
     />
   </Open>
   <Open ref="create" label="$t:create_a_user">
-    <UserCreate @save="data.refresh(); create?.close()" />
+    <UserCreate @save="refresh(); create?.close()" />
   </Open>
 </template>

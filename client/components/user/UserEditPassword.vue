@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { updateUser } from '@directus/sdk'
+
 const { user } = defineProps<{
   user: Record<string, any>
 }>()

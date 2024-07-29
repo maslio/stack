@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { readMe } from '@directus/sdk'
 import type { User } from '@directus/types'
 
 const { requestAny, logout } = useDirectus()

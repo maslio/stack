@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { createUser } from '@directus/sdk'
+
 const emit = defineEmits<{
   save: [id: string]
 }>()

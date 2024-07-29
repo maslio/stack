@@ -13,7 +13,7 @@ export default defineNuxtPlugin(() => {
       return ''
     if (translations.has(key))
       return translations.get(key) as string
-    return upperFirst(key.replace(/_/g, ' '))
+    return upperFirst(key.replace(/_/g, ' ').replace(/.+\./g, ''))
   }
   function maybeTranslate(key?: string) {
     if (!key)

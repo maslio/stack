@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const d = useDirectus()
+const { login } = useDirectus()
 const email = ref('')
 const password = ref('')
 
 async function click() {
-  await d.login(email.value, password.value)
+  await login(email.value, password.value)
 }
 </script>
 

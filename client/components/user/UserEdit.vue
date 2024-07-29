@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import type { User } from '@directus/types'
+import { readUser } from '@directus/sdk'
 import EditAvatar from './UserEditAvatar.vue'
 import EditForm from './UserEditForm.vue'
 import EditName from './UserEditName.vue'
 import EditPassword from './UserEditPassword.vue'
 import EditRole from './UserEditRole.vue'
 import EditLanguage from './UserEditLanguage.vue'
-import UserEditDelete from './UserEditDelete.vue'
+import EditDelete from './UserEditDelete.vue'
+import EditAppearance from './UserEditAppearance.vue'
 
 const { id } = withDefaults(defineProps<{
   id: string
@@ -123,10 +125,20 @@ function onDelete() {
       <Item
         v-if="fields.includes('language')"
         label="$t:language"
-        :value="$t(`lang_${user.language ?? 'en-US'}`)"
+        :value="$t(`language.${user.language ?? 'en-US'}`)"
         :open="{
           ref: next,
           component: EditLanguage,
+          props: { user, onSave },
+        }"
+      />
+      <Item
+        v-if="fields.includes('appearance')"
+        label="$t:user.appearance"
+        :value="$t(`user.appearance.${user.appearance ?? 'auto'}`)"
+        :open="{
+          ref: next,
+          component: EditAppearance,
           props: { user, onSave },
         }"
       />
@@ -136,7 +148,7 @@ function onDelete() {
       v-if="$props.delete"
       :open="{
         ref: bottom,
-        component: UserEditDelete,
+        component: EditDelete,
         props: { user, onDelete },
       }"
     >

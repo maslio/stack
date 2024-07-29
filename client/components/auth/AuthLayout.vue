@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const me = openRef()
-const d = useDirectus()
-const user = d.user
+const { user } = useDirectus()
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { User } from '@directus/types'
-import { readRoles } from '@directus/sdk'
+import { readRoles, updateUser } from '@directus/sdk'
 
 const { user } = defineProps<{
   user: User

@@ -1,18 +1,22 @@
 [
   {
-    "name": "dev:db:schema:push",
+    "name": "db:schema:push",
     "description": "Push Directus Schema to remote"
   },
   {
-    "name": "dev:generate:directus",
+    "name": "gen:directus",
     "description": "Generate directus.d.ts file"
   },
   {
-    "name": "dev:generate:tasks",
+    "name": "gen:languages",
+    "description": "Generate languages collection"
+  },
+  {
+    "name": "gen:tasks",
     "description": "Generate Task list"
   },
   {
-    "name": "dev:generate:uno",
+    "name": "gen:uno",
     "description": "Generate uno.config.ts file"
   }
 ]

@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nuxi dev playground",
     "dev:db": "docker compose -f ./playground/directus/docker-compose.yaml up -d",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare playground"
   },
   "dependencies": {
     "@directus/sdk": "^16.1.1",
@@ -46,6 +46,7 @@
     "@antfu/eslint-config": "^2.23.2",
     "@types/ws": "^8.5.11",
     "eslint": "9.8.0",
-    "eslint-plugin-format": "^0.1.2"
+    "eslint-plugin-format": "^0.1.2",
+    "typescript": "^5.5.4"
   }
 }

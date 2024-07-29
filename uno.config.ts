@@ -1,1 +1,1 @@
-export { default } from './playground/uno.config'
+export { default } from './.playground/uno.config'

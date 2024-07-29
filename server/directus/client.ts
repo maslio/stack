@@ -1,4 +1,4 @@
-import { type AssetsQuery, type DirectusClient, type RestClient, type WebSocketClient, createDirectus, readAssetArrayBuffer, realtime, rest, staticToken } from '@directus/sdk'
+import { type DirectusClient, type RestClient, type WebSocketClient, createDirectus, realtime, rest, staticToken } from '@directus/sdk'
 import { type H3Event, getCookie } from 'h3'
 import WebSocket from 'ws'
 

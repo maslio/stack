@@ -11,6 +11,18 @@ export default defineEventHandler(async (event) => {
         data: items,
       }))
     },
+    onDelete(items) {
+      eventStream.push(JSON.stringify({
+        event: 'delete',
+        data: items,
+      }))
+    },
+    onCreate(items) {
+      eventStream.push(JSON.stringify({
+        event: 'create',
+        data: items,
+      }))
+    },
   })
 
   // client.onWebSocket('message', (message) => {

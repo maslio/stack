@@ -1,8 +1,7 @@
 import type { AuthenticationClient, DirectusClient, RestClient, WebSocketClient } from '@directus/sdk'
-import type { AuthUser } from '../../types'
+import type { User } from '../../server/directus/auth'
 import { type Ref, useNuxtApp, useState } from '#imports'
 
-// type Client = DirectusClient<DirectusSchema> & RestClient<DirectusSchema> & AuthenticationClient<DirectusSchema>
 type Client = DirectusClient<any> & RestClient<any> & AuthenticationClient<any>
 
 export function useDirectus() {
@@ -13,11 +12,11 @@ export function useDirectus() {
 
   const requestAny: Client['request'] = options => client.request(options)
 
-  const user: Ref<AuthUser | null> = useState<AuthUser>('user')
+  const user: Ref<User | null> = useState<User>('user')
 
   const login: Client['login'] = async (email, password, options) => {
     const authData = await client.login(email, password, options)
-    user.value = await $fetch('/_auth/user')
+    user.value = await $fetch('/api/auth/user')
     return authData
   }
   const logout: Client['logout'] = async () => {
@@ -26,7 +25,7 @@ export function useDirectus() {
   }
 
   async function refreshUser() {
-    user.value = await $fetch('/_auth/user')
+    user.value = await $fetch('/api/auth/user')
   }
 
   return {

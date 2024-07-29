@@ -7,14 +7,14 @@ const filename = join(rootDir, 'uno.config.ts')
 
 export default defineTask({
   meta: {
-    name: 'generate:uno',
+    name: 'uno:generate',
     description: 'Generate uno.config.ts file',
   },
   async run() {
     const config = getConfig()
     await writeFile(filename, config)
     return {
-      result: 'ok',
+      result: 'uno.config.ts generated',
     }
   },
 })

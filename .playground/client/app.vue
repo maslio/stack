@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   DataProducts,
-  LazySystemTasks,
+  LazyDevTasks,
   LazyUserList,
   UiElements,
   UiInputs,
@@ -22,7 +22,7 @@ const next = openRef()
       <Item
         icon="material-symbols:process-chart"
         label="Tasks"
-        :open="{ ref: next, component: LazySystemTasks }"
+        :open="{ ref: next, component: LazyDevTasks }"
       />
     </Card>
     <Card>

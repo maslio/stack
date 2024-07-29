@@ -11,7 +11,7 @@ const filename = join(rootDir, 'tasks.json')
 
 export default defineTask({
   meta: {
-    name: 'dev:generate:tasks',
+    name: 'generate:tasks',
     description: 'Generate Task list',
   },
   async run() {

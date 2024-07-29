@@ -2,7 +2,7 @@ import { schemaApply, schemaDiff, schemaSnapshot } from '@directus/sdk'
 
 export default defineTask({
   meta: {
-    name: 'dev:db:schema:push',
+    name: 'db:schema:push',
     description: 'Push Directus Schema to remote',
   },
   async run() {

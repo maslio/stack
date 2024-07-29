@@ -10,7 +10,7 @@ const filename = join(rootDir, 'directus.d.ts')
 
 export default defineTask({
   meta: {
-    name: 'dev:generate:directus',
+    name: 'generate:directus',
     description: 'Generate directus.d.ts file',
   },
   async run() {

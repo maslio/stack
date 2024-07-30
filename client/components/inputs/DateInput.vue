@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { endOfMonth } from 'date-fns'
 import { reactive, ref, watch } from '#imports'
 
 defineProps<{

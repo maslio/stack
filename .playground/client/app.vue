@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   DataProducts,
+  LazyDevDirectus,
   LazyDevTasks,
   LazyUserList,
   UiElements,
@@ -23,6 +24,11 @@ const next = openRef()
         icon="material-symbols:process-chart"
         label="Tasks"
         :open="{ ref: next, component: LazyDevTasks }"
+      />
+      <Item
+        icon="simple-icons:directus"
+        label="Directus"
+        :open="{ ref: next, component: LazyDevDirectus }"
       />
     </Card>
     <Card>

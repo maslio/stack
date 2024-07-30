@@ -45,6 +45,9 @@ export default defineNuxtConfig({
   components: {
     dirs: [{
       path: join(currentDir, './client/components'),
+      ignore: [
+        'dev/_directus/**',
+      ],
       pathPrefix: false,
       watch: true,
     }],

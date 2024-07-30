@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { useLayout } from '../../composables/useLayout'
-import Layout from '../layout/Layout.vue'
-import Spinner from '../elements/Spinner.vue'
-import OpenError from './OpenError.vue'
 import { onClickOutside, onErrorCaptured, ref, useResizeObserver, useSwipe } from '#imports'
 
 defineOptions({
@@ -18,8 +15,6 @@ const emit = defineEmits(['close'])
 
 const { pageEl } = useLayout()
 const opened = ref(false)
-const loading = ref(true)
-const error = ref<Error | null>(null)
 function close() {
   opened.value = false
   emit('close')
@@ -33,7 +28,6 @@ const [classEnter, classItems] = (function () {
     return ['children:translate-y-100%', 'items-end']
 })()
 function open() {
-  error.value = null
   opened.value = true
 }
 
@@ -48,15 +42,11 @@ const swipe = useSwipe(backdrop, {
 })
 
 const dialog = ref()
-onErrorCaptured((e: Error) => {
-  error.value = e
-  loading.value = false
-  console.error(e)
-  return false
-})
 const layout = ref()
 const height = ref(0)
 useResizeObserver(layout, (entries) => {
+  if (!entries?.[0])
+    return
   height.value = entries[0].contentRect.height
 })
 onClickOutside(layout, (e) => {
@@ -98,15 +88,7 @@ defineExpose({ open, close, opened })
               :close
               close-icon="close"
             >
-              <OpenError v-if="error" :error @close="close" />
-              <Suspense v-else @resolve="loading = false" @pending="loading = true">
-                <slot />
-                <template #fallback>
-                  <div class="h-100px flex items-center justify-center">
-                    <Spinner />
-                  </div>
-                </template>
-              </Suspense>
+              <slot />
             </Layout>
           </div>
         </div>

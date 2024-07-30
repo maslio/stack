@@ -13,6 +13,7 @@ const next = openRef()
     <Item
       :label="item.name"
       :open="{
+        id: item.id,
         ref: next,
         component: ProductsEdit,
         props: {

@@ -10,6 +10,7 @@ import {
 } from '#components'
 
 const next = openRef()
+const full = openRef()
 </script>
 
 <template>
@@ -28,7 +29,7 @@ const next = openRef()
       <Item
         icon="simple-icons:directus"
         label="Directus"
-        :open="{ ref: next, component: LazyDevDirectus }"
+        :open="{ ref: full, component: LazyDevDirectus }"
       />
     </Card>
     <Card>
@@ -48,5 +49,6 @@ const next = openRef()
       />
     </Card>
     <Open ref="next" />
+    <Open ref="full" target="full" />
   </AuthLayout>
 </template>

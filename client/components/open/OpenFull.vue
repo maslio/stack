@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import Spinner from '../elements/Spinner.vue'
 import Layout from '../layout/Layout.vue'
-import OpenError from './OpenError.vue'
 import { onErrorCaptured, ref } from '#imports'
 
 defineOptions({
@@ -11,28 +9,24 @@ defineProps<{
   label?: string
   width?: number
 }>()
+const emit = defineEmits(['close'])
 const opened = ref(false)
-const loading = ref(true)
-const error = ref<Error | null>(null)
+const mounted = ref(false)
+onMounted(() => {
+  mounted.value = true
+})
 function close() {
   opened.value = false
+  emit('close')
 }
 function open() {
-  error.value = null
   opened.value = true
 }
-onErrorCaptured((e: Error) => {
-  error.value = e
-  loading.value = false
-  console.error(e)
-  return false
-})
-
 defineExpose({ open, close, opened })
 </script>
 
 <template>
-  <Teleport to="#__nuxt">
+  <Teleport v-if="mounted" to="#__nuxt">
     <Transition
       enter-from-class="translate-x-100% desktop:translate-x-320px desktop:opacity-0"
       enter-active-class="transition-300"
@@ -47,15 +41,7 @@ defineExpose({ open, close, opened })
         :close
         close-icon="back"
       >
-        <OpenError v-if="error" :error @close="close" />
-        <Suspense v-else @resolve="loading = false" @pending="loading = true">
-          <slot />
-          <template #fallback>
-            <div class="h-100px flex items-center justify-center">
-              <Spinner />
-            </div>
-          </template>
-        </Suspense>
+        <slot />
       </Layout>
     </Transition>
   </Teleport>

@@ -255,6 +255,7 @@ const value = computed(() => {
     <Card>
       <Tabs v-model="presetsTab" :tabs="presetsTabs" />
       <Select
+        :key="presetsTab"
         v-slot="{ item }"
         v-model="modelString"
         :options="presetsFiltered"

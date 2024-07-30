@@ -19,6 +19,11 @@ const props = withDefaults(defineProps<Props>(), {
   target: 'next',
 })
 
+defineSlots<{
+  default: () => any
+  pending: () => any
+  pendingDev: () => any
+}>()
 const targetIs = computed(() => {
   if (props.target === 'next')
     return defineAsyncComponent(() => import('./OpenNext.vue'))
@@ -33,9 +38,7 @@ const data = shallowRef<Props>({})
 async function open(_data: Omit<Props, 'target'> = {}) {
   id.value = _data.id ?? nanoid()
   data.value = defu<Props, any>(_data, props)
-  // if (typeof data.value.component === 'string')
-  //   data.value.component = resolveComponent(data.value.component)
-  targetRef.value.open()
+  targetRef.value.open(id.value)
 }
 function close() {
   targetRef.value.close()
@@ -50,6 +53,14 @@ function onClose() {
 }
 
 defineExpose({ open, close, opened, _isOpen: true })
+const error = ref<Error | null>(null)
+const loading = ref(true)
+onErrorCaptured((e: Error) => {
+  error.value = e
+  loading.value = false
+  console.error(e)
+  return false
+})
 </script>
 
 <template>
@@ -62,17 +73,37 @@ defineExpose({ open, close, opened, _isOpen: true })
     @close="onClose"
   >
     <template v-if="id">
-      <slot
-        v-if="$slots.default"
-        :key="id"
-        v-bind="data"
-        :props="data.props ?? {}"
-      />
-      <component
-        :is="data.component"
-        v-else-if="data.component"
-        v-bind="data.props"
-      />
+      <OpenError v-if="error" :error @close="close" />
+      <Suspense
+        v-else
+        :key="data.id"
+        @resolve="loading = false"
+        @pending="loading = true"
+      >
+        <slot
+          v-if="$slots.default"
+          v-bind="data"
+          :props="data.props ?? {}"
+        />
+        <component
+          :is="data.component"
+          v-else-if="data.component"
+          v-bind="data.props"
+        />
+        <template #fallback>
+          <slot v-if="$slots.pending" name="pending" />
+          <template v-else>
+            <div class="flex flex-col gap-3">
+              <Placeholder color="default" class="h-20" />
+            </div>
+          </template>
+        </template>
+      </Suspense>
+      <div v-if="$slots.pendingDev" class="fit opacity-80">
+        <div class="px-3">
+          <slot name="pendingDev" />
+        </div>
+      </div>
     </template>
   </component>
 </template>

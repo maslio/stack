@@ -3,26 +3,27 @@ defineOptions({
   inheritAttrs: false,
 })
 const props = defineProps<{
-  options: T[]
-  labelKey?: keyof T
-  valueKey?: keyof T
+  options?: T[]
+  optionLabel?: keyof T
+  optionValue?: keyof T
   search?: boolean
   label: string
   autoClose?: boolean
 }>()
 defineSlots<{
   default: (props: { item: T }) => any
+  append: () => any
 }>()
 
 const model = defineModel()
-const valueKey = ref(props.valueKey ?? 'value') as Ref<keyof T>
-const labelKey = ref(props.labelKey ?? 'label') as Ref<keyof T>
+const optionValue = ref(props.optionValue ?? 'value') as Ref<keyof T>
+const optionLabel = ref(props.optionLabel ?? 'label') as Ref<keyof T>
 const value = computed(() => {
   if (model.value == null)
     return ''
-  const option = props.options.find(o => o[valueKey.value] === model.value)
+  const option = props.options?.find(o => o[optionValue.value] === model.value)
   if (option)
-    return String(option[labelKey.value])
+    return String(option[optionLabel.value])
   return String(model.value)
 })
 const open = openRef()
@@ -44,5 +45,6 @@ function onUpdate() {
         <slot name="default" :item />
       </template>
     </Select>
+    <slot name="append" />
   </Open>
 </template>

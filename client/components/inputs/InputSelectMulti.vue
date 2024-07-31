@@ -4,8 +4,8 @@ defineOptions({
 })
 const props = defineProps<{
   options: T[]
-  labelKey?: keyof T
-  valueKey?: keyof T
+  optionLabel?: keyof T
+  optionValue?: keyof T
   search?: boolean
   label: string
   autoClose?: boolean
@@ -15,9 +15,7 @@ defineSlots<{
 }>()
 
 const model = defineModel<any[]>({ default: [] })
-const value = computed(() => {
-  return String(model.value.length)
-})
+const value = computed(() => String(model.value.length))
 const open = openRef()
 function onUpdate() {
   if (props.autoClose)

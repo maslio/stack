@@ -34,8 +34,8 @@ const modelMulti = ref<User['id'][]>([])
       v-model="modelSingle"
       label="User"
       :options="users"
-      value-key="id"
-      label-key="name"
+      option-value="id"
+      option-label="name"
       search
     >
       <div>{{ item.name }}</div>
@@ -44,8 +44,8 @@ const modelMulti = ref<User['id'][]>([])
       v-model="modelMulti"
       label="Users"
       :options="users"
-      value-key="id"
-      label-key="name"
+      option-value="id"
+      option-label="name"
     />
   </Card>
 </template>

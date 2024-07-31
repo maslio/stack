@@ -10,9 +10,7 @@ const { field } = defineProps<{
 // @ts-expect-error this is ok
 const options = field.meta?.options.choices.map(opt => ({
   value: opt.value,
-  item: {
-    label: opt.text,
-  },
+  label: opt.text,
 }))
 
 const model = defineModel<string>()

@@ -3,9 +3,9 @@ defineOptions({
   inheritAttrs: false,
 })
 const props = defineProps<{
-  options: T[]
-  labelKey?: keyof T
-  valueKey?: keyof T
+  options?: T[]
+  optionLabel?: keyof T
+  optionValue?: keyof T
   search?: boolean
 }>()
 
@@ -14,22 +14,22 @@ defineSlots<{
 }>()
 
 const model = defineModel()
-const valueKey = ref(props.valueKey ?? 'value') as Ref<keyof T>
-const labelKey = ref(props.labelKey ?? 'label') as Ref<keyof T>
+const optionValue = ref(props.optionValue ?? 'value') as Ref<keyof T>
+const optionLabel = ref(props.optionLabel ?? 'label') as Ref<keyof T>
 const inputSearch = ref(props.search ? '' : null)
 
 const items = computed(() => {
   if (!inputSearch.value)
     return props.options
   const input = inputSearch.value.trim().toLowerCase()
-  return props.options.filter(o =>
-    String(o[labelKey.value])?.toLowerCase().includes(input)
-    || String(o[valueKey.value])?.toLowerCase().includes(input),
+  return props.options?.filter(o =>
+    String(o[optionLabel.value])?.toLowerCase().includes(input)
+    || String(o[optionValue.value])?.toLowerCase().includes(input),
   )
 })
 
 function onSelect(option: T) {
-  model.value = option[valueKey.value]
+  model.value = option[optionValue.value]
 }
 </script>
 
@@ -37,11 +37,11 @@ function onSelect(option: T) {
   <List
     v-model:search="inputSearch"
     :items
-    :item-key="valueKey"
+    :item-key="optionValue"
   >
     <template #default="{ item }">
       <Item
-        :selected="model === item[valueKey]"
+        :selected="model === item[optionValue]"
         :option="true"
         clickable
         @click="onSelect(item)"
@@ -50,10 +50,10 @@ function onSelect(option: T) {
           <slot v-if="$slots.default" name="default" :item />
           <Text
             v-else
-            :label="String(item[labelKey])"
+            :label="String(item[optionLabel])"
           />
         </div>
-        <Checkbox :selected="model === item[valueKey]" />
+        <Checkbox :selected="model === item[optionValue]" />
       </Item>
     </template>
   </List>

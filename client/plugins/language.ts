@@ -7,6 +7,10 @@ export default defineNuxtPlugin(() => {
   const language = useCookie('language', {
     default: () => config.public.language,
   })
+  const user = useState<AuthUser>('user')
+  if (user.value && user.value.language)
+    language.value = user.value.language
+
   const languages = config.public.languages as string
   function translate(key?: string) {
     if (!key)

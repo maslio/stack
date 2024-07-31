@@ -2,6 +2,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('click', {
     mounted(el, binding) {
       el.addEventListener('mousedown', (e: Event) => {
+        const target = e.target as HTMLElement
+        if (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT')
+          return
         e.preventDefault()
         e.stopPropagation()
         binding.value?.(e)

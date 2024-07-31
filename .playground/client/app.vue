@@ -3,7 +3,6 @@ import {
   DataProducts,
   LazyDevDirectus,
   LazyDevTasks,
-  LazyTranslations,
   LazyUserList,
   UiElements,
   UiInputs,

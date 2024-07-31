@@ -8,8 +8,8 @@ const { name } = defineProps<{
 const next = openRef()
 const { readFields, countItems, readCollection } = useCollection(name)
 const fields = await readFields()
-const count = await countItems()
 const collection = await readCollection(name)
+const count = await countItems({}, fields[0]!.field)
 </script>
 
 <template>

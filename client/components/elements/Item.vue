@@ -56,6 +56,7 @@ function onClick(e: Event) {
       id,
       label: props.open.label ?? props.label,
       component: props.open.component,
+      page: props.open.page,
       caption: props.open.caption,
       props: props.open.props,
     })
@@ -64,9 +65,7 @@ function onClick(e: Event) {
 }
 
 const tag = props.href ? 'a' : 'div'
-const clickable = computed(() => {
-  return props.clickable || props.href || props.open || slots.options
-})
+const clickable = computed(() => props.clickable || props.href || props.open || slots.options)
 </script>
 
 <template>

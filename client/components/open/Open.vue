@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defu } from 'defu'
 import { nanoid } from 'nanoid'
+import { pascalCase } from 'scule'
 import type { Component } from '#imports'
 import { computed, defineAsyncComponent, ref, shallowRef } from '#imports'
 
@@ -13,6 +14,7 @@ interface Props {
   caption?: string
   props?: Record<string, any>
   component?: Component | string
+  page?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -43,6 +45,8 @@ const loading = ref(true)
 async function open(_data: Omit<Props, 'target'> = {}) {
   id.value = _data.id ?? nanoid()
   data.value = defu<Props, any>(_data, props)
+  if (data.value.page && !data.value.component)
+    data.value.component = resolveComponent(pascalCase(data.value.page))
   targetRef.value.open(id.value)
 }
 function close() {

@@ -3,10 +3,10 @@ import {
   DataProducts,
   LazyDevDirectus,
   LazyDevTasks,
+  LazyTranslations,
   LazyUserList,
   UiElements,
   UiInputs,
-  UiSelects,
 } from '#components'
 
 const next = openRef()
@@ -20,6 +20,11 @@ const full = openRef()
         label="Users"
         icon="material-symbols:user-attributes"
         :open="{ ref: next, component: LazyUserList }"
+      />
+      <Item
+        icon="material-symbols:translate"
+        label="Translations"
+        :open="{ ref: next, page: 'admin/translate' }"
       />
       <Item
         icon="material-symbols:process-chart"

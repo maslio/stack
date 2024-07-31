@@ -50,8 +50,15 @@ export default defineNuxtConfig({
       ],
       pathPrefix: false,
       watch: true,
+    }, {
+      path: join(currentDir, './client/pages'),
+      pathPrefix: true,
+      isAsync: true,
+      global: true,
+      watch: true,
     }],
   },
+  pages: false,
   runtimeConfig: {
     nitro: { envPrefix: '' },
     directusUrl: '',

@@ -24,13 +24,13 @@ export function useCollection(collection: string) {
   async function deleteItem(id: ID) {
     return await request(_deleteItems(collection, [id as any]))
   }
-  async function countItems(query: Query = {}): Promise<number> {
+  async function countItems(query: Query = {}, field = 'id'): Promise<number> {
     const result = await request(_aggregate(collection, {
       query,
-      aggregate: { count: 'id' },
+      aggregate: { count: field },
     }))
     // @ts-expect-error directus types are not correct
-    return result[0]?.count?.id ?? 0 as number
+    return result[0]?.count?.[field] ?? 0 as number
   }
   async function readItems<T = Record<string, any>>(query: Query = {}) {
     return await request(_readItems(collection, query)) as T[]

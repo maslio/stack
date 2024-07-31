@@ -20,7 +20,10 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 defineSlots<{
-  default: () => any
+  default: (data: {
+    label: string
+    props: Record<string, any>
+  }) => any
   pending: () => any
   pendingDev: () => any
 }>()
@@ -82,7 +85,7 @@ onErrorCaptured((e: Error) => {
       >
         <slot
           v-if="$slots.default"
-          v-bind="data"
+          :label="data.label ?? ''"
           :props="data.props ?? {}"
         />
         <component

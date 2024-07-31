@@ -12,18 +12,10 @@ const next = openRef()
   <List v-slot="{ item }" :items>
     <Item
       :label="item.name"
-      :open="{
-        id: item.id,
-        ref: next,
-        component: ProductsEdit,
-        props: {
-          id: item.id,
-          onUpdate: () => {
-            next?.close()
-          },
-        },
-      }"
+      :open="{ ref: next, id: item.id, props: { id: item.id } }"
     />
   </List>
-  <Open ref="next" />
+  <Open ref="next" v-slot="{ props }">
+    <ProductsEdit :id="props.id" @update="next?.close()" />
+  </Open>
 </template>

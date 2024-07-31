@@ -28,7 +28,7 @@ const full = openRef()
       <Item
         icon="material-symbols:process-chart"
         label="Tasks"
-        :open="{ ref: next, component: LazyDevTasks }"
+        :open="{ ref: next, page: 'admin/tasks' }"
       />
       <Item
         icon="simple-icons:directus"

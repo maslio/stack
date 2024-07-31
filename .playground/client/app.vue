@@ -23,7 +23,7 @@ const full = openRef()
       <Item
         icon="material-symbols:translate"
         label="Translations"
-        :open="{ ref: next, page: 'admin/translate' }"
+        open="admin/translate"
       />
       <Item
         icon="material-symbols:process-chart"

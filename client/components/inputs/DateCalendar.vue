@@ -9,14 +9,12 @@ const emit = defineEmits(['select'])
 const { $language } = useNuxtApp()
 
 const calendarDate = ref(new Date())
-const displayMonth = computed(() => {
-  return upperFirst(
-    intlFormat(calendarDate.value, {
-      year: 'numeric',
-      month: 'long',
-    }, { locale: $language }),
-  )
-})
+const displayMonth = computed(() => upperFirst(
+  intlFormat(calendarDate.value, {
+    year: 'numeric',
+    month: 'long',
+  }, { locale: $language }),
+))
 
 const weekDays = (() => {
   const { format } = new Intl.DateTimeFormat($language, { weekday: 'short' })

@@ -25,21 +25,35 @@ const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 const options = ref(false)
 
+const layout = useLayout()
+
+const open = computed(() => {
+  if (!props.open)
+    return undefined
+  if (typeof props.open === 'string') {
+    return {
+      ref: unref(layout.next),
+      page: props.open,
+    }
+  }
+  return props.open
+})
+
 const opened = computed(() => {
   if (options.value)
     return true
   if (props.opened)
     return true
-  if (props.open)
-    return props.open.ref?.opened(id)
+  if (open.value)
+    return open.value.ref?.opened(id)
   return false
 })
 const openIcon = computed(() => {
   if (props.href)
     return 'material-symbols-light:open-in-new-rounded'
-  if (props.open?.icon)
-    return props.open.icon
-  if (props.open)
+  if (open.value?.icon)
+    return open.value.icon
+  if (open.value)
     return 'fluent:chevron-right-16-filled'
   return null
 })
@@ -51,14 +65,14 @@ function onClick(e: Event) {
     options.value = !options.value
     return
   }
-  if (props.open) {
-    props.open.ref.open({
+  if (open.value) {
+    open.value.ref.open({
       id,
-      label: props.open.label ?? props.label,
-      component: props.open.component,
-      page: props.open.page,
-      caption: props.open.caption,
-      props: props.open.props,
+      label: open.value.label ?? props.label,
+      component: open.value.component,
+      page: open.value.page,
+      caption: open.value.caption,
+      props: open.value.props,
     })
   }
   emit('click', e)

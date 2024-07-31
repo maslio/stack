@@ -3,6 +3,7 @@ export interface LayoutProvide {
   isMini: ComputedRef<boolean>
   pageEl: Ref<HTMLElement>
   menuEl: Ref<HTMLElement>
+  next: OpenRef
   nextEl: Ref<HTMLElement>
   nextId: Ref<string | null>
   bottomEl: Ref<HTMLElement>

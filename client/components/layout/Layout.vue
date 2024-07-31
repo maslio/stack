@@ -21,9 +21,8 @@ const widthNumber = useToNumber(props.width)
 const layoutWidth = ref(1024)
 const freeWidth = ref(layoutWidth.value - widthNumber.value)
 const layoutEl = ref() as Ref<HTMLElement>
-const isMini = computed(() => {
-  return layoutWidth.value < 640
-})
+const isMini = computed(() => layoutWidth.value < 640)
+const next = openRef()
 
 useResizeObserver(layoutEl, (entries) => {
   const entry = entries[0]!
@@ -59,7 +58,7 @@ const swipe = useSwipe(pageEl, {
 
 const scroll = useScroll(mainEl)
 
-provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id, scroll })
+provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id, scroll, next })
 </script>
 
 <template>
@@ -109,6 +108,7 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
         dark:scrollbar="track-color-dark-900 thumb-color-neutral-700/50"
         light:scrollbar="track-color-light-900 thumb-color-neutral-400/50"
       >
+        <Open ref="next" />
         <slot />
         <div ref="bottomEl" class="sticky bottom-0" />
       </main>

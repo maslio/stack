@@ -37,6 +37,8 @@ const targetIs = computed(() => {
 const targetRef = ref()
 const id = ref()
 const data = shallowRef<Props>({})
+const error = ref<Error | null>(null)
+const loading = ref(true)
 
 async function open(_data: Omit<Props, 'target'> = {}) {
   id.value = _data.id ?? nanoid()
@@ -51,13 +53,13 @@ function opened(_id?: typeof id['value']) {
     return _id === id.value
   return !!id.value
 }
+
 function onClose() {
   id.value = null
+  error.value = null
 }
 
 defineExpose({ open, close, opened, _isOpen: true })
-const error = ref<Error | null>(null)
-const loading = ref(true)
 onErrorCaptured((e: Error) => {
   error.value = e
   loading.value = false

@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import {
-  DataProducts,
-  LazyDevDirectus,
-  LazyDevTasks,
-  LazyUserList,
-  UiElements,
-  UiInputs,
-} from '#components'
+// import {
+//   DataProducts,
+//   LazyDevDirectus,
+//   LazyDevTasks,
+//   LazyUserList,
+//   UiElements,
+//   UiInputs,
+// } from '#components'
 
-const next = openRef()
-const full = openRef()
+// const next = openRef()
+// const full = openRef()
+// const label = ref('1')
 </script>
 
 <template>
-  <AuthLayout>
+  <Layout root>
+    <Open
+      label="Test"
+      page="test"
+      target="dialog-bottom"
+      no-header
+    />
+    <Item label="Test2" />
+  </Layout>
+
+  <!-- <AuthLayout>
     <Card>
       <Item
         label="Users"
@@ -54,5 +65,5 @@ const full = openRef()
     </Card>
     <Open ref="next" />
     <Open ref="full" target="full" />
-  </AuthLayout>
+  </AuthLayout> -->
 </template>

@@ -47,6 +47,7 @@ export default defineNuxtConfig({
       path: join(currentDir, './client/components'),
       ignore: [
         'dev/_directus/**',
+        'open/**',
       ],
       pathPrefix: false,
       watch: true,
@@ -56,6 +57,7 @@ export default defineNuxtConfig({
       isAsync: true,
       global: true,
       watch: true,
+      prefix: 'page',
     }],
   },
   pages: false,

@@ -10,6 +10,7 @@ export interface LayoutProvide {
   footerEl: Ref<HTMLElement>
   scroll: ReturnType<typeof useScroll>
   close: () => void
+  open: (target: string, data: any) => void
 }
 
 export function useLayout() {

@@ -8,10 +8,12 @@ export interface Props {
   caption?: string
   value?: string
   clickable?: boolean | string
-  href?: string
+  tag?: string
+  // href?: string
   disabled?: boolean
-  open?: any
-  opened?: boolean
+  // open?: any
+  // opened?: boolean
+  rightIcon?: string
 }
 
 const props = defineProps<Props>()
@@ -20,43 +22,38 @@ defineSlots<{
   default: () => any
   options: () => any
 }>()
-const id = props.id ?? useId()
+// const id = props.id ?? useId()
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 const options = ref(false)
 
-const layout = useLayout()
+// const layout = useLayout()
 
-const open = computed(() => {
-  if (!props.open)
-    return undefined
-  if (typeof props.open === 'string') {
-    return {
-      ref: unref(layout.next),
-      page: props.open,
-    }
-  }
-  return props.open
-})
+// const open = (() => {
+//   if (!props.open)
+//     return undefined
+//   const open = typeof props.open === 'string' ? { page: props.open } : props.open
+//   open.layout ??= layout
+//   return open
+// })()
 
 const opened = computed(() => {
-  if (options.value)
-    return true
-  if (props.opened)
-    return true
-  if (open.value)
-    return open.value.ref?.opened(id)
+  return false
+  // if (options.value)
+  //   return true
+  // if (props.opened)
+  //   return true
+  // if (open.value)
+  //   return open.value.ref?.opened(id)
   return false
 })
-const openIcon = computed(() => {
-  if (props.href)
-    return 'material-symbols-light:open-in-new-rounded'
-  if (open.value?.icon)
-    return open.value.icon
-  if (open.value)
-    return 'fluent:chevron-right-16-filled'
-  return null
-})
+// const openIcon = computed(() => {
+//   if (props.href)
+//     return 'material-symbols-light:open-in-new-rounded'
+//   if (open)
+//     return open.icon ?? 'fluent:chevron-right-16-filled'
+//   return null
+// })
 
 function onClick(e: Event) {
   if (props.disabled)
@@ -65,32 +62,31 @@ function onClick(e: Event) {
     options.value = !options.value
     return
   }
-  if (open.value) {
-    open.value.ref.open({
-      id,
-      label: open.value.label ?? props.label,
-      component: open.value.component,
-      page: open.value.page,
-      caption: open.value.caption,
-      props: open.value.props,
-    })
-  }
+  // if (open) {
+  //   open.layout.open(open.target ?? 'next', {
+  //     id,
+  //     label: open.label ?? props.label,
+  //     caption: open.caption ?? props.caption,
+  //     component: open.component,
+  //     placeholder: open.placeholder,
+  //     page: open.page,
+  //     props: open.props,
+  //   })
+  // }
   emit('click', e)
 }
 
-const tag = props.href ? 'a' : 'div'
-const clickable = computed(() => props.clickable || props.href || props.open || slots.options)
+// const tag = props.href ? 'a' : 'div'
+const clickable = computed(() => props.clickable || slots.options)
 </script>
 
 <template>
   <div class="item relative">
-    <component
-      :is="tag"
+    <div
       v-click="onClick"
       class="relative block min-h-11 w-full flex overflow-hidden rounded-xl text-left desktop:min-h-10 card:rounded-none"
       color="default"
       :class="{ clickable, opened }"
-      :href="href"
       v-bind="$attrs"
     >
       <div
@@ -111,14 +107,14 @@ const clickable = computed(() => props.clickable || props.href || props.open || 
         />
         <slot name="default" />
       </div>
-      <div v-if="openIcon" class="ml--3 flex items-center p-2">
+      <div v-if="rightIcon" class="ml--3 flex items-center p-2">
         <Icon
-          :name="openIcon"
+          :name="rightIcon"
           size="18"
           class="ml--3 mr--1 transition-color text-faint"
         />
       </div>
-    </component>
+    </div>
     <template v-if="$slots.options">
       <Transition
         enter-active-class="transition duration-50 ease-out"

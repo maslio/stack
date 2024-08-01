@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { LayoutProvide } from '../../composables/useLayout'
+import Next from './LayoutNext.vue'
+import Dialog from './LayoutDialog.vue'
+import Self from './LayoutSelf.vue'
 
 const props = withDefaults(defineProps<{
   root?: boolean
@@ -22,7 +25,19 @@ const layoutWidth = ref(1024)
 const freeWidth = ref(layoutWidth.value - widthNumber.value)
 const layoutEl = ref() as Ref<HTMLElement>
 const isMini = computed(() => layoutWidth.value < 640)
-const next = openRef()
+
+const next = ref()
+const dialog = ref()
+const self = ref()
+function open(target: string, data: any) {
+  if (target === 'next')
+    return next.value.open(data)
+  if (target === 'self')
+    return self.value.open(data)
+  if (target.startsWith('dialog'))
+    return dialog.value.open(target, data)
+  throw new Error(`Layout: unknown target ${target}`)
+}
 
 useResizeObserver(layoutEl, (entries) => {
   const entry = entries[0]!
@@ -58,14 +73,14 @@ const swipe = useSwipe(pageEl, {
 
 const scroll = useScroll(mainEl)
 
-provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id, scroll, next })
+provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id, scroll, next, open })
 </script>
 
 <template>
   <div
     :id
     ref="layoutEl"
-    class="layout absolute h-full w-full flex justify-center overflow-hidden text-base"
+    class="layout absolute h-full w-full overflow-hidden text-base"
     color="back dialog:default"
     min-w-200px
     dialog:relative
@@ -74,87 +89,95 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
     :class="{ mobile: isMini }"
   >
     <div
-      ref="pageEl"
-      class="page relative h-full flex flex-col mobile:w-full!"
-      :style="styleRoot"
+      class="layout-content fit flex justify-start"
+      dialog:relative
+      dialog:h-auto
+      dialog:w-auto
     >
-      <header
-        v-if="!noHeader && !root"
-        class="group header h-14 flex items-center gap-2 p-3 dialog:h-12 dialog:p-2"
+      <div
+        ref="pageEl"
+        class="page relative h-full flex flex-col mobile:w-full!"
+        :style="styleRoot"
       >
-        <Button
-          v-if="closeIcon"
-          flat
-          mini
-          :icon="closeIcon"
-          @click="close"
-        />
-        <div v-else w-1 />
-        <div class="flex-1 truncate pr-3 text-center text-base">
-          {{ $mt(label ?? '') }}
-        </div>
-        <div
-          ref="menuEl"
-          class="h-10 w-10 flex flex-nowrap items-center"
-        />
-      </header>
-      <main
-        ref="mainEl"
-        class="relative flex flex-1 flex-col gap-3 overflow-x-hidden overflow-y-auto p-3 pt-0 dialog:gap-0 dialog:px-0 dialog:pb-2 dialog:first:pt-2"
-        :class="{ 'mt-3': root }"
-        dialog:scrollbar-gutter-auto
-        color="back"
-        scrollbar="~ rounded w-4px gutter-stable"
-        dark:scrollbar="track-color-dark-900 thumb-color-neutral-700/50"
-        light:scrollbar="track-color-light-900 thumb-color-neutral-400/50"
-      >
-        <Open ref="next" />
-        <slot />
-        <div ref="bottomEl" class="sticky bottom-0" />
-      </main>
-      <footer ref="footerEl" class="px-3 dialog:pb-0" />
-    </div>
-    <div ref="nextEl" class="next">
-      <div v-if="$slots.placeholder" class="fit hidden last:block">
-        <slot name="placeholder" />
+        <header
+          v-if="!noHeader && !root"
+          class="group header h-14 flex items-center gap-2 p-3 dialog:h-12 dialog:p-2"
+        >
+          <Button
+            v-if="closeIcon"
+            flat
+            mini
+            :icon="closeIcon"
+            @click="close"
+          />
+          <div v-else w-1 />
+          <div class="flex-1 truncate pr-3 text-center text-base">
+            {{ $mt(label ?? '') }}
+          </div>
+          <div
+            ref="menuEl"
+            class="h-10 w-10 flex flex-nowrap items-center"
+          />
+        </header>
+        <main
+          ref="mainEl"
+          class="relative flex flex-1 flex-col gap-3 overflow-x-hidden overflow-y-auto p-3 pt-0 dialog:gap-0 dialog:px-0 dialog:pb-2 dialog:first:pt-2"
+          :class="{ 'mt-3': root }"
+          dialog:scrollbar-gutter-auto
+          color="back dialog:default"
+          scrollbar="~ rounded w-4px gutter-stable"
+          dark:scrollbar="track-color-dark-900 thumb-color-neutral-700/50"
+          light:scrollbar="track-color-light-900 thumb-color-neutral-400/50"
+        >
+          <slot />
+          <div ref="bottomEl" class="sticky bottom-0" />
+        </main>
+        <footer ref="footerEl" class="px-3 dialog:pb-0" />
+        <Dialog ref="dialog" :is-mini="isMini" />
       </div>
+      <div ref="nextEl" class="next">
+        <Next ref="next" :is-mini="isMini" />
+      </div>
+    </div>
+    <div class="self">
+      <Self ref="self" :is-mini="isMini" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.layout:has(+ .layout) {
+.layout:has(> .self > .layout) > .layout-content {
   --uno: 'transition-transform-300';
 }
-.layout:has(+ .layout:not(.v-leave-active)) {
+.layout:has(> .self > .layout:not(.v-leave-active)) > .layout-content {
   transform: translateX(-150px);
 }
-.layout > .next {
+.layout-content > .next {
   --uno: 'relative flex-1';
 }
-.layout > .page {
+.layout-content > .page {
   --uno: 'transition-transform-300';
 }
-.dialog .layout > .page {
+.dialog .layout-content > .page {
   --uno: 'transition-transform-200';
 }
-.mobile:has(> .next > .layout.v-leave-active) {
-  > .page {
+.mobile:has(> .layout-content > .next > .layout.v-leave-active) {
+  > .layout-content > .page {
     position: relative;
   }
 }
-.mobile:has(> .next > .layout:not(.v-leave-active)) {
-  > .page {
+.mobile:has(> .layout-content > .next > .layout:not(.v-leave-active)) {
+  > .layout-content > .page {
     position: absolute;
     transform: translateX(-50%);
     height: 100%;
     overflow: hidden;
   }
 }
-.mobile > .next {
+.mobile > .layout-content > .next {
   --uno: 'relative left-100% top-0 h-full w-full';
 }
-.mobile > .next:has(> .layout.v-leave-active) {
+.mobile > .layout-content > .next:has(> .layout.v-leave-active) {
   --uno: 'absolute';
 }
 @media only print {

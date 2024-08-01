@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   srcDir: 'client',
   serverDir: 'server',
   devServer: { port: 2000 },
+  devtools: { enabled: true },
   components: {
     dirs: [
       {

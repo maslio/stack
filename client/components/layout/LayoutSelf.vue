@@ -37,7 +37,7 @@ defineExpose({ open, close })
         :no-header="next.noHeader"
         :close
       >
-        <Page
+        <Render
           :id="next.id"
           :page="next.page"
           :component="next.component"

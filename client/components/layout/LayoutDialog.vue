@@ -88,7 +88,7 @@ defineExpose({ open, close })
             :close-icon="isMini ? 'back' : 'close'"
             :close
           >
-            <Page
+            <Render
               :key="next.id"
               :page="next.page"
               :component="next.component"

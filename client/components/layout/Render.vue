@@ -16,7 +16,7 @@ const placeholder = props.placeholder
     ? [props.placeholder]
     : props.placeholder
   : ['h-20']
-console.log(placeholder)
+
 const component = props.component
   ? props.component
   : resolveComponent(pascalCase(`lazy-page-${props.page?.replace(/:/g, '-')}`))

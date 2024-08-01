@@ -18,12 +18,12 @@ const full = openRef()
       <Item
         label="Users"
         icon="material-symbols:user-attributes"
-        :open="{ ref: next, component: LazyUserList }"
+        :open="{ ref: next, page: 'admin/users' }"
       />
       <Item
         icon="material-symbols:translate"
         label="Translations"
-        open="admin/translate"
+        :open="{ ref: next, page: 'admin/translate' }"
       />
       <Item
         icon="material-symbols:process-chart"

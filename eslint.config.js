@@ -11,13 +11,13 @@ export default antfu({
         max: 3,
       },
       multiline: {
-        max: 1,
+        max: 3,
       },
     }],
     'style/max-statements-per-line': ['error', {
       max: 2,
     }],
-    "arrow-body-style": ["error", "as-needed"],
-    "curly": ["error", "multi-or-nest", "consistent"]
+    'arrow-body-style': ['error', 'as-needed'],
+    'curly': ['error', 'multi-or-nest', 'consistent'],
   },
 })

@@ -13,7 +13,7 @@ const props = defineProps<{
 }>()
 const placeholder = props.placeholder
   ? typeof props.placeholder === 'string'
-    ? [props.placeholder]
+    ? props.placeholder.split(' ')
     : props.placeholder
   : ['h-20']
 

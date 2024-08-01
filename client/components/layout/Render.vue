@@ -11,20 +11,24 @@ const props = defineProps<{
   props?: Record<string, any>
   placeholder?: string | string[]
 }>()
-const placeholder = props.placeholder
+const key = computed(() => props.id ?? props.page)
+const placeholder = computed(() => props.placeholder
   ? typeof props.placeholder === 'string'
     ? props.placeholder.split(' ')
     : props.placeholder
-  : ['h-20']
+  : ['h-20'],
+)
 
-const component = props.component
+const component = computed(() => props.component
   ? props.component
-  : resolveComponent(pascalCase(`lazy-page-${props.page?.replace(/:/g, '-')}`))
+  : resolveComponent(pascalCase(`lazy-page-${props.page?.replace(/:/g, '-')}`)))
 </script>
 
 <template>
-  <Suspense :key="id">
-    <component :is="component" v-bind="props.props" />
+  <Suspense :key="key">
+    <template #default>
+      <component :is="component" v-bind="props.props" />
+    </template>
     <template #fallback>
       <div class="flex flex-col gap-3">
         <Placeholder

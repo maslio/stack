@@ -12,6 +12,9 @@ const props = defineProps<{
   noHeader?: boolean
 }>()
 
+defineSlots<{
+  default: () => any
+}>()
 const id = props.id ?? useId()
 const layout = useLayout()
 const target = props.target ?? 'next'
@@ -38,5 +41,7 @@ function onClick() {
     clickable
     right-icon="fluent:chevron-right-16-filled"
     @click="onClick"
-  />
+  >
+    <template v-if="$slots.default" #default />
+  </Item>
 </template>

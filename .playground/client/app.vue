@@ -15,13 +15,9 @@
 
 <template>
   <Layout root>
-    <Open
-      label="Test"
-      page="test"
-      target="dialog-bottom"
-      no-header
-    />
-    <Item label="Test2" />
+    <Open icon="material-symbols:user-attributes" label="$t:users" page="admin/users" />
+    <Open label="Test" page="test" />
+    <Open label="Test2" page="test" />
   </Layout>
 
   <!-- <AuthLayout>

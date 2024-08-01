@@ -6,7 +6,7 @@ defineProps<{
 }>()
 
 const { request } = useDirectus()
-const { data: users, refresh } = useAsyncData('user.list', async () => {
+const { data: users } = useAsyncData('user.list', async () => {
   const users = await request(readUsers({ fields: [
     'id',
     'avatar',
@@ -16,8 +16,6 @@ const { data: users, refresh } = useAsyncData('user.list', async () => {
   ] }))
   return users
 })
-const edit = openRef()
-const create = openRef()
 </script>
 
 <template>
@@ -26,25 +24,21 @@ const create = openRef()
     :items="users"
     item-key="id"
   >
-    <Item
-      :open="{
-        page: 'admin/users/edit',
-        label: getUsername(user),
-        props: { id: user.id },
-      }"
+    <Open
+      page="admin/users/edit"
+      :label="getUsername(user)"
+      :props="{ id: user.id }"
     >
-      <UserAvatar :user size="30" />
-      <Text
-        :label="getUsername(user)"
-        :caption="user.email ?? ''"
-      />
-    </Item>
+      <Avatar :src="user.avatar" size="30" />
+      <Text :label="getUsername(user)" :caption="user.email ?? ''" />
+    </Open>
   </List>
 
-  <Item
+  <Open
     icon="material-symbols:add"
     label="$t:create_a_user"
-    open="admin/users/create"
+    page="admin/users/create"
+    placeholder="h-114px h-40px"
   />
 
   <!-- <Open ref="edit" v-slot="{ props }">

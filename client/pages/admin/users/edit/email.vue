@@ -10,13 +10,11 @@ const emit = defineEmits<{
   save: []
 }>()
 
-const { close } = useLayout()
 const { $t } = useNuxtApp()
 const { requestAny, user: me, refreshUser } = useDirectus()
 
 const fields = [
-  { field: 'first_name', label: $t('first_name') },
-  { field: 'last_name', label: $t('last_name') },
+  { field: 'email', label: $t('email') },
 ]
 
 async function save(data: Record<string, any>) {
@@ -24,7 +22,6 @@ async function save(data: Record<string, any>) {
   emit('save')
   if (me.value?.id === user.id)
     refreshUser()
-  close()
 }
 </script>
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Item } from '#components'
+
 const props = defineProps<{
   id?: string | number
   icon?: string
@@ -31,17 +33,16 @@ function onClick() {
     noHeader: props.noHeader,
   })
 }
+const root = h(Item, {
+  icon: props.icon,
+  label: props.label,
+  caption: props.caption,
+  clickable: true,
+  rightIcon: 'fluent:chevron-right-16-filled',
+  onClick,
+}, useSlots())
 </script>
 
 <template>
-  <Item
-    :icon="icon"
-    :label="label"
-    :caption="caption"
-    clickable
-    right-icon="fluent:chevron-right-16-filled"
-    @click="onClick"
-  >
-    <template v-if="$slots.default" #default />
-  </Item>
+  <root />
 </template>

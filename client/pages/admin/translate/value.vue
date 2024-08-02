@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { upperFirst } from 'scule'
 import type { Language, Translation, TranslationValue } from './types'
 import { useTranslation } from '~/composables/useTranslation'
 
@@ -21,12 +22,28 @@ watch(model, (value) => {
 const label = computed(() => props.languages.find(
   language => language.code === props.language,
 )?.name)
+
+async function autoTranslate() {
+  const text = await $fetch(`/api/translate/auto`, {
+    method: 'POST',
+    body: {
+      language: props.language,
+      translation: props.translation,
+    },
+  })
+  model.value = upperFirst(text)
+}
 </script>
 
 <template>
-  <InputText
-    v-model="model"
-    :label="label"
-    :placeholder
-  />
+  <div class="flex items-center">
+    <InputText
+      v-model="model"
+      :label="label"
+      :placeholder
+      class="flex-1"
+    >
+      <Button icon="material-symbols:refresh" icon-size="20" :click="autoTranslate" />
+    </InputText>
+  </div>
 </template>

@@ -14,15 +14,13 @@ const emit = defineEmits(['click'])
 
 defineSlots<{
   default: () => any
-  left: () => any
-  main: () => any
-  right: () => any
 }>()
 </script>
 
 <template>
   <Item
     :icon
+    class="input"
     :class="{ focused: (focused && !readonly) }"
     @click="emit('click', $event)"
   >
@@ -44,6 +42,5 @@ defineSlots<{
         <slot name="default" />
       </div>
     </div>
-    <slot name="right" />
   </Item>
 </template>

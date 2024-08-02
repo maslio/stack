@@ -55,8 +55,8 @@ watch(focused, (value) => {
       class="min-h-6 w-full flex-1 appearance-none bg-transparent outline-none"
       :class="{ 'text-faint': disabled, submit }"
     >
-    <template v-if="$slots.default" #right>
+    <div class="h-5 flex items-end">
       <slot />
-    </template>
+    </div>
   </Input>
 </template>

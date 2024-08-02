@@ -10,7 +10,7 @@ import {
 } from 'unocss'
 import { presetScrollbar } from 'unocss-preset-scrollbar'
 
-const parentVariants = ['focused', 'dialog', 'desktop', 'mobile', 'card', 'item']
+const parentVariants = ['focused', 'dialog', 'desktop', 'mobile', 'card', 'item', 'options', 'input']
 const selfVariants = ['opened']
 
 export default defineConfig({

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { User } from '@directus/types'
 import { readUser } from '@directus/sdk'
 
 const { id } = withDefaults(defineProps<{
@@ -21,6 +20,21 @@ const emit = defineEmits<{
   save: [id: string]
   delete: [id: string]
 }>()
+
+interface User {
+  id: string
+  first_name: string
+  last_name: string
+  email: string
+  avatar: string
+  language: string
+  appearance: string
+  role: {
+    id: string
+    name: string
+    icon: string
+  }
+}
 
 const { requestAny } = useDirectus()
 const { data: user, refresh } = await useAsyncData(() => requestAny(readUser(id, { fields: [
@@ -73,7 +87,7 @@ function onDelete() {
         :value="getUsername(user)"
         page="admin/users/edit/name"
         :props="{ user, onSave }"
-        placeholder="h-28 h-10"
+        skeleton="h-28 h-10"
         @close="refresh"
       />
       <Open
@@ -107,6 +121,7 @@ function onDelete() {
     </Card>
     <Open
       v-if="$props.delete"
+      label="$t:delete_user"
       page="admin/users/edit/delete"
       target="dialog-bottom"
       :props="{ user, onDelete }"

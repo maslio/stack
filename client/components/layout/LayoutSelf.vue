@@ -16,6 +16,7 @@ function open(data: any) {
     page: data.page,
     label: data.label ?? 'next',
     props: data.props ?? {},
+    skeleton: data.skeleton,
     noHeader: data.noHeader,
   }
 }
@@ -42,6 +43,7 @@ defineExpose({ open, close })
           :page="next.page"
           :component="next.component"
           :props="next.props"
+          :skeleton="next.skeleton"
         />
       </Layout>
     </template>

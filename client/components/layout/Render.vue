@@ -9,13 +9,13 @@ const props = defineProps<{
   page?: string
   component?: string | Component
   props?: Record<string, any>
-  placeholder?: string | string[]
+  skeleton?: string | string[]
 }>()
 const key = computed(() => props.id ?? props.page)
-const placeholder = computed(() => props.placeholder
-  ? typeof props.placeholder === 'string'
-    ? props.placeholder.split(' ')
-    : props.placeholder
+const skeleton = computed(() => props.skeleton
+  ? typeof props.skeleton === 'string'
+    ? props.skeleton.split(' ')
+    : props.skeleton
   : ['h-20'],
 )
 
@@ -30,9 +30,9 @@ const component = computed(() => props.component
       <component :is="component" v-bind="props.props" />
     </template>
     <template #fallback>
-      <div class="flex flex-col gap-3">
-        <Placeholder
-          v-for="(classes, index) in placeholder"
+      <div class="flex flex-col items-center gap-3">
+        <Skeleton
+          v-for="(classes, index) in skeleton"
           :key="index"
           :class="classes"
         />

@@ -17,7 +17,6 @@ const props = withDefaults(defineProps<{
 
 defineSlots<{
   default: () => void
-  placeholder: () => void
 }>()
 
 const widthNumber = useToNumber(props.width)

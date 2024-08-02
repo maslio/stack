@@ -22,6 +22,7 @@ function open(target: 'dialog' | 'dialog-top' | 'dialog-bottom', data: any) {
     label: data.label ?? 'next',
     noHeader: data.noHeader,
     props: data.props ?? {},
+    skeleton: data.skeleton,
   }
   if (target === 'dialog-top') {
     classEnter.value = 'children:translate-y--100%'
@@ -93,6 +94,7 @@ defineExpose({ open, close })
               :page="next.page"
               :component="next.component"
               :props="next.props"
+              :skeleton="next.skeleton"
             />
           </Layout>
         </div>

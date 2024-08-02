@@ -9,7 +9,7 @@ const props = defineProps<{
   component?: string | Component
   page?: string
   target?: string
-  placeholder?: string
+  skeleton?: string | string[]
   props?: Record<string, any>
   noHeader?: boolean
 }>()
@@ -28,7 +28,7 @@ function onClick() {
     caption: props.caption,
     component: props.component,
     page: props.page,
-    placeholder: props.placeholder,
+    skeleton: props.skeleton,
     props: props.props,
     noHeader: props.noHeader,
   })

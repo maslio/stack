@@ -25,9 +25,10 @@ const { data: users } = useAsyncData('user.list', async () => {
     item-key="id"
   >
     <Open
-      page="admin/users/edit"
+      page="admin/users/user"
       :label="getUsername(user)"
       :props="{ id: user.id }"
+      :skeleton="['h-25 w-25 rounded-full', 'h-22', 'h-22']"
     >
       <Avatar :src="user.avatar" size="30" />
       <Text :label="getUsername(user)" :caption="user.email ?? ''" />
@@ -38,17 +39,6 @@ const { data: users } = useAsyncData('user.list', async () => {
     icon="material-symbols:add"
     label="$t:create_a_user"
     page="admin/users/create"
-    placeholder="h-114px h-40px"
+    skeleton="h-28 h-10"
   />
-
-  <!-- <Open ref="edit" v-slot="{ props }">
-    <UserEdit
-      :id="props.id"
-      @save="refresh()"
-      @delete="refresh(); edit?.close()"
-    />
-  </Open>
-  <Open ref="create" label="$t:create_a_user">
-    <UserCreate @save="refresh(); create?.close()" />
-  </Open> -->
 </template>

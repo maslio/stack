@@ -8,9 +8,10 @@ const language = ref(useNuxtApp().$language)
 const { data: languages } = await useAsyncData<Language[]>(async () =>
   await request<Language[]>(readItems('languages')))
 
-function createTranslation(key: string): Translation {
+function createTranslation(key: string, create = false): Translation {
   const translation: Translation = {
     key,
+    create,
     values: languages.value?.map(l => ({
       language: l.code,
       value: '',
@@ -41,16 +42,8 @@ const search = ref('')
 const layout = useLayout()
 const items = computed(() => {
   const items = translations.value?.filter(t => t.key.includes(search.value)) ?? []
-  if (items.length === 0) {
-    items.push({
-      key: search.value,
-      new: true,
-      values: languages.value?.map(l => ({
-        language: l.code,
-        value: '',
-      })) ?? [],
-    })
-  }
+  if (items.length === 0)
+    items.push(createTranslation(search.value, true))
   return items
 })
 function onSave() {
@@ -88,6 +81,7 @@ function onSave() {
   <List
     v-model:search="search"
     :items
+    item-key="key"
   >
     <template #default="{ item: translation }">
       <Open
@@ -96,7 +90,7 @@ function onSave() {
         :props="{ translation, languages, onSave }"
       >
         <Icon
-          v-if="translation.new"
+          v-if="translation.create"
           name="material-symbols:add"
         />
         <div class="flex-1 font-mono">

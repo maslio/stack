@@ -28,15 +28,31 @@ const isMini = computed(() => layoutWidth.value < 640)
 const next = ref()
 const dialog = ref()
 const self = ref()
+const opened = reactive<{
+  next: string | number | null
+  self: string | number | null
+  dialog: string | number | null
+}>({
+  next: null,
+  self: null,
+  dialog: null,
+})
 function open(target: string, data: any) {
-  if (target === 'next')
+  if (target === 'next') {
+    opened.next = data.id
     return next.value.open(data)
-  if (target === 'self')
+  }
+  if (target === 'self') {
+    opened.self = data.id
     return self.value.open(data)
-  if (target.startsWith('dialog'))
+  }
+  if (target.startsWith('dialog')) {
+    opened.dialog = data.id
     return dialog.value.open(target, data)
+  }
   throw new Error(`Layout: unknown target ${target}`)
 }
+
 function close(target?: string) {
   if (!target)
     return props.close?.()
@@ -79,7 +95,7 @@ const swipe = useSwipe(pageEl, {
 
 const scroll = useScroll(mainEl)
 
-provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id, scroll, open })
+provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id, scroll, open, opened })
 </script>
 
 <template>
@@ -139,14 +155,14 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
           <div ref="bottomEl" class="sticky bottom-0" />
         </main>
         <footer ref="footerEl" class="px-3 dialog:pb-0" />
-        <Dialog ref="dialog" :is-mini="isMini" />
+        <Dialog ref="dialog" :is-mini="isMini" @close="opened.dialog = null" />
       </div>
       <div ref="nextEl" class="next">
-        <Next ref="next" :is-mini="isMini" />
+        <Next ref="next" :is-mini="isMini" @close="opened.next = null" />
       </div>
     </div>
     <div class="self">
-      <Self ref="self" :is-mini="isMini" />
+      <Self ref="self" :is-mini="isMini" @close="opened.self = null" />
     </div>
   </div>
 </template>

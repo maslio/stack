@@ -7,10 +7,8 @@ export interface Props {
   value?: string
   clickable?: boolean | string
   tag?: string
-  // href?: string
   disabled?: boolean
-  // open?: any
-  // opened?: boolean
+  opened?: boolean
   rightIcon?: string
 }
 
@@ -20,38 +18,9 @@ defineSlots<{
   default: () => any
   options: () => any
 }>()
-// const id = props.id ?? useId()
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 const options = ref(false)
-
-// const layout = useLayout()
-
-// const open = (() => {
-//   if (!props.open)
-//     return undefined
-//   const open = typeof props.open === 'string' ? { page: props.open } : props.open
-//   open.layout ??= layout
-//   return open
-// })()
-
-const opened = computed(() => {
-  return false
-  // if (options.value)
-  //   return true
-  // if (props.opened)
-  //   return true
-  // if (open.value)
-  //   return open.value.ref?.opened(id)
-  return false
-})
-// const openIcon = computed(() => {
-//   if (props.href)
-//     return 'material-symbols-light:open-in-new-rounded'
-//   if (open)
-//     return open.icon ?? 'fluent:chevron-right-16-filled'
-//   return null
-// })
 
 function onClick(e: Event) {
   if (props.disabled)
@@ -60,17 +29,6 @@ function onClick(e: Event) {
     options.value = !options.value
     return
   }
-  // if (open) {
-  //   open.layout.open(open.target ?? 'next', {
-  //     id,
-  //     label: open.label ?? props.label,
-  //     caption: open.caption ?? props.caption,
-  //     component: open.component,
-  //     placeholder: open.placeholder,
-  //     page: open.page,
-  //     props: open.props,
-  //   })
-  // }
   emit('click', e)
 }
 

@@ -5,6 +5,7 @@ const props = defineProps<{
   id?: string | number
   icon?: string
   label: string
+  value?: string
   caption?: string
   component?: string | Component
   page?: string
@@ -41,14 +42,21 @@ function onClick() {
     noHeader: props.noHeader,
   })
 }
-const root = h(Item, {
-  icon: props.icon,
-  label: props.label,
-  caption: props.caption,
-  clickable: true,
-  rightIcon: 'fluent:chevron-right-16-filled',
-  onClick,
-}, useSlots())
+
+function root() {
+  const t = (target.startsWith('dialog') ? 'dialog' : target) as 'next' | 'self' | 'dialog'
+  const opened = layout.opened[t] === id
+  return h(Item, {
+    icon: props.icon,
+    label: props.label,
+    value: props.value,
+    caption: props.caption,
+    clickable: true,
+    opened,
+    rightIcon: 'fluent:chevron-right-16-filled',
+    onClick,
+  }, slots)
+}
 
 defineExpose({ close })
 if (props.preload && props.page)

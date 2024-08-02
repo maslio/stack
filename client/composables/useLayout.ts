@@ -1,3 +1,5 @@
+import type { Reactive } from 'vue'
+
 export interface LayoutProvide {
   id: string
   isMini: ComputedRef<boolean>
@@ -10,6 +12,11 @@ export interface LayoutProvide {
   scroll: ReturnType<typeof useScroll>
   close: (target?: string) => void
   open: (target: string, data: any) => void
+  opened: Reactive<{
+    next: string | number | null
+    self: string | number | null
+    dialog: string | number | null
+  }>
 }
 
 export function useLayout() {

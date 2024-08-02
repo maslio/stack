@@ -1,23 +1,22 @@
 <script setup lang="ts">
-// import {
-//   DataProducts,
-//   LazyDevDirectus,
-//   LazyDevTasks,
-//   LazyUserList,
-//   UiElements,
-//   UiInputs,
-// } from '#components'
-
-// const next = openRef()
-// const full = openRef()
-// const label = ref('1')
 </script>
 
 <template>
   <Layout root>
-    <Open icon="material-symbols:user-attributes" label="$t:users" page="admin/users" />
-    <Open label="Test" page="test" />
-    <Open label="Test2" page="test" />
+    <Card>
+      <Open
+        icon="material-symbols:user-attributes"
+        label="$t:users"
+        page="admin/users"
+      />
+    </Card>
+    <Card>
+      <Open
+        label="UI Inputs"
+        page="inputs"
+        skeleton="h-42 h-20"
+      />
+    </Card>
   </Layout>
 
   <!-- <AuthLayout>

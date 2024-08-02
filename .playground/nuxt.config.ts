@@ -13,6 +13,14 @@ export default defineNuxtConfig({
         pathPrefix: true,
         watch: true,
       },
+      {
+        path: 'pages',
+        pathPrefix: true,
+        isAsync: true,
+        global: true,
+        watch: true,
+        prefix: 'page',
+      },
     ],
   },
 })

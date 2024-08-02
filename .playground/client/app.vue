@@ -9,12 +9,17 @@
         label="$t:users"
         page="admin/users"
       />
+      <Open
+        icon="material-symbols:process-chart"
+        label="$t:tasks"
+        page="admin/tasks"
+      />
     </Card>
     <Card>
       <Open
         label="UI Inputs"
         page="inputs"
-        skeleton="h-42 h-20"
+        skeleton="h-20 h-42 h-20"
       />
     </Card>
   </Layout>

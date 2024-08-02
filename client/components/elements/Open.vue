@@ -29,8 +29,8 @@ function close() {
   layout.close(target)
 }
 
-function onClick() {
-  layout.open(target, {
+function open(_target = target) {
+  layout.open(_target, {
     id,
     label: props.label,
     caption: props.caption,
@@ -41,6 +41,17 @@ function onClick() {
     props: props.props,
     noHeader: props.noHeader,
   })
+}
+
+function onClick() {
+  open(target)
+}
+
+function onContextmenu(e: MouseEvent) {
+  e.preventDefault()
+  e.stopImmediatePropagation()
+  e.stopPropagation()
+  open('side')
 }
 
 function root() {
@@ -55,6 +66,7 @@ function root() {
     opened,
     rightIcon: 'fluent:chevron-right-16-filled',
     onClick,
+    onContextmenu,
   }, slots)
 }
 

@@ -32,9 +32,7 @@ const component = computed(() => {
   <Suspense :key="key">
     <template #default>
       <component v-if="component" :is="component" v-bind="props.props" />
-      <div v-else :id="key">
-        <slot />
-      </div>
+      <slot v-else />
     </template>
     <template #fallback>
       <div class="flex flex-col items-center gap-3">

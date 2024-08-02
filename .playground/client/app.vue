@@ -2,7 +2,8 @@
 </script>
 
 <template>
-  <Layout root>
+  <AuthLayout>
+    <AuthMe />
     <Card>
       <Open
         icon="material-symbols:user-attributes"
@@ -22,7 +23,7 @@
         skeleton="h-20 h-42 h-20"
       />
     </Card>
-  </Layout>
+  </AuthLayout>
 
   <!-- <AuthLayout>
     <Card>

@@ -20,8 +20,7 @@ export default defineTask({
 })
 
 function getConfig() {
-  return `
-import {
+  return `import {
   defineConfig,
   presetAttributify,
   presetIcons,

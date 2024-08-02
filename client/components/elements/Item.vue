@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { type Ref, computed, ref, useId, useNuxtApp } from '#imports'
-
 export interface Props {
   id?: string | number
   icon?: string

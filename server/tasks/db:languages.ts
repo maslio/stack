@@ -14,9 +14,9 @@ export default defineTask({
 async function generateLanguages() {
   const { request } = useDirectus('admin')
   const collections = await request(readCollections())
-  if (collections.find(c => c.collection === 'languages')) {
+  if (collections.find(c => c.collection === 'languages'))
     return 'exists'
-  }
+
   await request(createCollection(collectionData))
   await request(createItem('languages', {
     code: 'en-US',

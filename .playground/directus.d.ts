@@ -26,7 +26,7 @@ global {
     products_translations: ProductsTranslations[]
     directus_users: DirectusUsers[]
   }
-  type DirectusPolicy = 
+  type DirectusPolicy =
     'admin'
   type Item = Record<string, any>
 }

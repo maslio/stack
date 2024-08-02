@@ -7,6 +7,8 @@
     "node": "20"
   },
   "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "dev": "nuxi dev .playground",
     "dev:db": "docker compose -f .playground/directus/docker-compose.yaml up -d",
     "postinstall": "nuxt prepare"

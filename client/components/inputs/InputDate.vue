@@ -8,7 +8,6 @@ const props = defineProps<{
 
 const { $t, $language } = useNuxtApp()
 const label = computed(() => props.label ?? $t('date'))
-const open = openRef()
 const { format: formatPresetDate } = new Intl.DateTimeFormat($language, {
   month: 'long',
   year: 'numeric',
@@ -42,29 +41,31 @@ const value = computed(() => {
     return preset.label
   return formatPresetDate(new Date(model.value))
 })
+const open = ref()
 </script>
 
 <template>
-  <Item
+  <Open
+    ref="open"
     :label
     :value
     :disabled="readonly"
-    :open="{ ref: open }"
-  />
-  <Open ref="open" :label>
-    <DateInput v-model="model" />
-    <Select
-      v-model="model"
-      :options="presets"
-      v-slot="{ item }"
-    >
-      <div class="flex justify-between">
-        <div>{{ item.label }}</div>
-        <div class="text-faint">
-          {{ item.format }}
+  >
+    <template #render>
+      <DateInput v-model="model" />
+      <Select
+        v-model="model"
+        :options="presets"
+        v-slot="{ item }"
+      >
+        <div class="flex justify-between">
+          <div>{{ item.label }}</div>
+          <div class="text-faint">
+            {{ item.format }}
+          </div>
         </div>
-      </div>
-    </Select>
-    <DateCalendar :selected="[model]" @select="onCalendarSelect" />
+      </Select>
+      <DateCalendar :selected="[model]" @select="onCalendarSelect" />
+    </template>
   </Open>
 </template>

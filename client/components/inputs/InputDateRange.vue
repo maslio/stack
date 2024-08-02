@@ -5,7 +5,6 @@ const props = defineProps<{
   label?: string
   readonly?: boolean
 }>()
-const open = openRef()
 const { $t, $language } = useNuxtApp()
 const label = computed(() => props.label ?? $t('date_range'))
 const weekStartsOn = useAppConfig().date.weekStartsOn as Day
@@ -226,48 +225,50 @@ const value = computed(() => {
     return preset.label
   return formatValue.formatRange(new Date(model.value[0]), new Date(model.value[1]))
 })
+const open = ref()
 </script>
 
 <template>
-  <Item
+  <Open
+    ref="open"
     :label
     :value
     :disabled="readonly"
-    :open="{ ref: open }"
-  />
-  <Open ref="open" :label>
-    <Card>
-      <DateInput
-        ref="input1"
-        :model-value="model[0]"
-        :label="$t('date_range_start')"
-        @update:model-value="model = [$event, model[1]]"
-        @next="input2.select('day')"
-      />
-      <DateInput
-        ref="input2"
-        :label="$t('date_range_end')"
-        :model-value="model[1]"
-        @update:model-value="model = [model[0], $event]"
-        @prev="input1.select('year')"
-      />
-    </Card>
-    <Card>
-      <Tabs v-model="presetsTab" :tabs="presetsTabs" />
-      <Select
-        :key="presetsTab"
-        v-model="modelString"
-        :options="presetsFiltered"
-        v-slot="{ item }"
-      >
-        <div class="flex justify-between">
-          <div>{{ item.label }}</div>
-          <div class="text-faint">
-            {{ item.format }}
+  >
+    <template #render>
+      <Card>
+        <DateInput
+          ref="input1"
+          :model-value="model[0]"
+          :label="$t('date_range_start')"
+          @update:model-value="model = [$event, model[1]]"
+          @next="input2.select('day')"
+        />
+        <DateInput
+          ref="input2"
+          :label="$t('date_range_end')"
+          :model-value="model[1]"
+          @update:model-value="model = [model[0], $event]"
+          @prev="input1.select('year')"
+        />
+      </Card>
+      <Card>
+        <Tabs v-model="presetsTab" :tabs="presetsTabs" />
+        <Select
+          :key="presetsTab"
+          v-model="modelString"
+          :options="presetsFiltered"
+          v-slot="{ item }"
+        >
+          <div class="flex justify-between">
+            <div>{{ item.label }}</div>
+            <div class="text-faint">
+              {{ item.format }}
+            </div>
           </div>
-        </div>
-      </Select>
-    </Card>
-    <DateCalendar :selected="calendarSelected" @select="onCalendarSelect" />
+        </Select>
+      </Card>
+      <DateCalendar :selected="calendarSelected" @select="onCalendarSelect" />
+    </template>
   </Open>
 </template>

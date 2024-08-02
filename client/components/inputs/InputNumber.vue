@@ -57,15 +57,15 @@ const dataMaska = computed(() => {
 
 <template>
   <Input
-    :focused
+    :focused :label
     @click="input.select()"
   >
     <div
       class="w-full flex items-baseline"
     >
-      <div class="">
+      <!-- <div class="">
         {{ $mt($props.label) }}
-      </div>
+      </div> -->
       <input
         ref="input"
         v-model="_model"
@@ -77,7 +77,7 @@ const dataMaska = computed(() => {
         :placeholder
         :autofocus
         :readonly
-        class="min-h-6 w-full appearance-none bg-transparent text-right outline-none"
+        class="min-h-6 w-full appearance-none bg-transparent outline-none"
         @click="input.select()"
       >
     </div>

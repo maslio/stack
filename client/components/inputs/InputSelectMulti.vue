@@ -13,27 +13,23 @@ const props = defineProps<{
 defineSlots<{
   default: (props: { item: T }) => any
 }>()
-
 const model = defineModel<any[]>({ default: [] })
 const value = computed(() => String(model.value.length))
-const open = openRef()
-function onUpdate() {
-  if (props.autoClose)
-    open.value?.close()
-}
+const open = ref()
 </script>
 
 <template>
-  <Item :label :value :open="{ ref: open }" />
-  <Open ref="open">
-    <SelectMulti
-      v-model="model"
-      v-bind="props"
-      @update:model-value="onUpdate"
-    >
-      <template v-if="$slots.default" #default="{ item }">
-        <slot name="default" :item />
-      </template>
-    </SelectMulti>
+  <Open ref="open" :label :value>
+    <template #render>
+      <SelectMulti
+        v-model="model"
+        v-bind="props"
+        @update:model-value="autoClose ? open.close() : null"
+      >
+        <template v-if="$slots.default" #default="{ item }">
+          <slot name="default" :item />
+        </template>
+      </SelectMulti>
+    </template>
   </Open>
 </template>

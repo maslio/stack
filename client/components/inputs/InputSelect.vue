@@ -26,25 +26,21 @@ const value = computed(() => {
     return String(option[optionLabel.value])
   return String(model.value)
 })
-const open = openRef()
-function onUpdate() {
-  if (props.autoClose)
-    open.value?.close()
-}
+const open = ref()
 </script>
 
 <template>
-  <Item :label :value :open="{ ref: open }" />
-  <Open ref="open">
-    <Select
-      v-model="model"
-      v-bind="props"
-      @update:model-value="onUpdate"
-    >
-      <template v-if="$slots.default" #default="{ item }">
-        <slot name="default" :item />
-      </template>
-    </Select>
-    <slot name="append" />
+  <Open ref="open" :label :value>
+    <template #render>
+      <Select
+        v-model="model"
+        v-bind="props"
+        @update:model-value="autoClose ? open.close() : null"
+      >
+        <template v-if="$slots.default" #default="{ item }">
+          <slot name="default" :item />
+        </template>
+      </Select>
+    </template>
   </Open>
 </template>

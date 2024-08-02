@@ -29,7 +29,7 @@ defineSlots<{
     <div flex-1>
       <div
         v-if="label"
-        class="text-sm"
+        class="mt--1px text-sm"
         :class="error ? 'text-negative' : 'text-faint'"
       >
         {{ $mt(label) }}

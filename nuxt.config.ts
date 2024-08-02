@@ -67,6 +67,7 @@ export default defineNuxtConfig({
     directusToken: '',
     remoteDirectusUrl: '',
     remoteDirectusToken: '',
+    openaiApiKey: '',
     public: {
       language: 'en-US',
       languages: 'en-US',

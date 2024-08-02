@@ -20,7 +20,7 @@ async function createLanguage(data: Record<string, any>) {
 </script>
 
 <template>
-  <List v-slot="{ item }" :items="languages">
+  <List :items="languages" v-slot="{ item }">
     <Item
       :label="item.name"
       :value="item.code"

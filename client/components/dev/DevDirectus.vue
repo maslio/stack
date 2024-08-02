@@ -24,8 +24,8 @@ const collections = computed(() => {
   <Card>
     <Tabs v-model="tab" :tabs />
     <List
-      v-slot="{ item }"
       :items="collections"
+      v-slot="{ item }"
     >
       <Item
         :label="titleCase(item.collection)"

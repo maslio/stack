@@ -54,9 +54,9 @@ const value = computed(() => {
   <Open ref="open" :label>
     <DateInput v-model="model" />
     <Select
-      v-slot="{ item }"
       v-model="model"
       :options="presets"
+      v-slot="{ item }"
     >
       <div class="flex justify-between">
         <div>{{ item.label }}</div>

@@ -20,9 +20,9 @@ const { data: users } = useAsyncData('user.list', async () => {
 
 <template>
   <List
-    v-slot="{ item: user }"
     :items="users"
     item-key="id"
+    v-slot="{ item: user }"
   >
     <Open
       page="admin/users/user"

@@ -30,13 +30,13 @@ const modelMulti = ref<User['id'][]>([])
 <template>
   <Card>
     <InputSelect
-      v-slot="{ item }"
       v-model="modelSingle"
       label="User"
       :options="users"
       option-value="id"
       option-label="name"
       search
+      v-slot="{ item }"
     >
       <div>{{ item.name }}</div>
     </InputSelect>

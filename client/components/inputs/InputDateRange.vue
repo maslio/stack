@@ -256,9 +256,9 @@ const value = computed(() => {
       <Tabs v-model="presetsTab" :tabs="presetsTabs" />
       <Select
         :key="presetsTab"
-        v-slot="{ item }"
         v-model="modelString"
         :options="presetsFiltered"
+        v-slot="{ item }"
       >
         <div class="flex justify-between">
           <div>{{ item.label }}</div>

@@ -9,7 +9,7 @@ const next = openRef()
 </script>
 
 <template>
-  <List v-slot="{ item }" :items>
+  <List :items v-slot="{ item }">
     <Item
       :label="item.name"
       :open="{ ref: next, id: item.id, props: { id: item.id } }"

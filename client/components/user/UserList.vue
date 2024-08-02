@@ -22,9 +22,9 @@ const create = openRef()
 
 <template>
   <List
-    v-slot="{ item: user }"
     :items="users"
     item-key="id"
+    v-slot="{ item: user }"
   >
     <Item
       :open="{

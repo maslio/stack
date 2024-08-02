@@ -34,7 +34,7 @@ async function click() {
 </script>
 
 <template>
-  <List v-slot="{ item }" :items="translation.values">
+  <List :items="translation.values" v-slot="{ item }">
     <Value
       :languages="languages"
       :translation="translation"

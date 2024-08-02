@@ -15,8 +15,8 @@ const { items } = await useItems(collection.collection)
 
 <template>
   <List
-    v-slot="{ item }"
     :items
+    v-slot="{ item }"
   >
     <Item>
       <DisplayTemplate

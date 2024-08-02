@@ -19,5 +19,22 @@ export default antfu({
     }],
     // 'arrow-body-style': ['error', 'as-needed'],
     'curly': ['error', 'multi-or-nest', 'consistent'],
+    'vue/attributes-order': ['error', {
+      order: [
+        'CONDITIONALS',
+        'LIST_RENDERING',
+        'RENDER_MODIFIERS',
+        'GLOBAL',
+        'UNIQUE',
+        'TWO_WAY_BINDING',
+        'OTHER_DIRECTIVES',
+        'OTHER_ATTR',
+        'EVENTS',
+        'CONTENT',
+        'DEFINITION',
+        'SLOT',
+      ],
+      alphabetical: false,
+    }],
   },
 })

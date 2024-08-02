@@ -119,13 +119,13 @@ async function save() {
 <template>
   <Card v-for="(group, index) in groups" :key="index">
     <Component
-      :is="field.component"
       v-for="field in getGroupFields(group.fields)"
       :key="field.key"
       v-model="values[field.key]"
       :field="field.field"
       :label="field.label"
       :error="errors[field.key]"
+      :is="field.component"
       v-bind="field.props"
     />
   </Card>

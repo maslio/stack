@@ -64,9 +64,9 @@ const search = ref('')
   </InputSelect>
 
   <List
-    v-slot="{ item }"
     v-model:search="search"
     :items="translations"
+    v-slot="{ item }"
   >
     <Item
       :open="{

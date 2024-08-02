@@ -24,7 +24,7 @@ const label = computed(() => props.languages.find(
 )?.name)
 
 async function autoTranslate() {
-  const text = await $fetch(`/api/translate/auto`, {
+  const text = await $fetch(`/api/translate/generate`, {
     method: 'POST',
     body: {
       language: props.language,

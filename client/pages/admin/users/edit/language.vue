@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { updateUser } from '@directus/sdk'
+import { readItems, updateUser } from '@directus/sdk'
 
 interface User {
   id: string
@@ -14,14 +14,13 @@ const emit = defineEmits<{
   save: []
 }>()
 
-const { $t, $languages } = useNuxtApp()
 const { request, user: me } = useDirectus()
-// @ts-expect-error 123
-const options = $languages.map(value => ({
-  value,
-  label: $t(`language.${value}`),
-}))
 const langauge = ref(user.language ?? 'en-US')
+const languages = await request(readItems('languages'))
+const options = languages.map(l => ({
+  value: l.code,
+  label: l.name,
+}))
 async function save() {
   await request(updateUser(user.id, { language: langauge.value }))
   if (me.value?.id === user.id)
@@ -32,10 +31,7 @@ async function save() {
 </script>
 
 <template>
-  <Select
-    v-model="langauge"
-    :options
-  />
+  <Select v-model="langauge" :options />
   <Button
     color="primary"
     :click="save"

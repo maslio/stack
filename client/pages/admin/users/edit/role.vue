@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { User } from '@directus/types'
 import { readRoles, updateUser } from '@directus/sdk'
 
 const { user } = defineProps<{
-  user: User
+  user: Record<string, any>
 }>()
 const emit = defineEmits<{
   save: []
@@ -15,9 +14,7 @@ const { request } = useDirectus()
 const roles = await request(readRoles({ sort: ['name'] }))
 const options = roles.map(role => ({
   value: role.id,
-  item: {
-    label: role.name,
-  },
+  label: role.name,
 }))
 
 async function click() {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { readUser } from '@directus/sdk'
+import { readItems, readUser } from '@directus/sdk'
 
 const { id } = withDefaults(defineProps<{
   id: string
@@ -10,6 +10,7 @@ const { id } = withDefaults(defineProps<{
     'name',
     'email',
     'avatar',
+    'role',
     'password',
     'language',
     'appearance',
@@ -36,8 +37,8 @@ interface User {
   }
 }
 
-const { requestAny } = useDirectus()
-const { data: user, refresh } = await useAsyncData(() => requestAny(readUser(id, { fields: [
+const { request } = useDirectus()
+const { data: user, refresh } = await useAsyncData(() => request(readUser(id, { fields: [
   'id',
   'first_name',
   'last_name',
@@ -47,6 +48,11 @@ const { data: user, refresh } = await useAsyncData(() => requestAny(readUser(id,
   'appearance',
   { role: ['id', 'name', 'icon'] },
 ] })) as Promise<User>)
+
+const languages = await request(readItems('languages'))
+function getLanguageName(language: string): string {
+  return languages.find(l => l.code === language)?.name ?? ''
+}
 
 function onSave() {
   // next.value?.close()
@@ -62,7 +68,7 @@ function onDelete() {
 <template>
   <template v-if="user">
     <div flex items-center justify-center>
-      <Avatar :src="user.avatar" size="100" />
+      <Avatar size="100" :src="user.avatar" />
     </div>
     <Card>
       <Open
@@ -77,6 +83,7 @@ function onDelete() {
         icon="material-symbols:passkey"
         label="$t:change_password"
         page="admin/users/edit/password"
+        skeleton="h-14 h-10"
         :props="{ user, onSave }"
       />
     </Card>
@@ -84,39 +91,40 @@ function onDelete() {
       <Open
         v-if="fields.includes('name')"
         label="$t:user_name"
-        :value="getUsername(user)"
         page="admin/users/edit/name"
-        :props="{ user, onSave }"
         skeleton="h-28 h-10"
+        :props="{ user, onSave }"
+        :value="getUsername(user)"
         @close="refresh"
       />
       <Open
         v-if="fields.includes('email')"
         label="$t:email"
-        :value="user.email ?? ''"
         page="admin/users/edit/email"
+        skeleton="h-14 h-10"
         :props="{ user, onSave }"
+        :value="user.email ?? ''"
       />
       <Open
         v-if="fields.includes('role')"
         label="$t:role"
-        :value="user.role?.name"
         page="admin/users/edit/role"
         :props="{ user, onSave }"
+        :value="user.role?.name"
       />
       <Open
         v-if="fields.includes('language')"
-        label="$t:role"
-        :value="user.role?.name"
+        label="$t:language"
         page="admin/users/edit/language"
         :props="{ user, onSave }"
+        :value="getLanguageName(user.language ?? 'en-US')"
       />
       <Open
         v-if="fields.includes('appearance')"
-        label="$t:language"
-        :value="$t(`language.${user.language ?? 'en-US'}`)"
+        label="$t:appearance"
         page="admin/users/edit/appearance"
         :props="{ user, onSave }"
+        :value="$t(`appearance.${user.appearance ?? 'auto'}`)"
       />
     </Card>
     <Open

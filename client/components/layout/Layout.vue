@@ -96,6 +96,7 @@ const swipe = useSwipe(pageEl, {
 const scroll = useScroll(mainEl)
 
 provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id, scroll, open, opened })
+defineExpose({ close })
 </script>
 
 <template>

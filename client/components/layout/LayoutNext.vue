@@ -10,7 +10,9 @@ function close() {
   render.value = null
   emit('close')
 }
+const layout = ref()
 function open(data: any) {
+  layout.value?.close('next')
   render.value = {
     id: data.id,
     page: data.page,
@@ -34,6 +36,7 @@ defineExpose({ open, close })
   >
     <template v-if="render">
       <Layout
+        ref="layout"
         :label="render.label"
         class="mobile:translate-x--100%"
         :close-icon="isMini ? 'back' : 'close'"

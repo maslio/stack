@@ -7,28 +7,31 @@ const language = ref(useNuxtApp().$language)
 
 const { data: languages } = await useAsyncData<Language[]>(async () =>
   await request<Language[]>(readItems('languages')))
+
+function createTranslation(key: string): Translation {
+  const translation: Translation = {
+    key,
+    values: languages.value?.map(l => ({
+      language: l.code,
+      value: '',
+    })) ?? [],
+  }
+  return translation
+}
+
 const { data: translations, refresh } = await useAsyncData<Translation[]>(async () => {
   const translations: Translation[] = []
-  const _translations = await request(readTranslations())
+  const _translations = await request(readTranslations({ sort: ['key'] }))
   for (const t of _translations) {
     let translation = translations.find(i => i.key === t.key)
     if (!translation) {
-      translation = { key: t.key, values: [] }
+      translation = createTranslation(t.key)
       translations.push(translation)
     }
-    translation.values.push({
-      id: t.id,
-      language: t.language,
-      value: t.value,
-    })
-  }
-  if (languages.value) {
-    for (const language of languages.value) {
-      for (const t of translations) {
-        const value = t.values.find(v => v.language === language.code)
-        if (!value)
-          t.values.push({ id: null, language: language.code, value: '' })
-      }
+    const value = translation.values.find(v => v.language === t.language)
+    if (value) {
+      value.id = t.id
+      value.value = t.value
     }
   }
   return translations

@@ -9,7 +9,6 @@ export default defineLazyEventHandler(async () => {
       language: string
       translation: Translation
     }>(event)
-
     const message: string[] = []
     message.push(`key: ${body.translation.key}`)
     for (const value of body.translation.values) {

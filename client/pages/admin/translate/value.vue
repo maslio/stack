@@ -28,7 +28,15 @@ async function autoTranslate() {
     method: 'POST',
     body: {
       language: props.language,
-      translation: props.translation,
+      translation: {
+        key: props.translation.key,
+        values: props.translation.values.map(v => ({
+          language: v.language,
+          value: v.language === 'en-US' && v.value.trim() === ''
+            ? toEnglish(props.translation.key)
+            : v.value,
+        })),
+      },
     },
   })
   model.value = upperFirst(text)

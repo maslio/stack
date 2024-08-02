@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { pascalCase } from 'scule'
-
 defineOptions({
   inheritAttrs: false,
 })
@@ -23,7 +21,7 @@ const component = computed(() => {
   if (props.component)
     return props.component
   if (props.page)
-    return resolveComponent(pascalCase(`lazy-page-${props.page?.replace(/:/g, '-')}`))
+    return resolveComponent(resolvePage(props.page))
   if (props.slot)
     return h(props.slot)
   return null

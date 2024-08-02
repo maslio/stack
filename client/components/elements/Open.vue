@@ -8,6 +8,7 @@ const props = defineProps<{
   caption?: string
   component?: string | Component
   page?: string
+  preload?: boolean
   target?: string
   skeleton?: string | string[]
   props?: Record<string, any>
@@ -50,6 +51,8 @@ const root = h(Item, {
 }, useSlots())
 
 defineExpose({ close })
+if (props.preload && props.page)
+  preloadComponents(resolvePage(props.page))
 </script>
 
 <template>

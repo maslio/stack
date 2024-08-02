@@ -6,7 +6,7 @@ defineProps<{
 }>()
 
 const { request } = useDirectus()
-const { data: users } = useAsyncData('user.list', async () => {
+const { data: users } = await useAsyncData('user.list', async () => {
   const users = await request(readUsers({ fields: [
     'id',
     'avatar',

@@ -12,5 +12,6 @@ export interface TranslationValue {
 
 export interface Translation {
   key: string
+  new?: boolean
   values: TranslationValue[]
 }

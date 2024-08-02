@@ -31,6 +31,7 @@ defineSlots<{
     selected?: Ref<boolean>
   }) => any
   label: () => any
+  append: () => any
 }>()
 const debounce = useToNumber(() => props.debounce ?? 0)
 
@@ -181,6 +182,9 @@ const focus = (function () {
             </template>
           </Item>
         </div>
+      </template>
+      <template v-if="$slots.append">
+        <slot name="append" />
       </template>
     </div>
   </Card>

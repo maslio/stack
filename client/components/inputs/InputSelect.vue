@@ -8,6 +8,7 @@ const props = defineProps<{
   optionValue?: keyof T
   search?: boolean
   label: string
+  icon?: string
   autoClose?: boolean
 }>()
 defineSlots<{
@@ -30,7 +31,10 @@ const open = ref()
 </script>
 
 <template>
-  <Open ref="open" :label :value>
+  <Open
+    ref="open" :label :value
+    :icon
+  >
     <template #render>
       <Select
         v-model="model"

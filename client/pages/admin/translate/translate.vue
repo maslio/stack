@@ -2,10 +2,8 @@
 import { readItems, readTranslations } from '@directus/sdk'
 import type { Language, Translation } from './types'
 
-const editLangauges = openRef()
-const next = openRef()
 const { request } = useDirectus()
-const language = ref('en-US')
+const language = ref(useNuxtApp().$language)
 
 const { data: languages } = await useAsyncData<Language[]>(async () =>
   await request<Language[]>(readItems('languages')))
@@ -37,59 +35,74 @@ const { data: translations, refresh } = await useAsyncData<Translation[]>(async 
 })
 
 const search = ref('')
+const layout = useLayout()
+const items = computed(() => {
+  const items = translations.value?.filter(t => t.key.includes(search.value)) ?? []
+  if (items.length === 0) {
+    items.push({
+      key: search.value,
+      new: true,
+      values: languages.value?.map(l => ({
+        language: l.code,
+        value: '',
+      })) ?? [],
+    })
+  }
+  return items
+})
+function onSave() {
+  layout.close('next')
+  refresh()
+}
 </script>
 
 <template>
-  <InputSelect
-    v-model="language"
-    label="Language"
-    :options="languages"
-    option-label="code"
-    option-value="code"
-  >
-    <template #default="{ item }">
-      <div class="flex justify-between gap-2">
-        <span>{{ item.name }}</span>
-        <span class="text-faint">{{ item.code }}</span>
-      </div>
-    </template>
-    <template #append>
-      <Item
-        icon="material-symbols:box-edit"
-        label="Edit languages"
-        :open="{ ref: editLangauges, page: 'admin/translate/languages' }"
-      />
-      <Open ref="editLangauges" />
-    </template>
-  </InputSelect>
+  <Card>
+    <InputSelect
+      v-model="language"
+      icon="material-symbols:language"
+      label="Language"
+      :options="languages"
+      option-label="code"
+      option-value="code"
+    >
+      <template #default="{ item }">
+        <div class="flex justify-between gap-2">
+          <span>{{ item.name }}</span>
+          <span class="text-faint">{{ item.code }}</span>
+        </div>
+      </template>
+      <template #append>
+        <Open
+          icon="material-symbols:box-edit"
+          label="Edit languages"
+          page="admin/translate/languages"
+        />
+      </template>
+    </InputSelect>
+  </Card>
 
   <List
     v-model:search="search"
-    :items="translations"
-    v-slot="{ item }"
+    :items
   >
-    <Item
-      :open="{
-        ref: next,
-        label: item.key,
-        page: 'admin/translate/key',
-        props: {
-          translation: item,
-          languages,
-          onSave: () => {
-            refresh()
-            next?.close()
-          },
-        },
-      }"
-    >
-      <div class="flex-1 font-mono">
-        {{ item.key }}
-      </div>
-      <div class="text-faint">
-        {{ item.values.find(v => v.language === language)?.value }}
-      </div>
-    </Item>
+    <template #default="{ item: translation }">
+      <Open
+        label="Edit translation"
+        page="admin/translate/edit"
+        :props="{ translation, languages, onSave }"
+      >
+        <Icon
+          v-if="translation.new"
+          name="material-symbols:add"
+        />
+        <div class="flex-1 font-mono">
+          {{ translation.key }}
+        </div>
+        <div class="text-faint">
+          {{ translation.values.find(v => v.language === language)?.value }}
+        </div>
+      </Open>
+    </template>
   </List>
-  <Open ref="next" />
 </template>

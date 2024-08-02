@@ -19,6 +19,7 @@
         icon="material-symbols:translate"
         label="$t:translations"
         page="admin/translate"
+        skeleton="h-11 h-50"
       />
     </Card>
     <Card>

@@ -3,13 +3,12 @@ export interface LayoutProvide {
   isMini: ComputedRef<boolean>
   pageEl: Ref<HTMLElement>
   menuEl: Ref<HTMLElement>
-  next: OpenRef
   nextEl: Ref<HTMLElement>
   nextId: Ref<string | null>
   bottomEl: Ref<HTMLElement>
   footerEl: Ref<HTMLElement>
   scroll: ReturnType<typeof useScroll>
-  close: () => void
+  close: (target?: string) => void
   open: (target: string, data: any) => void
 }
 

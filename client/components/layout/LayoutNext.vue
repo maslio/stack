@@ -5,16 +5,17 @@ const { isMini } = defineProps<{
 const emit = defineEmits<{
   close: []
 }>()
-const next = ref()
+const render = ref()
 function close() {
-  next.value = null
+  render.value = null
   emit('close')
 }
 function open(data: any) {
-  next.value = {
+  render.value = {
     id: data.id,
     page: data.page,
-    label: data.label ?? 'next',
+    slot: data.slot,
+    label: data.label ?? '',
     props: data.props ?? {},
     skeleton: data.skeleton,
     noHeader: data.noHeader,
@@ -31,21 +32,15 @@ defineExpose({ open, close })
     leave-active-class="mobile:transition-300 v-leave-active"
     leave-to-class="translate-x-0!"
   >
-    <template v-if="next">
+    <template v-if="render">
       <Layout
-        :label="next.label"
+        :label="render.label"
         class="mobile:translate-x--100%"
         :close-icon="isMini ? 'back' : 'close'"
         :close
-        :no-header="next.noHeader"
+        :no-header="render.noHeader"
       >
-        <Render
-          :id="next.id"
-          :page="next.page"
-          :component="next.component"
-          :props="next.props"
-          :skeleton="next.skeleton"
-        />
+        <Render v-bind="render" />
       </Layout>
     </template>
   </Transition>

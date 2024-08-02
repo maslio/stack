@@ -5,15 +5,16 @@ defineProps<{
 const emit = defineEmits<{
   close: []
 }>()
-const next = ref()
+const render = ref()
 function close() {
-  next.value = null
+  render.value = null
   emit('close')
 }
 function open(data: any) {
-  next.value = {
+  render.value = {
     id: data.id,
     page: data.page,
+    slot: data.slot,
     label: data.label ?? 'next',
     props: data.props ?? {},
     skeleton: data.skeleton,
@@ -31,20 +32,14 @@ defineExpose({ open, close })
     leave-active-class="transition-200 v-leave-active"
     leave-to-class="translate-x-100% desktop:translate-x-320px desktop:opacity-0"
   >
-    <template v-if="next">
+    <template v-if="render">
       <Layout
-        :label="next.label"
+        :label="render.label"
         close-icon="back"
-        :no-header="next.noHeader"
+        :no-header="render.noHeader"
         :close
       >
-        <Render
-          :id="next.id"
-          :page="next.page"
-          :component="next.component"
-          :props="next.props"
-          :skeleton="next.skeleton"
-        />
+        <Render v-bind="render" />
       </Layout>
     </template>
   </Transition>

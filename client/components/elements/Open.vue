@@ -16,10 +16,16 @@ const props = defineProps<{
 
 defineSlots<{
   default: () => any
+  render: () => any
 }>()
 const id = props.id ?? useId()
 const layout = useLayout()
 const target = props.target ?? 'next'
+const slots = useSlots()
+
+function close() {
+  layout.close(target)
+}
 
 function onClick() {
   layout.open(target, {
@@ -28,6 +34,7 @@ function onClick() {
     caption: props.caption,
     component: props.component,
     page: props.page,
+    slot: slots.render,
     skeleton: props.skeleton,
     props: props.props,
     noHeader: props.noHeader,
@@ -41,6 +48,8 @@ const root = h(Item, {
   rightIcon: 'fluent:chevron-right-16-filled',
   onClick,
 }, useSlots())
+
+defineExpose({ close })
 </script>
 
 <template>

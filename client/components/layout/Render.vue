@@ -7,6 +7,7 @@ defineOptions({
 const props = defineProps<{
   id?: string
   page?: string
+  slot?: () => any
   component?: string | Component
   props?: Record<string, any>
   skeleton?: string | string[]
@@ -18,16 +19,24 @@ const skeleton = computed(() => props.skeleton
     : props.skeleton
   : ['h-20'],
 )
-
-const component = computed(() => props.component
-  ? props.component
-  : resolveComponent(pascalCase(`lazy-page-${props.page?.replace(/:/g, '-')}`)))
+const component = computed(() => {
+  if (props.component)
+    return props.component
+  if (props.page)
+    return resolveComponent(pascalCase(`lazy-page-${props.page?.replace(/:/g, '-')}`))
+  if (props.slot)
+    return h(props.slot)
+  return null
+})
 </script>
 
 <template>
   <Suspense :key="key">
     <template #default>
-      <component :is="component" v-bind="props.props" />
+      <component v-if="component" :is="component" v-bind="props.props" />
+      <div v-else :id="key">
+        <slot />
+      </div>
     </template>
     <template #fallback>
       <div class="flex flex-col items-center gap-3">

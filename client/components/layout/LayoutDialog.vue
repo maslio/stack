@@ -5,20 +5,21 @@ defineProps<{
 const emit = defineEmits<{
   close: []
 }>()
-const next = ref()
+const render = ref()
 const classEnter = ref('')
 const classItems = ref('')
 const dialog = ref()
 const layout = ref()
 const height = ref(0)
 function close() {
-  next.value = null
+  render.value = null
   emit('close')
 }
 function open(target: 'dialog' | 'dialog-top' | 'dialog-bottom', data: any) {
-  next.value = {
+  render.value = {
     id: data.id,
     page: data.page,
+    slot: data.slot,
     label: data.label ?? 'next',
     noHeader: data.noHeader,
     props: data.props ?? {},
@@ -67,7 +68,7 @@ defineExpose({ open, close })
     :leave-to-class="classEnter"
   >
     <div
-      v-if="next"
+      v-if="render"
       ref="backdrop"
       class="dialog fit flex justify-center text-light backdrop-blur-2"
       :class="classItems"
@@ -83,19 +84,13 @@ defineExpose({ open, close })
       >
         <div :style="{ height: height ? `${height}px` : 'auto' }" class="transition-height-150">
           <Layout
-            v-if="next"
-            :label="next.label"
-            :no-header="next.noHeader"
+            v-if="render"
+            :label="render.label"
+            :no-header="render.noHeader"
             :close-icon="isMini ? 'back' : 'close'"
             :close
           >
-            <Render
-              :key="next.id"
-              :page="next.page"
-              :component="next.component"
-              :props="next.props"
-              :skeleton="next.skeleton"
-            />
+            <Render v-bind="render" />
           </Layout>
         </div>
       </div>

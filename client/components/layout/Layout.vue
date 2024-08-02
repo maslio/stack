@@ -37,6 +37,17 @@ function open(target: string, data: any) {
     return dialog.value.open(target, data)
   throw new Error(`Layout: unknown target ${target}`)
 }
+function close(target?: string) {
+  if (!target)
+    return props.close?.()
+  if (target === 'next')
+    return next.value.close()
+  if (target === 'self')
+    return self.value.close()
+  if (target.startsWith('dialog'))
+    return dialog.value.close()
+  throw new Error(`Layout: unknown target ${target}`)
+}
 
 useResizeObserver(layoutEl, (entries) => {
   const entry = entries[0]!
@@ -59,10 +70,6 @@ const bottomEl = ref() as Ref<HTMLElement>
 const footerEl = ref() as Ref<HTMLElement>
 const id = useId()
 
-function close() {
-  props.close?.()
-}
-
 const swipe = useSwipe(pageEl, {
   onSwipe() {
     if (swipe.direction.value === 'right' && isMini.value)
@@ -72,7 +79,7 @@ const swipe = useSwipe(pageEl, {
 
 const scroll = useScroll(mainEl)
 
-provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id, scroll, next, open })
+provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, footerEl, bottomEl, close, id, scroll, open })
 </script>
 
 <template>
@@ -107,7 +114,7 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
             flat
             mini
             :icon="closeIcon"
-            @click="close"
+            @click="close()"
           />
           <div v-else w-1 />
           <div class="flex-1 truncate pr-3 text-center text-base">

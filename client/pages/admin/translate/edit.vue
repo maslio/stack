@@ -41,11 +41,12 @@ async function save() {
 }
 
 async function clear() {
-  const { values } = props.translation
+  const { key, values } = props.translation
   for (const value of values) {
     if (value.id)
       await deleteOne(value.id)
   }
+  $untranslated.value.delete(key)
   await $fetchTranslations()
   emit('save')
 }

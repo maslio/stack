@@ -48,7 +48,7 @@ watch(focused, (value) => {
       ref="textarea"
       v-bind="$attrs"
       v-model="model"
-      :placeholder
+      :placeholder="$mt(placeholder)"
       :autofocus
       :readonly
       class="w-full flex-1 resize-none appearance-none bg-transparent outline-none dark:placeholder-neutral-600 light:placeholder-neutral-300"

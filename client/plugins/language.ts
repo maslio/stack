@@ -36,23 +36,18 @@ export default defineNuxtPlugin(async () => {
 
   function translate(key: string) {
     if (!key)
-      return ref('')
-    const string = ref('')
-    if (translations.value?.has(key)) {
-      string.value = translations.value?.get(key) as string
-    }
-    else {
-      string.value = toEnglish(key)
-      untranslated.value.add(key)
-    }
-    return string
+      return ''
+    if (translations.value?.has(key))
+      return translations.value?.get(key) as string
+    untranslated.value.add(key)
+    return toEnglish(key)
   }
   function maybeTranslate(key?: string) {
     if (!key)
-      return ref('')
+      return ''
     if (key.startsWith('$t:'))
       return translate(key.substring(3))
-    return ref(key)
+    return key
   }
 
   await callOnce(async () => await fetchTranslations())

@@ -47,7 +47,7 @@ watch(focused, (value) => {
       ref="input"
       v-bind="$attrs"
       v-model="model"
-      :placeholder="$mt(placeholder).value"
+      :placeholder="$mt(placeholder)"
       :type
       :autofocus
       :readonly

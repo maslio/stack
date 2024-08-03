@@ -14,6 +14,7 @@ const emit = defineEmits<{
   save: []
 }>()
 
+const { $language, $fetchTranslations } = useNuxtApp()
 const { request, user: me } = useDirectus()
 const langauge = ref(user.language ?? 'en-US')
 const languages = await request(readItems('languages'))
@@ -23,10 +24,13 @@ const options = languages.map(l => ({
 }))
 async function save() {
   await request(updateUser(user.id, { language: langauge.value }))
-  if (me.value?.id === user.id)
-    window.location.reload()
-  else
+  if (me.value?.id === user.id) {
+    await $fetchTranslations(langauge.value)
+    $language.value = langauge.value
+  }
+  else {
     emit('save')
+  }
 }
 </script>
 

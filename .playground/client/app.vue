@@ -7,12 +7,12 @@
     <Card>
       <Open
         icon="material-symbols:user-attributes"
-        label="$t:users"
+        label="$t:menu.users"
         page="admin/users"
       />
       <Open
         icon="material-symbols:process-chart"
-        label="$t:tasks"
+        label="$t:menu.tasks"
         page="admin/tasks"
       />
       <Open

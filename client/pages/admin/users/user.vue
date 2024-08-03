@@ -16,12 +16,10 @@ const { id } = withDefaults(defineProps<{
     'appearance',
   ],
 })
-
 const emit = defineEmits<{
   save: [id: string]
   delete: [id: string]
 }>()
-
 interface User {
   id: string
   first_name: string
@@ -124,7 +122,7 @@ function onDelete() {
         label="$t:appearance"
         page="admin/users/edit/appearance"
         :props="{ user, onSave }"
-        :value="$t(`appearance.${user.appearance ?? 'auto'}`)"
+        :value="`$t:appearance.${user.appearance ?? 'auto'}`"
       />
     </Card>
     <Open

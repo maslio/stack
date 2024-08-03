@@ -9,7 +9,7 @@ const { fields } = withDefaults(defineProps<{
     'email',
     'avatar',
     'password',
-    'langauge',
+    'language',
     'appearance',
   ],
 })

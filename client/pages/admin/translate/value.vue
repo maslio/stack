@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { upperFirst } from 'scule'
 import type { Language, Translation, TranslationValue } from './types'
-import { useTranslation } from '~/composables/useTranslation'
 
 const props = defineProps<{
   language: string
   languages: Language[]
   translation: Translation
 }>()
-const { toEnglish } = useTranslation()
+function toEnglish(key: string) {
+  return upperFirst(key.replace(/_/g, ' ').replace(/.+\./g, ''))
+}
 const placeholder = computed(() => toEnglish(props.translation.key))
 const translationValue = computed(() => props.translation.values.find(
   translation => translation.language === props.language,

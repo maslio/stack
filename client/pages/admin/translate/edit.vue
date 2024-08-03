@@ -12,6 +12,7 @@ const emit = defineEmits<{
   save: []
 }>()
 const { request } = useDirectus()
+const { $fetchTranslations } = useNuxtApp()
 
 async function saveOne(key: string, data: TranslationValue) {
   const value = data.value.trim()
@@ -29,6 +30,7 @@ async function click() {
   const { key, values } = props.translation
   for (const value of values)
     await saveOne(key, value)
+  await $fetchTranslations()
   emit('save')
 }
 </script>

@@ -8,6 +8,7 @@ export default defineNuxtPlugin(async () => {
   return {
     provide: {
       access,
+      user,
     },
   }
 })

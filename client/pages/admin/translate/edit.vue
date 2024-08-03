@@ -12,7 +12,7 @@ const emit = defineEmits<{
   save: []
 }>()
 const { request } = useDirectus()
-const { $fetchTranslations } = useNuxtApp()
+const { $fetchTranslations, $untranslated } = useNuxtApp()
 
 async function saveOne(key: string, data: TranslationValue) {
   const value = data.value.trim()
@@ -26,10 +26,26 @@ async function saveOne(key: string, data: TranslationValue) {
     await request(createTranslation({ key, language, value }))
 }
 
-async function click() {
+async function deleteOne(id: string) {
+  await request(deleteTranslations([id]))
+}
+
+async function save() {
   const { key, values } = props.translation
   for (const value of values)
     await saveOne(key, value)
+
+  await $fetchTranslations()
+  $untranslated.value.delete(key)
+  emit('save')
+}
+
+async function clear() {
+  const { values } = props.translation
+  for (const value of values) {
+    if (value.id)
+      await deleteOne(value.id)
+  }
   await $fetchTranslations()
   emit('save')
 }
@@ -44,5 +60,6 @@ async function click() {
     />
   </List>
 
-  <Button label="$t:save" color="primary" :click />
+  <Button label="$t:save" color="primary" :click="save" />
+  <Button label="$t:delete" color="default" :click="clear" />
 </template>

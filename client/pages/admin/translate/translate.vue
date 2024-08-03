@@ -3,7 +3,8 @@ import { readItems, readTranslations } from '@directus/sdk'
 import type { Language, Translation } from './types'
 
 const { request } = useDirectus()
-const language = ref(useNuxtApp().$language)
+const { $language, $untranslated } = useNuxtApp()
+const language = $language
 
 const { data: languages } = await useAsyncData<Language[]>(async () =>
   await request<Language[]>(readItems('languages')))
@@ -41,9 +42,19 @@ const { data: translations, refresh } = await useAsyncData<Translation[]>(async 
 const search = ref('')
 const layout = useLayout()
 const items = computed(() => {
-  const items = translations.value?.filter(t => t.key.includes(search.value)) ?? []
-  if (items.length === 0)
-    items.push(createTranslation(search.value, true))
+  const items: Translation[] = []
+  if (search.value) {
+    const _items = translations.value?.filter(t => t.key.includes(search.value)) ?? []
+    if (_items.length === 0)
+      items.push(createTranslation(search.value, true))
+    else
+      items.push(..._items)
+  }
+  else {
+    for (const key of $untranslated.value)
+      items.push(createTranslation(key, true))
+  }
+
   return items
 })
 function onSave() {
@@ -54,28 +65,16 @@ function onSave() {
 
 <template>
   <Card>
-    <InputSelect
-      v-model="language"
-      icon="material-symbols:language"
-      label="Language"
-      :options="languages"
-      option-label="code"
-      option-value="code"
-    >
-      <template #default="{ item }">
-        <div class="flex justify-between gap-2">
-          <span>{{ item.name }}</span>
-          <span class="text-faint">{{ item.code }}</span>
-        </div>
-      </template>
-      <template #append>
-        <Open
-          icon="material-symbols:box-edit"
-          label="Edit languages"
-          page="admin/translate/languages"
-        />
-      </template>
-    </InputSelect>
+    <Open
+      label="User Language"
+      page="admin/users/edit/language"
+      :value="language"
+      :props="{ user: { id: $user.value?.id, language: $language } }"
+    />
+    <Open
+      label="Manage languages"
+      page="admin/translate/languages"
+    />
   </Card>
 
   <List
@@ -85,7 +84,7 @@ function onSave() {
   >
     <template #default="{ item: translation }">
       <Open
-        label="Edit translation"
+        :label="translation.key"
         page="admin/translate/edit"
         :props="{ translation, languages, onSave }"
       >
@@ -96,7 +95,7 @@ function onSave() {
         <div class="flex-1 font-mono">
           {{ translation.key }}
         </div>
-        <div class="text-faint">
+        <div class="truncate text-faint">
           {{ translation.values.find(v => v.language === language)?.value }}
         </div>
       </Open>

@@ -7,17 +7,17 @@
     <Card>
       <Open
         icon="material-symbols:user-attributes"
-        label="$t:menu.users"
+        label="$t:users"
         page="admin/users"
       />
       <Open
         icon="material-symbols:process-chart"
-        label="$t:menu.tasks"
+        label="$t:tasks"
         page="admin/tasks"
       />
       <Open
         icon="material-symbols:translate"
-        label="$t:translations"
+        label="$t:translation"
         page="admin/translate"
         skeleton="h-11 h-50"
       />

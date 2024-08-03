@@ -132,7 +132,7 @@ const focus = (function () {
       <template v-if="$props.search != null">
         <InputString
           v-model="input"
-          placeholder="$t:ui.search"
+          placeholder="$t:search"
           flat
           @focus="focus.active = true"
           @blur="focus.active = false"

@@ -14,6 +14,7 @@ export default defineNuxtPlugin(async () => {
 
   const language = ref(lang.value)
   const data = useState('translations', () => new Map()) as Ref<Data>
+  const untranslated = ref(new Set<string>())
 
   async function fetchTranslations(lang: string = language.value) {
     const _translations = await $fetch(`/api/translate/translations/${lang}`)
@@ -37,10 +38,13 @@ export default defineNuxtPlugin(async () => {
     if (!key)
       return ref('')
     const string = ref('')
-    if (translations.value?.has(key))
+    if (translations.value?.has(key)) {
       string.value = translations.value?.get(key) as string
-    else
+    }
+    else {
       string.value = toEnglish(key)
+      untranslated.value.add(key)
+    }
     return string
   }
   function maybeTranslate(key?: string) {
@@ -56,6 +60,7 @@ export default defineNuxtPlugin(async () => {
     provide: {
       language,
       translations,
+      untranslated,
       fetchTranslations,
       t: translate,
       mt: maybeTranslate,

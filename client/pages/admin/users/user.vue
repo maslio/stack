@@ -88,7 +88,7 @@ function onDelete() {
     <Card>
       <Open
         v-if="fields.includes('name')"
-        label="$t:user_name"
+        label="$t:user.name"
         page="admin/users/edit/name"
         skeleton="h-28 h-10"
         :props="{ user, onSave }"
@@ -105,7 +105,7 @@ function onDelete() {
       />
       <Open
         v-if="fields.includes('role')"
-        label="$t:role"
+        label="$t:user.role"
         page="admin/users/edit/role"
         :props="{ user, onSave }"
         :value="user.role?.name"

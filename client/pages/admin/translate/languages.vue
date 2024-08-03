@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { createItem, readItems, updateItem } from '@directus/sdk'
+import { createItem, deleteItems, readItems, updateItem } from '@directus/sdk'
 
 const { request } = useDirectus()
 const { data: languages, refresh } = useAsyncData(async () => await request(readItems('languages')))
 
-const openAdd = openRef()
-const openEdit = openRef()
+const openEdit = ref()
+const openAdd = ref()
 
 async function updateLanguage(data: Record<string, any>) {
   await request(updateItem('languages', data.code, data))
@@ -17,43 +17,50 @@ async function createLanguage(data: Record<string, any>) {
   refresh()
   openAdd.value?.close()
 }
+async function deleteLanguage(code: string) {
+  await request(deleteItems('languages', [code]))
+  refresh()
+  openEdit.value?.close()
+}
 </script>
 
 <template>
   <List :items="languages" v-slot="{ item }">
-    <Item
+    <Open
+      ref="openEdit"
       :label="item.name"
       :value="item.code"
-      :open="{ ref: openEdit, props: { values: item } }"
-    />
+    >
+      <template #render>
+        <Form
+          collection="languages"
+          :groups="[
+            { fields: ['code', 'name'] },
+            { fields: ['direction'] },
+          ]"
+          :values="item"
+          :submit="updateLanguage"
+        />
+        <Button label="Delete" @click="deleteLanguage(item.code)" />
+      </template>
+    </Open>
   </List>
-  <Open ref="openEdit" v-slot="{ props }">
-    <Form
-      collection="languages"
-      :groups="[
-        { fields: ['name', 'code'] },
-        { fields: ['direction'] },
-      ]"
-      :values="props.values"
-      :submit="updateLanguage"
-    />
-  </Open>
 
-  <Item
+  <Open
+    ref="openAdd"
     icon="material-symbols:add"
     label="Add language"
-    :open="{ ref: openAdd }"
-  />
-
-  <Open ref="openAdd">
-    <Form
-      collection="languages"
-      :groups="[
-        { fields: ['name', 'code'] },
-        { fields: ['direction'] },
-      ]"
-      :values="{ direction: 'ltr' }"
-      :submit="createLanguage"
-    />
+  >
+    <template #render>
+      <Form
+        collection="languages"
+        :groups="[
+          { fields: ['code', 'name'] },
+          { fields: ['direction'] },
+        ]"
+        :values="{ direction: 'ltr' }"
+        :submit="createLanguage"
+      />
+    </template>
   </Open>
 </template>

@@ -23,7 +23,6 @@ const slots = useSlots()
 const options = ref(false)
 
 function onClick(e: Event) {
-  console.log('click')
   if (props.disabled)
     return
   if (slots.options) {

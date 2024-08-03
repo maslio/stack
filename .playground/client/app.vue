@@ -21,6 +21,12 @@
         page="admin/translate"
         skeleton="h-11 h-50"
       />
+      <Open
+        icon="material-symbols:database"
+        label="Directus"
+        page="directus"
+        target="self"
+      />
     </Card>
     <Card>
       <Open

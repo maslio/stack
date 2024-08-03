@@ -23,6 +23,7 @@ const slots = useSlots()
 const options = ref(false)
 
 function onClick(e: Event) {
+  console.log('click')
   if (props.disabled)
     return
   if (slots.options) {
@@ -39,12 +40,11 @@ const clickable = computed(() => props.clickable || slots.options)
 <template>
   <div class="item relative">
     <div
-      v-fast-click
+      v-click="onClick"
       class="relative block min-h-11 w-full flex overflow-hidden rounded-xl text-left desktop:min-h-10 card:rounded-none"
       color="default"
       :class="{ clickable, opened }"
       v-bind="$attrs"
-      @click="onClick"
     >
       <div
         ref="el"

@@ -29,7 +29,7 @@ const model = defineModel<string>()
           class="clickable min-h-8 w-full flex items-center justify-center rounded-lg"
           :class="{ opened: model === tab.value }"
         >
-          {{ tab.label }}
+          {{ $mt(tab.label) }}
         </div>
       </div>
     </div>

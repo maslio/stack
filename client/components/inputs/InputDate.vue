@@ -6,9 +6,8 @@ const props = defineProps<{
   readonly?: boolean
 }>()
 
-const { $t, $language } = useNuxtApp()
-const label = computed(() => props.label ?? $t('date'))
-const { format: formatPresetDate } = new Intl.DateTimeFormat($language, {
+const label = computed(() => props.label ?? '$t:date')
+const formatPresetDate = useIntlDateFormat({
   month: 'long',
   year: 'numeric',
   day: 'numeric',
@@ -21,22 +20,22 @@ function onCalendarSelect(value: string) {
   model.value = value
 }
 
-const presets = [{
+const presets = computed(() => [{
   value: dateFormat(subDays(new Date(), 1)),
-  label: $t('yesterday'),
+  label: '$t:date.yesterday',
   format: formatPresetDate(subDays(new Date(), 1)),
 }, {
   value: dateFormat(new Date()),
-  label: $t('today'),
+  label: '$t:date.today',
   format: formatPresetDate(new Date()),
 }, {
   value: dateFormat(addDays(new Date(), 1)),
-  label: $t('tomorrow'),
+  label: '$t:date.tomorrow',
   format: formatPresetDate(addDays(new Date(), 1)),
-}]
+}])
 
 const value = computed(() => {
-  const preset = presets.find(p => p.value === model.value)
+  const preset = presets.value.find(p => p.value === model.value)
   if (preset)
     return preset.label
   return formatPresetDate(new Date(model.value))
@@ -59,7 +58,7 @@ const open = ref()
         v-slot="{ item }"
       >
         <div class="flex justify-between">
-          <div>{{ item.label }}</div>
+          <div>{{ $mt(item.label) }}</div>
           <div class="text-faint">
             {{ item.format }}
           </div>

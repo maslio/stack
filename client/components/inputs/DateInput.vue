@@ -130,7 +130,7 @@ defineExpose({ select })
     @click="select('day')"
   >
     <div class="flex-1 text-faint">
-      {{ $props.label ?? $t('date') }}
+      {{ $mt(label ?? 'date') }}
     </div>
     <div>
       <input

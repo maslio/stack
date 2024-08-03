@@ -5,10 +5,9 @@ const emit = defineEmits<{
   save: [id: string]
 }>()
 const { request } = useDirectus()
-const { $t } = useNuxtApp()
 const fields = [
   { field: 'email', label: 'Email', autocomplete: 'username' },
-  { field: 'password', label: $t('password') },
+  { field: 'password', label: '$t:password' },
 ]
 
 async function save(data: Record<string, any>) {

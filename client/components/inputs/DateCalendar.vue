@@ -13,14 +13,14 @@ const displayMonth = computed(() => upperFirst(
   intlFormat(calendarDate.value, {
     year: 'numeric',
     month: 'long',
-  }, { locale: $language }),
+  }, { locale: $language.value }),
 ))
 
-const weekDays = (() => {
-  const { format } = new Intl.DateTimeFormat($language, { weekday: 'short' })
+const weekDays = computed(() => {
+  const format = useIntlDateFormat({ weekday: 'short' })
   return [...Array(7).keys()]
     .map(day => format(new Date(Date.UTC(2021, 5, day))))
-})()
+})
 
 const days = computed(() => {
   const days = []

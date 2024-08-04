@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   future: { compatibilityVersion: 4 },
   srcDir: 'client',
   serverDir: 'server',
+  devServer: { port: 2000 },
   css: [
     '@unocss/reset/tailwind.css',
     join(currentDir, './client/assets/global.css'),

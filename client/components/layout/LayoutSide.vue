@@ -17,6 +17,7 @@ function open(data: any) {
     props: data.props ?? {},
     skeleton: data.skeleton,
     noHeader: data.noHeader,
+    component: data.component,
   }
 }
 

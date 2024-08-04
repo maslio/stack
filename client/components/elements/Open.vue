@@ -7,7 +7,7 @@ const props = defineProps<{
   label: string
   value?: string
   caption?: string
-  component?: string | Component
+  component?: Component | string
   page?: string
   preload?: boolean
   target?: string
@@ -34,7 +34,7 @@ function open(_target = target) {
     id,
     label: props.label,
     caption: props.caption,
-    component: props.component,
+    component: markRaw(props.component as object),
     page: props.page,
     slot: slots.render,
     skeleton: props.skeleton,

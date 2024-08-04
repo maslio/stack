@@ -20,8 +20,9 @@ export default defineEventHandler(async (event) => {
     event.context.user = user
     event.context.session = session
   }
-  catch (e: any) {
-    consola.error(e)
+  catch {
+    consola.error('Error decoding user by token')
+    // consola.error(e)
   }
 })
 

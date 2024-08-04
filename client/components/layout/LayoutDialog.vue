@@ -24,6 +24,7 @@ function open(target: 'dialog' | 'dialog-top' | 'dialog-bottom', data: any) {
     noHeader: data.noHeader,
     props: data.props ?? {},
     skeleton: data.skeleton,
+    component: data.component,
   }
   if (target === 'dialog-top') {
     classEnter.value = 'children:translate-y--100%'

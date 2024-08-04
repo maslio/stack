@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import inputs from './playground/inputs.vue'
 </script>
 
 <template>
   <AuthLayout>
-    <AuthMe />
+    <AuthUser />
     <Card>
       <Open
         icon="material-symbols:user-attributes"
@@ -31,7 +32,7 @@
     <Card>
       <Open
         label="UI Inputs"
-        page="inputs"
+        :component="inputs"
         skeleton="h-20 h-42 h-20"
       />
     </Card>

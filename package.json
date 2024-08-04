@@ -2,15 +2,14 @@
   "name": "@maslio/stack",
   "type": "module",
   "version": "0.1.0",
-  "private": true,
   "engines": {
     "node": "20"
   },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "dev": "nuxi dev .playground",
-    "dev:db": "docker compose -f .playground/directus/docker-compose.yaml up -d",
+    "dev": "nuxi dev",
+    "dev:db": "docker compose -f .directus/docker-compose.yaml up -d",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {

@@ -33,7 +33,11 @@ function onClick(e: Event) {
 }
 
 // const tag = props.href ? 'a' : 'div'
-const clickable = computed(() => props.clickable || slots.options)
+const clickable = computed(() => {
+  if (props.disabled)
+    return false
+  return props.clickable || slots.options
+})
 </script>
 
 <template>

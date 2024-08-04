@@ -7,7 +7,8 @@ const props = defineProps<{
   optionLabel?: keyof T
   optionValue?: keyof T
   search?: boolean
-  label: string
+  disabled?: boolean
+  label?: string
   autoClose?: boolean
 }>()
 const model = defineModel<any[]>({ default: [] })
@@ -45,6 +46,7 @@ watch(() => props.options, () => list.value.fetch())
         :selected="model === item[optionValue]"
         :option="true"
         clickable
+        :disabled="disabled"
         @click="onSelect(item)"
       >
         <div class="flex-1">
@@ -54,7 +56,10 @@ watch(() => props.options, () => list.value.fetch())
             :label="String(item[optionLabel])"
           />
         </div>
-        <Checkbox :selected="model.includes(item[optionValue])" />
+        <Checkbox
+          v-if="!disabled"
+          :selected="model.includes(item[optionValue])"
+        />
       </Item>
     </template>
   </List>

@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T">
+<script setup lang="ts" generic="T extends Record<string, any>">
 defineOptions({
   inheritAttrs: false,
 })
@@ -48,10 +48,14 @@ function onSelect(option: T) {
       >
         <div class="flex-1">
           <slot v-if="$slots.default" name="default" :item />
-          <Text
-            v-else
-            :label="String(item[optionLabel])"
-          />
+          <template v-else>
+            <div class="flex items-center gap-2">
+              <Icon v-if="item.icon" :name="item.icon" />
+              <Text
+                :label="String(item[optionLabel])"
+              />
+            </div>
+          </template>
         </div>
         <Checkbox :selected="model === item[optionValue]" />
       </Item>

@@ -1,0 +1,29 @@
+<template>
+  <AuthLayout>
+    <AuthUser />
+    <Card>
+      <Open
+        icon="material-symbols:user-attributes"
+        label="$t:users"
+        page="admin/users"
+      />
+      <Open
+        icon="material-symbols:process-chart"
+        label="$t:tasks"
+        page="admin/tasks"
+      />
+      <Open
+        icon="material-symbols:translate"
+        label="$t:translation"
+        page="admin/translate"
+        skeleton="h-11 h-50"
+      />
+      <Open
+        icon="material-symbols:database"
+        label="Directus"
+        page="directus"
+        target="self"
+      />
+    </Card>
+  </AuthLayout>
+</template>

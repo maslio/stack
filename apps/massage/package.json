@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "dev": "nuxt dev",
+    "dev:db": "docker compose -f .directus/docker-compose.yaml up -d",
+    "postinstall": "nuxt prepare"
+  }
+}

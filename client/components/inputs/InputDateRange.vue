@@ -253,19 +253,24 @@ const open = ref()
       </Card>
       <Card>
         <Tabs v-model="presetsTab" :tabs="presetsTabs" />
-        <Select
+        <List
           :key="presetsTab"
-          v-model="modelString"
-          :options="presetsFiltered"
-          v-slot="{ item }"
+          :items="presetsFiltered"
+          item-key="value"
         >
-          <div class="flex justify-between">
-            <div>{{ $mt(item.label) }}</div>
-            <div class="text-faint">
-              {{ item.format }}
-            </div>
-          </div>
-        </Select>
+          <template #item="{ item }">
+            <Option v-model="modelString" :value="item.value">
+              <div class="flex justify-between gap-2">
+                <div class="flex-1 truncate">
+                  {{ $mt(item.label) }}
+                </div>
+                <div class="text-faint">
+                  {{ item.format }}
+                </div>
+              </div>
+            </Option>
+          </template>
+        </List>
       </Card>
       <DateCalendar :selected="calendarSelected" @select="onCalendarSelect" />
     </template>

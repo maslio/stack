@@ -25,10 +25,9 @@ const emit = defineEmits([
   'update:limit',
 ])
 defineSlots<{
-  default: (props: {
+  item: (props: {
     item: T
     index: number
-    selected?: Ref<boolean>
   }) => any
   label: () => any
   append: () => any
@@ -159,7 +158,7 @@ const focus = (function () {
             :class="{ focused: (focus.active && index === focus.index) }"
             class="flex children:flex-1"
           >
-            <slot :item="item" :index />
+            <slot name="item" :item="item" :index />
           </div>
         </TransitionGroup>
       </template>

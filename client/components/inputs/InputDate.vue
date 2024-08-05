@@ -52,18 +52,21 @@ const open = ref()
   >
     <template #render>
       <DateInput v-model="model" />
-      <Select
-        v-model="model"
-        :options="presets"
-        v-slot="{ item }"
+      <List
+        :items="presets"
+        item-key="value"
       >
-        <div class="flex justify-between">
-          <div>{{ $mt(item.label) }}</div>
-          <div class="text-faint">
-            {{ item.format }}
-          </div>
-        </div>
-      </Select>
+        <template #item="{ item }">
+          <Option v-model="model" :value="item.value">
+            <div class="flex justify-between">
+              <div>{{ $mt(item.label) }}</div>
+              <div class="text-faint">
+                {{ item.format }}
+              </div>
+            </div>
+          </Option>
+        </template>
+      </List>
       <DateCalendar :selected="[model]" @select="onCalendarSelect" />
     </template>
   </Open>

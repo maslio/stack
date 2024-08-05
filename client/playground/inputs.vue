@@ -25,9 +25,25 @@ interface User {
 const users = await $fetch<User[]>('https://jsonplaceholder.typicode.com/users')
 const modelSingle = ref<User['id']>()
 const modelMulti = ref<User['id'][]>([])
+const search = ref('')
+
+const items = computed(() => {
+  const text = search.value.toLocaleLowerCase()
+  return users.filter(user => user.name.toLocaleLowerCase().includes(text))
+})
 </script>
 
 <template>
+  <!-- <List v-model:search="search" :items>
+    <template #item="{ item }">
+      <Option
+        v-model="modelSingle"
+        :value="item.id"
+        :label="item.name"
+        :caption="item.email"
+      />
+    </template>
+  </List> -->
   <Card>
     <InputDate />
     <InputDateRange />
@@ -38,21 +54,21 @@ const modelMulti = ref<User['id'][]>([])
     <InputNumber label="Number" :decimal="2" />
   </Card>
   <Card>
-    <InputSelect
+    <Select
       v-model="modelSingle"
+      v-model:search="search"
+      target="self"
       label="User"
-      :options="users"
+      :options="items"
       option-value="id"
       option-label="name"
-      search
-      v-slot="{ item }"
-    >
-      <div>{{ item.name }}</div>
-    </InputSelect>
-    <InputSelectMulti
+    />
+    <Select
       v-model="modelMulti"
+      v-model:search="search"
       label="Users"
-      :options="users"
+      multiple
+      :options="items"
       option-value="id"
       option-label="name"
     />

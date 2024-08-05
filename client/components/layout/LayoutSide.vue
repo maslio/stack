@@ -32,23 +32,18 @@ defineExpose({ open, close })
     leave-to-class="translate-x-320px"
   >
     <template v-if="render">
-      <div class="right-0 top-0 h-full w-320px flex">
-        <Separator vertical />
-        <div class="relative flex-1">
-          <div class="fit">
-            <Layout
-              ref="layout"
-              :label="render.label"
-              :width="320"
-              class="mobile:translate-x--100%"
-              close-icon="close"
-              :close
-              :no-header="render.noHeader"
-            >
-              <Render v-bind="render" />
-            </Layout>
-          </div>
-        </div>
+      <div class="relative right-0 top-0 h-full w-320px">
+        <Layout
+          ref="layout"
+          :label="render.label"
+          :width="320"
+          class="border-l-1 mobile:translate-x--100% dark:border-neutral-300/50 light:border-neutral-300"
+          close-icon="close"
+          :close
+          :no-header="render.noHeader"
+        >
+          <Render v-bind="render" />
+        </Layout>
       </div>
     </template>
   </Transition>

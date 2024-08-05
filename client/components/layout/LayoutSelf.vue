@@ -30,7 +30,7 @@ defineExpose({ open, close })
   <Transition
     enter-from-class="translate-x-100% desktop:translate-x-320px"
     enter-active-class="transition-300"
-    leave-active-class="transition-200 v-leave-active"
+    leave-active-class="transition-200 mobile:transition-300 v-leave-active"
     leave-to-class="translate-x-100% desktop:translate-x-320px desktop:opacity-0"
   >
     <template v-if="render">

@@ -114,7 +114,7 @@ defineExpose({ close })
   <div
     :id
     ref="layoutEl"
-    class="layout absolute h-full w-full overflow-hidden text-base"
+    class="layout absolute h-full w-full flex overflow-hidden text-base"
     color="back dialog:default"
     min-w-200px
     dialog:relative
@@ -123,13 +123,12 @@ defineExpose({ close })
     :class="{ mobile: isMini }"
   >
     <div
-      class="layout-content fit flex justify-start"
+      class="layout-content flex flex-1 justify-start"
       dialog:relative
       dialog:h-auto
       dialog:w-auto
     >
       <div
-        ref="pageEl"
         class="page relative h-full flex flex-col mobile:w-full!"
         :style="styleRoot"
       >
@@ -172,12 +171,12 @@ defineExpose({ close })
       <div ref="nextEl" class="next">
         <Next ref="next" :is-mini="isMini" @close="opened.next = null" />
       </div>
-      <div v-if="root" class="side">
-        <Side ref="side" @close="opened.side = null" />
-      </div>
     </div>
-    <div class="self">
+    <div class="self absolute h-full">
       <Self ref="self" :is-mini="isMini" @close="opened.self = null" />
+    </div>
+    <div v-if="root" class="side">
+      <Side ref="side" @close="opened.side = null" />
     </div>
   </div>
 </template>
@@ -187,8 +186,15 @@ defineExpose({ close })
   --uno: 'transition-transform-300';
 }
 .layout:has(> .self > .layout:not(.v-leave-active)) > .layout-content {
-  transform: translateX(-150px);
+  --uno: 'absolute w-full translate-x--150px';
 }
+.self:has(> .layout:not(.v-leave-active)) {
+  --uno: 'relative! flex-1';
+}
+.self:has(> .layout.v-leave-active) {
+  --uno: 'fit!';
+}
+
 .layout-content > .next {
   --uno: 'relative flex-1';
 }

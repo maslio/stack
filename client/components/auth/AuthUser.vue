@@ -27,11 +27,13 @@ const { data: user } = await useAsyncData(async () => {
     preload
   >
     <template #default>
-      <Avatar :src="user?.avatar" size="36" />
-      <Text
-        :label="getUsername(user)"
-        :caption="user.email"
-      />
+      <div class="flex gap-3">
+        <Avatar :src="user?.avatar" size="36" />
+        <Text
+          :label="getUsername(user)"
+          :caption="user.email"
+        />
+      </div>
     </template>
     <template #render>
       <Render

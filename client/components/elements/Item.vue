@@ -18,7 +18,6 @@ defineSlots<{
   default: () => any
   options: () => any
 }>()
-const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 const options = ref(false)
 
@@ -41,55 +40,63 @@ const clickable = computed(() => {
 </script>
 
 <template>
-  <div class="item relative">
-    <div
-      v-click="onClick"
-      class="relative block min-h-11 w-full flex overflow-hidden rounded-xl text-left desktop:min-h-10 card:rounded-none"
-      color="default"
-      :class="{ clickable, opened }"
-      v-bind="$attrs"
-    >
-      <div
-        ref="el"
-        class="relative min-h-11 flex flex-1 items-center gap-3 px-3 py-3 desktop:min-h-10 desktop:py-2"
-      >
-        <slot v-if="$slots.default" name="default" />
-        <template v-else>
-          <Icon v-if="$props.icon" :name="$props.icon" />
-          <Text
-            v-if="$props.label || $props.caption"
-            flex
-            :label="$props.label"
-            :caption="$props.caption"
-          />
-          <Text
-            v-if="$props.value"
-            class="text-faint"
-            :label="$props.value"
-          />
-        </template>
-      </div>
-      <div v-if="rightIcon" class="ml--3 flex items-center p-2">
-        <Icon
-          :name="rightIcon"
-          size="18"
-          class="ml--3 mr--1 transition-color text-faint"
+  <div
+    v-click="onClick"
+    class="item"
+    color="default"
+    :class="{ clickable, opened }"
+    v-bind="$attrs"
+  >
+    <Icon v-if="$props.icon" :name="$props.icon" />
+    <div class="flex-1">
+      <slot v-if="$slots.default" />
+      <div v-else class="flex">
+        <Text
+          v-if="$props.label || $props.caption"
+          :label="$props.label"
+          :caption="$props.caption"
+          truncate class="flex-1"
+        />
+        <Text
+          v-if="$props.value"
+          class="text-faint"
+          truncate
+          :label="$props.value"
         />
       </div>
     </div>
-    <template v-if="$slots.options">
-      <Transition
-        enter-active-class="transition duration-50 ease-out"
-        enter-from-class="translate-x-100%"
-      >
-        <div
-          v-if="options"
-          class="absolute right-0 top-0 h-full flex select-none items-stretch"
-          @click="options = false"
-        >
-          <slot name="options" />
-        </div>
-      </Transition>
-    </template>
+    <div v-if="rightIcon" class="ml--4 mr--2 flex items-center">
+      <Icon
+        :name="rightIcon"
+        size="18"
+        class="transition-color text-faint"
+      />
+    </div>
   </div>
+
+  <!-- </div> -->
+  <!-- <template v-if="$slots.options">
+    <Transition
+      enter-active-class="transition duration-50 ease-out"
+      enter-from-class="translate-x-100%"
+    >
+      <div
+        v-if="options"
+        class="absolute right-0 top-0 h-full flex select-none items-stretch"
+        @click="options = false"
+      >
+        <slot name="options" />
+      </div>
+    </Transition>
+  </template> -->
 </template>
+
+<style scoped>
+.item {
+  --uno: 'relative block w-full flex overflow-hidden text-left';
+  --uno: 'px-3 py-3 desktop:py-2';
+  /* --uno: 'min-h-11 desktop:min-h-10'; */
+  --uno: 'rounded-xl card:rounded-none';
+  --uno: 'flex gap-3 items-center';
+}
+</style>

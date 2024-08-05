@@ -30,8 +30,10 @@ const { data: users } = await useAsyncData('user.list', async () => {
       :props="{ id: user.id }"
       :skeleton="['h-25 w-25 rounded-full', 'h-22', 'h-22']"
     >
-      <Avatar :src="user.avatar" size="30" />
-      <Text :label="getUsername(user)" :caption="user.email ?? ''" />
+      <div class="flex items-center gap-3">
+        <Avatar :src="user.avatar" size="30" />
+        <Text :label="getUsername(user)" :caption="user.email ?? ''" />
+      </div>
     </Open>
   </List>
 

@@ -26,10 +26,10 @@ const grid = computed(() => {
   <div>
     <div
       v-if="$slots.label || label"
-      class="mb-1 truncate px-3 text-base font-300 first:mt-0 text-faint"
+      class="truncate px-3 text-base font-300 font-semibold first:mt-2"
     >
       <slot v-if="$slots.label" name="label" />
-      <span v-else>{{ label }}</span>
+      <span v-else>{{ $mt(label) }}</span>
     </div>
     <div
       class="card overflow-hidden rounded-xl card:rounded-none dialog:rounded-none"

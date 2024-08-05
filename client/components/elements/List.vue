@@ -123,7 +123,7 @@ const focus = (function () {
 </script>
 
 <template>
-  <Card>
+  <Card :label>
     <div
       ref="list"
       class="list overflow-hidden rounded-xl card:rounded-none dialog:rounded-none"

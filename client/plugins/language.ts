@@ -45,6 +45,8 @@ export default defineNuxtPlugin(async () => {
   function maybeTranslate(key?: string) {
     if (!key)
       return ''
+    if (typeof key !== 'string')
+      return String(key)
     if (key.startsWith('$t:'))
       return translate(key.substring(3))
     return key

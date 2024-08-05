@@ -8,6 +8,7 @@ interface UseItemsOptions {
   filter?: any
   fields?: any
   search?: any
+  sort?: any
   limit?: any
   watch?: any[]
   count?: boolean
@@ -52,6 +53,8 @@ function getQuery(data: any) {
     query.fields = addId(data.fields.value)
   if (data.search)
     query.search = data.search.value
+  if (data.sort)
+    query.sort = data.sort.value
   if (data.limit)
     query.limit = data.limit.value
   return query
@@ -64,14 +67,15 @@ export async function useItems(collection: string, options: UseItemsOptions = {}
   const fields = getOption(options, 'fields')
   const search = getOption(options, 'search')
   const limit = getOption(options, 'limit')
+  const sort = getOption(options, 'sort')
 
-  const watch = getWatch(options, [filter, fields, search, limit])
+  const watch = getWatch(options, [filter, fields, search, limit, sort])
   const asyncData = useAsyncData(id, async () => {
-    const query = getQuery({ filter, fields, search, limit })
+    const query = getQuery({ filter, fields, search, limit, sort })
     const requests = [requestAny(readItems(collection, query))]
     if (options.count) {
       requests.push(requestAny(aggregate(collection, {
-        query: omit(query, 'fields', 'limit', 'skip', 'page'),
+        query: omit(query, 'fields', 'limit', 'skip', 'page', 'sort'),
         aggregate: { count: 'id' },
       })))
     }

@@ -125,12 +125,7 @@ defineExpose({ select })
 
 <template>
   <Input :label="label ?? '$t:date'" @click="select('day')">
-    <!-- <div
-      class="flex rounded-xl p-3 card:rounded-none"
-      color="default"
-      @click="select('day')"
-    > -->
-    <div class="flex items-center font-mono">
+    <div class="flex flex-1 items-center font-mono">
       <input
         ref="inputDay"
         v-model="values.day"
@@ -173,6 +168,9 @@ defineExpose({ select })
         @blur="onBlur('year')"
       >
     </div>
+    <template v-if="$slots.default" #append>
+      <slot />
+    </template>
   </Input>
 </template>
 

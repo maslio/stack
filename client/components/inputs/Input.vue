@@ -14,6 +14,7 @@ const emit = defineEmits(['click'])
 
 defineSlots<{
   default: () => any
+  append: () => any
 }>()
 </script>
 
@@ -21,7 +22,6 @@ defineSlots<{
   <Item
     :icon
     class="input"
-    :class="{ focused: (focused && !readonly) }"
     @click="emit('click', $event)"
   >
     <div flex-1>
@@ -39,7 +39,12 @@ defineSlots<{
         dark="border-b-dark-200 focused:border-b-dark-100 text-neutral-300"
         :class="{ 'border-none!': flat || readonly }"
       >
-        <slot name="default" />
+        <div class="flex-1" :class="{ focused: (focused && !readonly) }">
+          <slot name="default" />
+        </div>
+        <div class="h-5 flex items-end justify-end">
+          <slot name="append" />
+        </div>
       </div>
     </div>
   </Item>

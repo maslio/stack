@@ -52,11 +52,11 @@ watch(focused, (value) => {
       :autofocus
       :readonly
       :autocomplete
-      class="min-h-6 w-full flex-1 appearance-none bg-transparent outline-none"
+      class="min-h-6 w-full appearance-none bg-transparent outline-none"
       :class="{ 'text-faint': disabled, submit }"
     >
-    <div class="h-5 flex items-end">
+    <template v-if="$slots.default" #append>
       <slot />
-    </div>
+    </template>
   </Input>
 </template>

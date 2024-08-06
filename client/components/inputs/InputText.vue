@@ -51,12 +51,12 @@ watch(focused, (value) => {
       :placeholder="$mt(placeholder)"
       :autofocus
       :readonly
-      class="w-full flex-1 resize-none appearance-none bg-transparent outline-none dark:placeholder-neutral-600 light:placeholder-neutral-300"
+      class="flex-1 resize-none appearance-none bg-transparent outline-none dark:placeholder-neutral-600 light:placeholder-neutral-300"
       :rows
       :class="{ 'text-faint': disabled }"
     />
-    <div class="h-5 flex items-end">
+    <template v-if="$slots.default" #append>
       <slot />
-    </div>
+    </template>
   </Input>
 </template>

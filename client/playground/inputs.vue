@@ -32,15 +32,24 @@ const items = computed(() => {
   return users.filter(user => user.name.toLocaleLowerCase().includes(text))
 })
 const date = new Date()
+const text = ref('')
 console.log(date.getHours())
 </script>
 
 <template>
   <Card>
-    <InputDate label="Date" />
-    <InputString label="String" />
-    <InputText label="Text" />
-    <InputNumber label="Number" :decimal="2" />
+    <InputDate label="Date">
+      <Button icon="close" />
+    </InputDate>
+    <InputString v-model="text" label="String">
+      <Button icon="close" @click="text = ''" />
+    </InputString>
+    <InputText v-model="text" label="Text">
+      <Button icon="close" @click="text = ''" />
+    </InputText>
+    <InputNumber label="Number" :decimal="2">
+      <Button icon="close" @click="text = ''" />
+    </InputNumber>
   </Card>
   <Card>
     <Select

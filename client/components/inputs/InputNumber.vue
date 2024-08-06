@@ -63,9 +63,6 @@ const dataMaska = computed(() => {
     <div
       class="w-full flex items-baseline"
     >
-      <!-- <div class="">
-        {{ $mt($props.label) }}
-      </div> -->
       <input
         ref="input"
         v-model="_model"
@@ -81,6 +78,9 @@ const dataMaska = computed(() => {
         @click="input.select()"
       >
     </div>
+    <template v-if="$slots.default" #append>
+      <slot />
+    </template>
   </Input>
 </template>
 

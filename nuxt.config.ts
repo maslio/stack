@@ -30,9 +30,9 @@ export default defineNuxtConfig({
         next: 'fluent:chevron-right-16-filled',
       },
     }],
-    ['@nuxtjs/color-mode', {
-      classSuffix: '',
-    }],
+    // ['@nuxtjs/color-mode', {
+    //   classSuffix: '',
+    // }],
     '@unocss/nuxt',
     '@nuxt/image',
     '@nuxtjs/device',

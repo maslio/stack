@@ -1,73 +1,183 @@
 <script setup lang="ts">
-import { addDays, subDays } from 'date-fns'
+import { endOfMonth } from 'date-fns'
+import { reactive, ref, watch } from '#imports'
 
-const props = defineProps<{
+defineProps<{
   label?: string
-  readonly?: boolean
 }>()
 
-const label = computed(() => props.label ?? '$t:date')
-const formatPresetDate = useIntlDateFormat({
-  month: 'long',
-  year: 'numeric',
-  day: 'numeric',
+const emit = defineEmits(['next', 'prev'])
+// Rember a day that user typed in, but this day is not exist in current month.
+// This day will be restored or cleared after use typein a new month
+const rememberDay = ref<null | number>(null)
+const model = defineModel<string>({ default: dateFormat(new Date()) })
+const inputDay = ref()
+const inputMonth = ref()
+const inputYear = ref()
+const inputs = {
+  day: inputDay,
+  month: inputMonth,
+  year: inputYear,
+}
+const values = reactive({
+  day: '',
+  month: '',
+  year: '',
 })
+watch(model, (value) => {
+  const date = new Date(value)
+  values.day = String(date.getDate()).padStart(2, '0')
+  values.month = String(date.getMonth() + 1).padStart(2, '0')
+  values.year = String(date.getFullYear()).padStart(4, '0')
+  if (rememberDay.value)
+    values.day = String(rememberDay.value)
+}, { immediate: true })
 
-const model = defineModel<string>({
-  default: dateFormat(new Date()),
-})
-function onCalendarSelect(value: string) {
-  model.value = value
+function select(key: keyof typeof inputs) {
+  inputs[key].value.select()
+}
+function selectNext(key: keyof typeof inputs) {
+  if (key === 'day')
+    select('month')
+  else if (key === 'month')
+    select('year')
+  else if (key === 'year')
+    emit('next')
+}
+function selectPrev(key: keyof typeof inputs) {
+  if (key === 'month')
+    select('day')
+  else if (key === 'year')
+    select('month')
+  else if (key === 'day')
+    emit('prev')
 }
 
-const presets = computed(() => [{
-  value: dateFormat(subDays(new Date(), 1)),
-  label: '$t:date.yesterday',
-  format: formatPresetDate(subDays(new Date(), 1)),
-}, {
-  value: dateFormat(new Date()),
-  label: '$t:date.today',
-  format: formatPresetDate(new Date()),
-}, {
-  value: dateFormat(addDays(new Date(), 1)),
-  label: '$t:date.tomorrow',
-  format: formatPresetDate(addDays(new Date(), 1)),
-}])
+function commit(key: keyof typeof inputs) {
+  const maxDay = endOfMonth(new Date(Number(values.year), Number(values.month) - 1)).getDate()
+  let day = Number(values.day)
+  if (maxDay < Number(values.day)) {
+    if (key === 'day') {
+      rememberDay.value = Number(values.day)
+    }
+    else if (key === 'month') {
+      rememberDay.value = null
+      values.day = String(maxDay)
+    }
+    day = maxDay
+  }
+  else {
+    rememberDay.value = null
+  }
+  const date = new Date(
+    Number(values.year),
+    Number(values.month) - 1,
+    day,
+  )
+  model.value = dateFormat(date)
+}
 
-const value = computed(() => {
-  const preset = presets.value.find(p => p.value === model.value)
-  if (preset)
-    return preset.label
-  return formatPresetDate(new Date(model.value))
-})
-const open = ref()
+function onInput(key: keyof typeof inputs) {
+  const value = values[key]
+  const fullLength = key === 'year' ? 4 : 2
+  if (key === 'day') {
+    if (Number(value) > 31)
+      values[key] = '31'
+  }
+  else if (key === 'month') {
+    if (Number(value) > 12)
+      values[key] = '12'
+  }
+  if (value.length === fullLength) {
+    selectNext(key)
+    commit(key)
+  }
+}
+function onKeydown(key: keyof typeof inputs, e: KeyboardEvent) {
+  if (e.key === 'Enter') {
+    e.preventDefault()
+    selectNext(key)
+  }
+  else if (e.key === 'ArrowLeft') {
+    e.preventDefault()
+    selectPrev(key)
+  }
+  else if (e.key === 'ArrowRight') {
+    e.preventDefault()
+    selectNext(key)
+  }
+  else if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].includes(e.key)) {
+    setTimeout(() => {
+      onInput(key)
+    })
+  }
+}
+function onBlur(key: keyof typeof inputs) {
+  const value = values[key]
+  const fullLength = key === 'year' ? 4 : 2
+  if (value.length !== fullLength) {
+    values[key] = value.padStart(fullLength, '0')
+    commit(key)
+  }
+}
+defineExpose({ select })
 </script>
 
 <template>
-  <Open
-    ref="open"
-    :label
-    :value
-    :disabled="readonly"
-  >
-    <template #render>
-      <DateInput v-model="model" />
-      <List
-        :items="presets"
-        item-key="value"
+  <Input :label="label ?? '$t:date'" @click="select('day')">
+    <!-- <div
+      class="flex rounded-xl p-3 card:rounded-none"
+      color="default"
+      @click="select('day')"
+    > -->
+    <div class="flex items-center font-mono">
+      <input
+        ref="inputDay"
+        v-model="values.day"
+        v-maska
+        inputmode="numeric"
+        data-maska="##"
+        placeholder="DD"
+        class="w-5"
+        @mousedown.stop.prevent="select('day')"
+        @click.stop.prevent
+        @keydown="onKeydown('day', $event)"
+        @blur="onBlur('day')"
       >
-        <template #item="{ item }">
-          <Option v-model="model" :value="item.value">
-            <div class="flex justify-between">
-              <div>{{ $mt(item.label) }}</div>
-              <div class="text-faint">
-                {{ item.format }}
-              </div>
-            </div>
-          </Option>
-        </template>
-      </List>
-      <DateCalendar :selected="[model]" @select="onCalendarSelect" />
-    </template>
-  </Open>
+      <span class="mr-1">/</span>
+      <input
+        ref="inputMonth"
+        v-model="values.month"
+        v-maska
+        inputmode="numeric"
+        data-maska="##"
+        placeholder="MM"
+        class="w-5"
+        @mousedown.stop.prevent="select('month')"
+        @click.stop.prevent
+        @keydown="onKeydown('month', $event)"
+        @blur="onBlur('month')"
+      >
+      <span class="mr-1">/</span>
+      <input
+        ref="inputYear"
+        v-model="values.year"
+        v-maska
+        inputmode="numeric"
+        placeholder="YYYY"
+        data-maska="####"
+        class="w-10"
+        @mousedown.stop.prevent="select('year')"
+        @click.stop.prevent
+        @keydown="onKeydown('year', $event)"
+        @blur="onBlur('year')"
+      >
+    </div>
+  </Input>
 </template>
+
+<style scoped>
+input {
+  --uno: 'appearance-none overflow-hidden bg-transparent text-left font-mono outline-none';
+}
+</style>

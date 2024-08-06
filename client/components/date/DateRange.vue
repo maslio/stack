@@ -235,22 +235,22 @@ const open = ref()
     :disabled="readonly"
   >
     <template #render>
-      <Card>
-        <DateInput
+      <div class="flex gap-3">
+        <InputDate
           ref="input1"
           :model-value="model[0]"
           label="$t:date.range_start"
           @update:model-value="model = [$event, model[1]]"
           @next="input2.select('day')"
         />
-        <DateInput
+        <InputDate
           ref="input2"
           label="$t:date.range_end"
           :model-value="model[1]"
           @update:model-value="model = [model[0], $event]"
           @prev="input1.select('year')"
         />
-      </Card>
+      </div>
       <Card>
         <Tabs v-model="presetsTab" :tabs="presetsTabs" />
         <List

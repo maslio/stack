@@ -31,24 +31,13 @@ const items = computed(() => {
   const text = search.value.toLocaleLowerCase()
   return users.filter(user => user.name.toLocaleLowerCase().includes(text))
 })
+const date = new Date()
+console.log(date.getHours())
 </script>
 
 <template>
-  <!-- <List v-model:search="search" :items>
-    <template #item="{ item }">
-      <Option
-        v-model="modelSingle"
-        :value="item.id"
-        :label="item.name"
-        :caption="item.email"
-      />
-    </template>
-  </List> -->
   <Card>
-    <InputDate />
-    <InputDateRange />
-  </Card>
-  <Card>
+    <InputDate label="Date" />
     <InputString label="String" />
     <InputText label="Text" />
     <InputNumber label="Number" :decimal="2" />
@@ -72,5 +61,9 @@ const items = computed(() => {
       option-value="id"
       option-label="name"
     />
+  </Card>
+  <Card>
+    <Date />
+    <DateRange />
   </Card>
 </template>

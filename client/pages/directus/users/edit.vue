@@ -73,14 +73,14 @@ function onDelete() {
         v-if="fields.includes('avatar')"
         icon="material-symbols:add-a-photo"
         label="$t:change_avatar"
-        page="admin/users/edit/avatar"
+        page="directus/users/edit/avatar"
         :props="{ user, onSave }"
       />
       <Open
         v-if="fields.includes('password')"
         icon="material-symbols:passkey"
         label="$t:change_password"
-        page="admin/users/edit/password"
+        page="directus/users/edit/password"
         skeleton="h-14 h-10"
         :props="{ user, onSave }"
       />
@@ -89,7 +89,7 @@ function onDelete() {
       <Open
         v-if="fields.includes('name')"
         label="$t:user.name"
-        page="admin/users/edit/name"
+        page="directus/users/edit/name"
         skeleton="h-28 h-10"
         :props="{ user, onSave }"
         :value="getUsername(user)"
@@ -98,7 +98,7 @@ function onDelete() {
       <Open
         v-if="fields.includes('email')"
         label="$t:email"
-        page="admin/users/edit/email"
+        page="directus/users/edit/email"
         skeleton="h-14 h-10"
         :props="{ user, onSave }"
         :value="user.email ?? ''"
@@ -106,21 +106,21 @@ function onDelete() {
       <Open
         v-if="fields.includes('role')"
         label="$t:user.role"
-        page="admin/users/edit/role"
+        page="directus/users/edit/role"
         :props="{ user, onSave }"
         :value="user.role?.name"
       />
       <Open
         v-if="fields.includes('language')"
         label="$t:language"
-        page="admin/users/edit/language"
+        page="directus/users/edit/language"
         :props="{ user, onSave }"
         :value="getLanguageName(user.language ?? 'en-US')"
       />
       <Open
         v-if="fields.includes('appearance')"
         label="$t:appearance"
-        page="admin/users/edit/appearance"
+        page="directus/users/edit/appearance"
         :props="{ user, onSave }"
         :value="`$t:appearance.${user.appearance ?? 'auto'}`"
       />
@@ -128,7 +128,7 @@ function onDelete() {
     <Open
       v-if="$props.delete"
       label="$t:delete_user"
-      page="admin/users/edit/delete"
+      page="directus/users/edit/delete"
       target="dialog-bottom"
       :props="{ user, onDelete }"
     />

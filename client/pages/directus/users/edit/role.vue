@@ -12,10 +12,6 @@ const currentRole = ref(user.role?.id)
 const { request } = useDirectus()
 
 const roles = await request(readRoles({ sort: ['name'] }))
-const options = roles.map(role => ({
-  value: role.id,
-  label: role.name,
-}))
 
 async function click() {
   await request(updateUser(user.id, {
@@ -26,10 +22,18 @@ async function click() {
 </script>
 
 <template>
-  <Select
+  <List
     v-model="currentRole"
-    :options
-  />
+    :items="roles"
+  >
+    <template #item="{ item: role }">
+      <Option
+        v-model="currentRole"
+        :value="role.id"
+        :label="role.name"
+      />
+    </template>
+  </List>
   <Button
     color="primary"
     label="Сохранить"

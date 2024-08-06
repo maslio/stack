@@ -37,7 +37,7 @@ const { data: user } = await useAsyncData(async () => {
     </template>
     <template #render>
       <Render
-        page="admin/users/user"
+        page="directus/users/edit"
         :props="{ fields, id: user.id }"
         :skeleton="['h-25 w-25 rounded-full', 'h-22', 'h-33']"
       />

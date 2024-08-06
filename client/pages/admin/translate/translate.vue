@@ -67,7 +67,7 @@ function onSave() {
   <Card>
     <Open
       label="User Language"
-      page="admin/users/edit/language"
+      page="directus/users/edit/language"
       :value="language"
       :props="{ user: { id: $user.value?.id, language: $language } }"
     />

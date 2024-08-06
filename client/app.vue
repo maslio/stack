@@ -9,7 +9,7 @@ import inputs from './playground/inputs.vue'
       <Open
         icon="material-symbols:user-attributes"
         label="$t:users"
-        page="admin/users"
+        page="directus/users"
       />
       <Open
         icon="material-symbols:process-chart"

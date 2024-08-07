@@ -55,11 +55,20 @@ console.log(date.getHours())
     <Select
       v-model="modelSingle"
       v-model:search="search"
-      target="self"
       label="User"
       :options="items"
       option-value="id"
       option-label="name"
+    />
+    <Select
+      v-model="modelSingle"
+      v-model:search="search"
+      label="User"
+      :options="items"
+      option-value="id"
+      option-label="name"
+      close-on-apply
+      apply-on-change
     />
     <Select
       v-model="modelMulti"

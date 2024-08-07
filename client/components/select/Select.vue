@@ -10,6 +10,9 @@ const props = withDefaults(defineProps<{
   optionIcon?: keyof T
   search?: string
   target?: string
+  closeOnApply?: boolean
+  applyOnChange?: boolean
+  modelValue?: Value | Value[]
 }>(), {
   optionValue: 'id',
   optionLabel: 'label',
@@ -18,6 +21,8 @@ const props = withDefaults(defineProps<{
 })
 const emit = defineEmits<{
   'update:search': [value: string]
+  'update:modelValue': [value: Value | Value[]]
+  'close': []
 }>()
 defineSlots<{
   default: []
@@ -27,20 +32,52 @@ defineSlots<{
   }) => any
 }>()
 type Value = string | number
-const model = defineModel<Value | Value[]>()
+const model = ref() as Ref<Value | Value[]>
+
+function refreshModel() {
+  model.value = props.multiple
+    ? [...props.modelValue as Value[]]
+    : props.modelValue as Value
+}
+watch(() => props.modelValue, () => {
+  refreshModel()
+}, { immediate: true })
+
 const modelSingle = model as Ref<Value>
 const modelMulti = model as Ref<Value[]>
 
 const value = computed(() => {
-  if (props.multiple)
-    return String(modelMulti.value.length)
-  const option = props.options?.find(option => option[props.optionValue] === modelSingle.value)
+  if (props.multiple) {
+    const value = props.modelValue as Value[]
+    if (value.length === 1) {
+      const option = props.options?.find(option => option[props.optionValue] === value[0])
+      return option?.[props.optionLabel]
+    }
+    return String(value.length)
+  }
+  const option = props.options?.find(option => option[props.optionValue] === props.modelValue)
   return option?.[props.optionLabel]
 })
+
+watch(model, () => {
+  if (props.applyOnChange)
+    apply()
+})
+
+const open = ref()
+function apply() {
+  if (props.multiple)
+    emit('update:modelValue', [...modelMulti.value])
+  else
+    emit('update:modelValue', modelSingle.value)
+  if (props.closeOnApply)
+    open.value?.close()
+}
 </script>
 
 <template>
   <Open
+    ref="open"
     :label="label"
     :caption="caption"
     :target
@@ -76,6 +113,12 @@ const value = computed(() => {
           </Option>
         </template>
       </List>
+      <Button
+        v-if="!applyOnChange"
+        color="primary"
+        label="Apply"
+        @click="apply"
+      />
     </template>
   </Open>
 </template>

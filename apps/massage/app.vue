@@ -1,31 +1,7 @@
 <template>
   <AuthLayout>
     <AuthUser />
-    <Card v-if="$access('admin1')">
-      <Open
-        icon="material-symbols:user-attributes"
-        label="$t:users"
-        page="directus/users"
-      />
-      <Open
-        icon="material-symbols:process-chart"
-        label="$t:tasks"
-        page="admin/tasks"
-      />
-      <Open
-        icon="material-symbols:translate"
-        label="$t:translation"
-        page="admin/translate"
-        skeleton="h-11 h-50"
-      />
-      <Open
-        icon="material-symbols:database"
-        label="Directus"
-        page="directus"
-        target="self"
-      />
-    </Card>
-    <Card>
+    <Card v-if="$access('admin')">
       <Open
         icon="material-symbols:person"
         label="$t:users"
@@ -33,7 +9,7 @@
         skeleton="h-11 h-50"
       />
     </Card>
-    <Card>
+    <Card v-if="$access('admin')">
       <Open
         icon="material-symbols:folded-hands-rounded"
         label="$t:services"
@@ -53,5 +29,6 @@
         skeleton="h-11 h-50"
       />
     </Card>
+    <Render v-if="$access('manager')" page="manager/menu" />
   </AuthLayout>
 </template>

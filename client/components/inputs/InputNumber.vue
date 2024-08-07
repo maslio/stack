@@ -12,7 +12,7 @@ const { decimal = 0 } = defineProps<{
 }>()
 const emit = defineEmits(['focus', 'blur'])
 const input = ref()
-const model = defineModel<number>()
+const model = defineModel<number | null>()
 const _model = ref('')
 
 function maskedToNumber(value: string): number {

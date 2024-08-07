@@ -61,6 +61,8 @@ function getFieldComponent(field: DirectusField) {
     return defineAsyncComponent(() => import('./FormNumber.vue'))
   if (field.meta?.interface === 'select-dropdown-m2o')
     return defineAsyncComponent(() => import('./FormSelectM2O.vue'))
+  if (field.meta?.interface === 'list-m2m')
+    return defineAsyncComponent(() => import('./FormSelectM2M.vue'))
   return defineAsyncComponent(() => import('./FormString.vue'))
 }
 

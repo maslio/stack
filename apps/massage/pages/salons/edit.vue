@@ -17,6 +17,7 @@ const groups = [
   {
     fields: [
       { field: 'type', label: '$t:type' },
+      { field: 'manager', label: '$t:manager' },
     ],
   },
 ]

@@ -53,8 +53,12 @@ function getFieldComponent(field: DirectusField) {
     return defineAsyncComponent(() => import('./FormText.vue'))
   if (field.meta?.interface === 'select-dropdown')
     return defineAsyncComponent(() => import('./FormSelect.vue'))
+  if (field.meta?.interface === 'select-radio')
+    return defineAsyncComponent(() => import('./FormOptions.vue'))
   if (field.type === 'boolean')
     return defineAsyncComponent(() => import('./FormBoolean.vue'))
+  if (field.type === 'decimal')
+    return defineAsyncComponent(() => import('./FormNumber.vue'))
   return defineAsyncComponent(() => import('./FormString.vue'))
 }
 

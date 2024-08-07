@@ -74,7 +74,7 @@ const dataMaska = computed(() => {
         :placeholder
         :autofocus
         :readonly
-        class="min-h-6 w-full appearance-none bg-transparent outline-none"
+        class="min-h-6 w-full appearance-none bg-transparent font-mono outline-none"
         @click="input.select()"
       >
     </div>

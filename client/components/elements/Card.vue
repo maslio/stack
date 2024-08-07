@@ -26,7 +26,7 @@ const grid = computed(() => {
   <div>
     <div
       v-if="$slots.label || label"
-      class="truncate px-3 text-base font-300 font-semibold first:mt-2"
+      class="mb-2 truncate px-3 text-base font-300 font-semibold first:mt-2 text-faint"
     >
       <slot v-if="$slots.label" name="label" />
       <span v-else>{{ $mt(label) }}</span>

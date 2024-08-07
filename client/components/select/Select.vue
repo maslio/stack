@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<{
   target?: string
   closeOnApply?: boolean
   applyOnChange?: boolean
-  modelValue?: Value | Value[]
+  modelValue?: Value | Value[] | null
 }>(), {
   optionValue: 'id',
   optionLabel: 'label',

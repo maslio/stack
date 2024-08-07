@@ -31,9 +31,8 @@ const items = computed(() => {
   const text = search.value.toLocaleLowerCase()
   return users.filter(user => user.name.toLocaleLowerCase().includes(text))
 })
-const date = new Date()
 const text = ref('')
-console.log(date.getHours())
+const item = ref(null)
 </script>
 
 <template>
@@ -59,14 +58,6 @@ console.log(date.getHours())
       :options="items"
       option-value="id"
       option-label="name"
-    />
-    <Select
-      v-model="modelSingle"
-      v-model:search="search"
-      label="User"
-      :options="items"
-      option-value="id"
-      option-label="name"
       close-on-apply
       apply-on-change
     />
@@ -78,6 +69,14 @@ console.log(date.getHours())
       :options="items"
       option-value="id"
       option-label="name"
+    />
+    <SelectItems
+      v-model="item"
+      label="Product"
+      collection="products"
+      fields="id name"
+      option-label="name"
+      close-on-apply
     />
   </Card>
   <Card>

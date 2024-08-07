@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{
   fields: string | string[]
   filter?: Record<string, any>
   modelValue?: Value | Value[] | null
-  optionLabel?: string
+  optionLabel?: string | ((item: Record<string, any>) => string)
   optionValue?: string
 }>(), {
   optionLabel: 'name',

@@ -5,7 +5,7 @@ const props = withDefaults(defineProps<{
   multiple?: boolean
   options?: T[]
   optionValue?: keyof T
-  optionLabel?: keyof T
+  optionLabel?: keyof T | ((item: Record<string, any>) => string)
   optionCaption?: keyof T
   optionIcon?: keyof T
   search?: string
@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<{
   modelValue?: Value | Value[] | null
 }>(), {
   optionValue: 'id',
-  optionLabel: 'label',
+  optionLabel: () => 'label',
   optionCaption: 'caption',
   optionIcon: 'icon',
 })
@@ -46,17 +46,25 @@ watch(() => props.modelValue, () => {
 const modelSingle = model as Ref<Value>
 const modelMulti = model as Ref<Value[]>
 
+function getOptionLabel(item?: Record<string, any>) {
+  if (!item)
+    return ''
+  if (typeof props.optionLabel === 'function')
+    return props.optionLabel(item)
+  return item[props.optionLabel as keyof typeof item]
+}
+
 const value = computed(() => {
   if (props.multiple) {
     const value = props.modelValue as Value[]
     if (value.length === 1) {
       const option = props.options?.find(option => option[props.optionValue] === value[0])
-      return option?.[props.optionLabel]
+      return getOptionLabel(option)
     }
     return String(value.length)
   }
   const option = props.options?.find(option => option[props.optionValue] === props.modelValue)
-  return option?.[props.optionLabel]
+  return getOptionLabel(option)
 })
 
 watch(model, () => {

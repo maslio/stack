@@ -38,6 +38,12 @@
         page="salons/list"
         skeleton="h-11 h-50"
       />
+      <Open
+        icon="material-symbols:person"
+        label="$t:workers"
+        page="workers/list"
+        skeleton="h-11 h-50"
+      />
     </Card>
   </AuthLayout>
 </template>

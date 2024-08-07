@@ -59,6 +59,8 @@ function getFieldComponent(field: DirectusField) {
     return defineAsyncComponent(() => import('./FormBoolean.vue'))
   if (field.type === 'decimal')
     return defineAsyncComponent(() => import('./FormNumber.vue'))
+  if (field.meta?.interface === 'select-dropdown-m2o')
+    return defineAsyncComponent(() => import('./FormSelectM2O.vue'))
   return defineAsyncComponent(() => import('./FormString.vue'))
 }
 

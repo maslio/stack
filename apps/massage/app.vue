@@ -1,7 +1,7 @@
 <template>
   <AuthLayout>
     <AuthUser />
-    <Card>
+    <Card v-if="$access('admin1')">
       <Open
         icon="material-symbols:user-attributes"
         label="$t:users"
@@ -23,6 +23,13 @@
         label="Directus"
         page="directus"
         target="self"
+      />
+    </Card>
+    <Card>
+      <Open
+        label="$t:services"
+        page="services/list"
+        skeleton="h-11 h-50"
       />
     </Card>
   </AuthLayout>

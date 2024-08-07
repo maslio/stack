@@ -27,11 +27,13 @@
     </Card>
     <Card>
       <Open
+        icon="material-symbols:folded-hands-rounded"
         label="$t:services"
         page="services/list"
         skeleton="h-11 h-50"
       />
       <Open
+        icon="material-symbols:house-siding-rounded"
         label="$t:salons"
         page="salons/list"
         skeleton="h-11 h-50"

@@ -16,7 +16,13 @@ const props = withDefaults(defineProps<{
   optionValue: 'id',
 })
 const emit = defineEmits(['update:modelValue'])
-
+defineSlots<{
+  open: []
+  item: (props: {
+    item: Record<string, any>
+    index: number
+  }) => any
+}>()
 const label = computed(() => {
   return props.label || upperFirst(props.collection)
 })
@@ -41,5 +47,12 @@ const { items } = await useItems(props.collection, {
     :option-value="optionValue"
     :option-label="optionLabel"
     @update:model-value="emit('update:modelValue', $event)"
-  />
+  >
+    <template v-if="$slots.open">
+      <slot name="open" />
+    </template>
+    <template v-if="$slots.item" #item="{ item, index }">
+      <slot name="item" :item="item" :index="index" />
+    </template>
+  </Select>
 </template>

@@ -25,7 +25,7 @@ const emit = defineEmits<{
   'close': []
 }>()
 defineSlots<{
-  default: []
+  open: []
   item: (props: {
     item: T
     index: number
@@ -83,8 +83,8 @@ function apply() {
     :target
     :value
   >
-    <template v-if="$slots.default" #default>
-      <slot name="default" />
+    <template v-if="$slots.open" #default>
+      <slot name="open" />
     </template>
     <template #render>
       <List

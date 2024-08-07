@@ -42,6 +42,6 @@ const { data: users } = await useAsyncData('user.list', async () => {
     icon="material-symbols:add"
     label="$t:create_a_user"
     page="directus/users/create"
-    skeleton="h-28 h-10"
+    skeleton="h-28 h-28 h-10"
   />
 </template>

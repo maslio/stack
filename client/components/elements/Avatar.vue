@@ -1,6 +1,6 @@
 <script setup lang="ts">
 withDefaults(defineProps<{
-  src?: string
+  src?: string | null
   size: string
 }>(), {
   size: '20',

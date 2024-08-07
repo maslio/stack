@@ -5,9 +5,19 @@ const emit = defineEmits<{
   save: [id: string]
 }>()
 const { request } = useDirectus()
-const fields = [
-  { field: 'email', label: 'Email', autocomplete: 'username' },
-  { field: 'password', label: '$t:password' },
+const groups = [
+  {
+    fields: [
+      { field: 'first_name', label: 'First Name' },
+      { field: 'last_name', label: 'Last Name' },
+    ],
+  },
+  {
+    fields: [
+      { field: 'email', label: 'Email', autocomplete: 'username' },
+      { field: 'password', label: '$t:password' },
+    ],
+  },
 ]
 
 async function save(data: Record<string, any>) {
@@ -20,7 +30,7 @@ async function save(data: Record<string, any>) {
   <Form
     type="create"
     collection="directus_users"
-    :fields
+    :groups
     :submit="save"
   />
 </template>

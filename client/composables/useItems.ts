@@ -1,4 +1,4 @@
-import { aggregate, readItems } from '@directus/sdk'
+import { aggregate, readItems, readUsers } from '@directus/sdk'
 import { omit } from 'lodash-es'
 import { useSubscription } from './useSubscription'
 
@@ -61,7 +61,7 @@ function getQuery(data: any) {
 }
 
 export async function useItems(collection: string, options: UseItemsOptions = {}): Promise<UseItems> {
-  const { requestAny } = useDirectus()
+  const { request } = useDirectus()
   const id = useId()
   const filter = getOption(options, 'filter')
   const fields = getOption(options, 'fields')
@@ -72,9 +72,11 @@ export async function useItems(collection: string, options: UseItemsOptions = {}
   const watch = getWatch(options, [filter, fields, search, limit, sort])
   const asyncData = useAsyncData(id, async () => {
     const query = getQuery({ filter, fields, search, limit, sort })
-    const requests = [requestAny(readItems(collection, query))]
+    const requests = collection === 'directus_users'
+      ? [request(readUsers(query))]
+      : [request(readItems(collection, query))]
     if (options.count) {
-      requests.push(requestAny(aggregate(collection, {
+      requests.push(request(aggregate(collection, {
         query: omit(query, 'fields', 'limit', 'skip', 'page', 'sort'),
         aggregate: { count: 'id' },
       })))

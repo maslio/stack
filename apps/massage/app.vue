@@ -31,6 +31,11 @@
         page="services/list"
         skeleton="h-11 h-50"
       />
+      <Open
+        label="$t:salons"
+        page="salons/list"
+        skeleton="h-11 h-50"
+      />
     </Card>
   </AuthLayout>
 </template>

@@ -9,6 +9,7 @@ const { decimal = 0 } = defineProps<{
   placeholder?: string
   autofocus?: boolean
   readonly?: boolean
+  inputClass?: string
 }>()
 const emit = defineEmits(['focus', 'blur'])
 const input = ref()
@@ -67,6 +68,7 @@ const dataMaska = computed(() => {
         ref="input"
         v-model="_model"
         v-maska
+        :class="inputClass"
         inputmode="numeric"
         :data-maska="dataMaska"
         data-maska-tokens="9:[0-9]:repeated"

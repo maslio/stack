@@ -18,10 +18,6 @@ const options = reactive<{
 )
 
 const selected = ref<string[]>([])
-const modes = [
-  { label: 'Push', value: 'push', icon: 'material-symbols:upload' },
-  { label: 'Pull', value: 'pull', icon: 'material-symbols:download' },
-]
 const mode = ref<'push' | 'pull'>()
 const clear = ref(false)
 
@@ -63,42 +59,50 @@ async function sync() {
 
 <template>
   <Card>
-    <Select
-      v-model="mode"
-      :options="modes"
+    <Option
+      v-model="mode" label="Push" value="push"
+      icon="material-symbols:upload"
     />
+    <Option
+      v-model="mode" label="Pull" value="pull"
+      icon="material-symbols:download"
+    />
+  </Card>
+  <Card>
     <InputToggle
       v-model="clear"
       icon="material-symbols:delete"
       label="Delete existing items"
     />
   </Card>
-  <SelectMulti
-    v-model="selected"
-    search
-    :disabled="syncing || !mode"
-    :options
-    v-slot="{ item }"
-  >
-    <div class="flex justify-between gap-3">
-      <div class="font-mono">
-        {{ item.label }}
-      </div>
-      <div v-if="item.status">
-        <Spinner v-if="item.status === 'syncing'" />
-        <Icon
-          v-else
-          :class="item.status === 'success' ? 'text-positive' : 'text-negative'"
-          :name="item.status === 'success' ? 'material-symbols:check-circle' : 'material-symbols:error'"
-        />
-      </div>
-    </div>
-  </SelectMulti>
+  <List :items="options">
+    <template #item="{ item }">
+      <Option
+        v-model="selected"
+        multiple
+        :label="item.label"
+        :value="item.value"
+      >
+        <div class="flex items-center justify-between gap-3">
+          <div class="font-mono">
+            {{ item.label }}
+          </div>
+          <div v-if="item.status" class="h-5 flex items-center">
+            <Spinner v-if="item.status === 'syncing'" />
+            <Icon
+              v-else
+              :class="item.status === 'success' ? 'text-positive' : 'text-negative'"
+              :name="item.status === 'success' ? 'material-symbols:check-circle' : 'material-symbols:error'"
+            />
+          </div>
+        </div>
+      </Option>
+    </template>
+  </List>
   <Button
-    v-if="mode"
     color="primary"
     :click="sync"
-    :disabled="!selected.length"
+    :disabled="!mode || !selected.length"
     :icon
   />
 </template>

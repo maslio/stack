@@ -1,6 +1,11 @@
+<script setup lang="ts">
+const dev = import.meta.dev
+</script>
+
 <template>
   <AuthLayout>
     <AuthUser />
+    <Render v-if="dev && $access('super')" page="dev" />
     <!-- <Card v-if="$access('super')">
       <Open
         icon="material-symbols:translate"

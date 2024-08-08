@@ -22,6 +22,7 @@ const filteredItems = computed(() => {
 <template>
   <SelectItems
     v-model="salon"
+    label="$t:salon"
     collection="salons"
     fields="id name"
     apply-on-change

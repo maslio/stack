@@ -10,7 +10,7 @@ const { item, updateItem } = await useItem('workers', props.id)
 const groups = [
   {
     fields: [
-      { field: 'name', label: '$t:name' },
+      { field: 'name', label: '$t:person.name' },
     ],
   },
   {

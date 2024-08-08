@@ -33,7 +33,11 @@ function onSave() {
 <template>
   <List :items="items">
     <template #item="{ item }">
-      <Item>
+      <Open
+        :label="item.date"
+        page="manager/sales/edit"
+        :props="{ sale: item.id, salon: props.salon.id, onSave }"
+      >
         <div class="flex items-center justify-between">
           <div>
             <div class="text-sm text-faint">
@@ -45,7 +49,7 @@ function onSave() {
             {{ price(item.price) }}
           </div>
         </div>
-      </Item>
+      </Open>
     </template>
   </List>
   <Open

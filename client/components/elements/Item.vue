@@ -73,30 +73,13 @@ const clickable = computed(() => {
       />
     </div>
   </div>
-
-  <!-- </div> -->
-  <!-- <template v-if="$slots.options">
-    <Transition
-      enter-active-class="transition duration-50 ease-out"
-      enter-from-class="translate-x-100%"
-    >
-      <div
-        v-if="options"
-        class="absolute right-0 top-0 h-full flex select-none items-stretch"
-        @click="options = false"
-      >
-        <slot name="options" />
-      </div>
-    </Transition>
-  </template> -->
 </template>
 
 <style scoped>
 .item {
-  --uno: 'relative block w-full flex overflow-hidden text-left';
+  --uno: 'relative block w-full overflow-hidden text-left';
   --uno: 'px-3 py-3 desktop:py-2';
-  /* --uno: 'min-h-11 desktop:min-h-10'; */
   --uno: 'rounded-xl card:rounded-none';
-  --uno: 'flex gap-3 items-center';
+  --uno: 'flex gap-3 items-center flex-shrink-0';
 }
 </style>

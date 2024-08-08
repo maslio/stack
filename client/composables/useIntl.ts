@@ -22,9 +22,11 @@ export function useIntlDateRangeFormat(options: SecondArgument<typeof Intl.DateT
   }
 }
 
-export function useIntlNumberFormat(options?: SecondArgument<Intl.NumberFormat>) {
+export function useIntlNumberFormat(options?: SecondArgument<typeof Intl.NumberFormat>) {
   const { $language } = useNuxtApp()
-  return (input: number) => {
+  return (input: number | string) => {
+    if (typeof input === 'string')
+      input = Number(input)
     const format = new Intl.NumberFormat($language.value, options).format
     return format(input)
   }

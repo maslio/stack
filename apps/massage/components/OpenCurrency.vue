@@ -4,11 +4,6 @@ defineProps<{
   label: string
   value?: number | string
 }>()
-const format = useIntlNumberFormat({
-  style: 'currency',
-  currency: 'THB',
-  minimumFractionDigits: 0,
-})
 </script>
 
 <template>
@@ -20,9 +15,7 @@ const format = useIntlNumberFormat({
         v-else :label truncate
         class="flex-1"
       />
-      <div class="font-mono text-faint">
-        {{ format(value ?? 0) }}
-      </div>
+      <Currency :value />
     </div>
   </Open>
 </template>

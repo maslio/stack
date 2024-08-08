@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
-  salon: Record<string, any>
+  salon: number
+  sale: number
 }>()
 
 const emit = defineEmits<{

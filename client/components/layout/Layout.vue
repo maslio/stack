@@ -144,7 +144,7 @@ defineExpose({ close })
             @click="close()"
           />
           <div v-else w-1 />
-          <div class="flex-1 truncate pr-3 text-center text-base">
+          <div class="flex-1 truncate pr-3 text-center text-base font-semibold">
             {{ $mt(label ?? '') }}
           </div>
           <div
@@ -157,7 +157,7 @@ defineExpose({ close })
           class="relative flex flex-1 flex-col gap-3 overflow-x-hidden overflow-y-auto p-3 pt-0 dialog:gap-0 dialog:px-0 dialog:pb-2 dialog:first:pt-2"
           :class="{ 'mt-3': root }"
           dialog:scrollbar-gutter-auto
-          color="back dialog:default"
+          color="dialog:default"
           scrollbar="~ rounded w-4px gutter-stable"
           dark:scrollbar="track-color-dark-900 thumb-color-neutral-700/50"
           light:scrollbar="track-color-light-900 thumb-color-neutral-400/50"

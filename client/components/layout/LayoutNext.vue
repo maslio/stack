@@ -39,7 +39,7 @@ defineExpose({ open, close })
       <Layout
         ref="layout"
         :label="render.label"
-        class="mobile:translate-x--100%"
+        class="border-l-1px mobile:translate-x--100% dark:border-dark light:border-neutral-300"
         :close-icon="isMini ? 'back' : 'close'"
         :close
         :no-header="render.noHeader"

@@ -25,8 +25,8 @@ const emit = defineEmits<{
   'close': []
 }>()
 defineSlots<{
-  open: []
-  item: (props: {
+  item: []
+  option: (props: {
     item: T
     index: number
   }) => any
@@ -91,8 +91,8 @@ function apply() {
     :target
     :value
   >
-    <template v-if="$slots.open" #default>
-      <slot name="open" />
+    <template #item>
+      <slot v-if="$slots.item" name="item" />
     </template>
     <template #render>
       <List
@@ -108,8 +108,8 @@ function apply() {
             :icon="item[optionIcon as keyof T]"
           >
             <slot
-              v-if="$slots.item"
-              name="item"
+              v-if="$slots.option"
+              name="option"
               :item="item"
               :index="index"
             />

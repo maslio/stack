@@ -17,7 +17,7 @@ const props = defineProps<{
 }>()
 
 defineSlots<{
-  default: () => any
+  item: () => any
   render: () => any
 }>()
 const id = props.id ?? useId()
@@ -67,7 +67,7 @@ function root() {
     rightIcon: 'fluent:chevron-right-16-filled',
     onClick,
     onContextmenu,
-  }, slots)
+  }, { default: slots.item })
 }
 
 defineExpose({ close })

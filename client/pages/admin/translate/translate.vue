@@ -82,21 +82,23 @@ function onSave() {
     :items
     item-key="key"
   >
-    <template #default="{ item: translation }">
+    <template #item="{ item: translation }">
       <Open
         :label="translation.key"
         page="admin/translate/edit"
         :props="{ translation, languages, onSave }"
       >
-        <Icon
-          v-if="translation.create"
-          name="material-symbols:add"
-        />
-        <div class="flex-1 font-mono">
-          {{ translation.key }}
-        </div>
-        <div class="truncate text-faint">
-          {{ translation.values.find(v => v.language === language)?.value }}
+        <div class="flex items-center gap-3">
+          <Icon
+            v-if="translation.create"
+            name="material-symbols:add"
+          />
+          <div class="flex-1 font-mono">
+            {{ translation.key }}
+          </div>
+          <div class="truncate text-faint">
+            {{ translation.values.find(v => v.language === language)?.value }}
+          </div>
         </div>
       </Open>
     </template>

@@ -53,12 +53,14 @@ async function clear() {
 </script>
 
 <template>
-  <List :items="translation.values" v-slot="{ item }">
-    <Value
-      :languages="languages"
-      :translation="translation"
-      :language="item.language"
-    />
+  <List :items="translation.values">
+    <template #item="{ item }">
+      <Value
+        :languages="languages"
+        :translation="translation"
+        :language="item.language"
+      />
+    </template>
   </List>
 
   <Button label="$t:save" color="primary" :click="save" />

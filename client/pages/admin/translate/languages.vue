@@ -25,25 +25,27 @@ async function deleteLanguage(code: string) {
 </script>
 
 <template>
-  <List :items="languages" v-slot="{ item }">
-    <Open
-      ref="openEdit"
-      :label="item.name"
-      :value="item.code"
-    >
-      <template #render>
-        <Form
-          collection="languages"
-          :groups="[
-            { fields: ['code', 'name'] },
-            { fields: ['direction'] },
-          ]"
-          :values="item"
-          :submit="updateLanguage"
-        />
-        <Button label="Delete" @click="deleteLanguage(item.code)" />
-      </template>
-    </Open>
+  <List :items="languages">
+    <template #item="{ item }">
+      <Open
+        ref="openEdit"
+        :label="item.name"
+        :value="item.code"
+      >
+        <template #render>
+          <Form
+            collection="languages"
+            :groups="[
+              { fields: ['code', 'name'] },
+              { fields: ['direction'] },
+            ]"
+            :values="item"
+            :submit="updateLanguage"
+          />
+          <Button label="Delete" @click="deleteLanguage(item.code)" />
+        </template>
+      </Open>
+    </template>
   </List>
 
   <Open

@@ -12,6 +12,8 @@ export default defineLazyEventHandler(async () => {
     const message: string[] = []
     message.push(`key: ${body.translation.key}`)
     for (const value of body.translation.values) {
+      if (body.language === value.language)
+        continue
       if (value.value.trim().length)
         message.push(`translation for ${value.language}: ${value.value}`)
     }

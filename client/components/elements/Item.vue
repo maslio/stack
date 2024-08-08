@@ -5,6 +5,7 @@ export interface Props {
   label?: string
   caption?: string
   value?: string
+  valueClass?: string
   clickable?: boolean | string
   tag?: string
   disabled?: boolean
@@ -59,9 +60,10 @@ const clickable = computed(() => {
         />
         <Text
           v-if="$props.value"
+          :class="valueClass"
+          :label="$props.value"
           class="text-faint"
           truncate
-          :label="$props.value"
         />
       </div>
     </div>

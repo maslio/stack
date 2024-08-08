@@ -32,7 +32,9 @@ const items = computed(() => {
   return users.filter(user => user.name.toLocaleLowerCase().includes(text))
 })
 const text = ref('')
+const number = ref(0)
 const item = ref(null)
+const format = useIntlNumberFormat({ style: 'currency', currency: 'THB', minimumFractionDigits: 0 })
 </script>
 
 <template>
@@ -46,9 +48,13 @@ const item = ref(null)
     <InputText v-model="text" label="Text">
       <Button icon="close" @click="text = ''" />
     </InputText>
-    <InputNumber label="Number" :decimal="2">
+    <InputNumber v-model="number" label="Number" :decimal="2">
       <Button icon="close" @click="text = ''" />
     </InputNumber>
+  </Card>
+
+  <Card>
+    <Item label="Amount" :value="format(number)" value-class="font-mono" />
   </Card>
   <Card>
     <Select

@@ -51,7 +51,6 @@ const { data: report, refresh: refreshReport } = await useAsyncData('manager.rep
     return result[0]
   return null
 })
-const numberFormat = useIntlNumberFormat()
 
 function onUpdate() {
   refreshSalesSum()
@@ -66,24 +65,24 @@ function onUpdate() {
     <Item label="$t:date" :value="date" />
   </Card>
   <Card v-if="salon">
-    <Open
+    <OpenCurrency
       label="$t:sales"
       page="manager/sales"
       :props="{ salon, onUpdate }"
-      :value="numberFormat(salesSum ?? 0)"
+      :value="salesSum"
     />
-    <Open
+    <OpenCurrency
       label="$t:expenses"
       page="manager/expenses"
       :props="{ salon, onUpdate }"
-      :value="numberFormat(expensesSum ?? 0)"
+      :value="expensesSum"
     />
   </Card>
   <Card>
-    <Open
+    <OpenCurrency
       label="$t:report"
       page="manager/report"
-      :value="numberFormat(report?.amount ?? 0)"
+      :value="report?.amount"
       :props="{
         salon,
         sales: salesSum ?? 0,

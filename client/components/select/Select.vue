@@ -93,6 +93,14 @@ function apply() {
   >
     <template #item>
       <slot v-if="$slots.item" name="item" />
+      <div v-else>
+        <div class="flex items-center">
+          <Text class="flex-1" :label :caption />
+          <div class="text-faint">
+            {{ value }}
+          </div>
+        </div>
+      </div>
     </template>
     <template #render>
       <List

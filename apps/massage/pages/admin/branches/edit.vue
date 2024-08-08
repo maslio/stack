@@ -6,18 +6,12 @@ const emit = defineEmits<{
   (event: 'save', item: Record<string, any>): void
 }>()
 const layout = useLayout()
-const { item, updateItem } = await useItem('salons', props.id)
+const { item, updateItem } = await useItem('branches', props.id)
 const groups = [
   {
     fields: [
       { field: 'name', label: '$t:name' },
-      { field: 'location', label: '$t:location' },
-    ],
-  },
-  {
-    fields: [
-      { field: 'type', label: '$t:type' },
-      { field: 'manager', label: '$t:manager' },
+      { field: 'address', label: '$t:address' },
     ],
   },
 ]
@@ -30,7 +24,7 @@ async function submit(data: Record<string, any>) {
 
 <template>
   <Form
-    collection="salons"
+    collection="branches"
     :groups="groups"
     :values="item"
     :submit

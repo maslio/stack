@@ -1,22 +1,13 @@
 <script setup lang="ts">
-const props = defineProps<{
-  type: string
-}>()
 const emit = defineEmits<{
   (event: 'save', item: Record<string, any>): void
 }>()
-const { createItem } = useCollection('salons')
+const { createItem } = useCollection('branches')
 const groups = [
   {
     fields: [
       { field: 'name', label: '$t:name' },
-      { field: 'location', label: '$t:location' },
-    ],
-  },
-  {
-    fields: [
-      { field: 'type', label: '$t:type' },
-      { field: 'manager', label: '$t:manager' },
+      { field: 'address', label: '$t:address' },
     ],
   },
 ]
@@ -28,9 +19,8 @@ async function submit(data: Record<string, any>) {
 
 <template>
   <Form
-    collection="salons"
+    collection="branches"
     :groups
     :submit
-    :values="{ type: props.type }"
   />
 </template>

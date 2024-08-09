@@ -18,7 +18,7 @@ function onSave() {
     <template #item="{ item: worker }">
       <Open
         :label="worker.name"
-        page="admin/workers/edit"
+        page="admin/branches/workers/edit"
         :props="{ id: worker.id, onSave }"
       >
         <div class="flex items-center gap-3">
@@ -36,7 +36,7 @@ function onSave() {
   <Open
     label="$t:add_a_worker"
     icon="material-symbols:add"
-    page="admin/workers/create"
+    page="admin/branches/workers/create"
     :props="{ onSave, branch: props.id }"
   />
 </template>

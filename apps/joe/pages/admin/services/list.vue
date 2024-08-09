@@ -1,7 +1,5 @@
 <script setup lang="ts">
-const { items, refresh } = await useItems('services', {
-  live: true,
-})
+const { items, refresh } = await useItems('services')
 const layout = useLayout()
 
 function onSave() {

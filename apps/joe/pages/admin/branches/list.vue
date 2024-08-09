@@ -1,7 +1,5 @@
 <script setup lang="ts">
-const { items } = await useItems('branches', {
-  live: true,
-})
+const { items } = await useItems('branches')
 const layout = useLayout()
 function onCreate(item: Record<string, any>) {
   layout.open('next', {

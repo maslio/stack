@@ -79,9 +79,6 @@ const clickable = computed(() => {
 
 <style scoped>
 .item {
-  --uno: 'relative block w-full overflow-hidden text-left';
-  --uno: 'px-3 py-3 desktop:py-2';
-  --uno: 'rounded-xl card:rounded-none';
-  --uno: 'flex gap-3 items-center flex-shrink-0';
+  --uno: 'relative block w-full overflow-hidden text-left px-3 py-3 desktop:py-2 rounded-xl card:rounded-none flex gap-3 items-center flex-shrink-0';
 }
 </style>

@@ -15,7 +15,7 @@ export default defineLazyEventHandler(async () => {
     const [source, target] = mode === 'push' ? [local, remote] : [remote, local]
 
     const snapshot = await source.request(schemaSnapshot())
-    const diff = await target.request(schemaDiff(snapshot))
+    const diff = await target.request(schemaDiff(snapshot, true))
     await target.request(schemaApply(diff))
   })
 })

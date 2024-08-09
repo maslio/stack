@@ -37,7 +37,7 @@ onKeyStroke('Enter', (e) => {
 <template>
   <div
     class="dialog:my-0"
-    :class="{ 'w-full dialog:px-2': !mini }"
+    :class="{ 'w-full dialog:px-2 item:w-8 item:min-h-8': !mini }"
   >
     <Error
       v-if="error" :error
@@ -45,7 +45,7 @@ onKeyStroke('Enter', (e) => {
     />
     <button
       ref="el"
-      class="max-h-full min-h-11 w-full rounded-xl font-500 desktop:min-h-10 input:min-h-8 input:w-8 input:rounded-full"
+      class="max-h-full min-h-11 w-full rounded-xl font-500 desktop:min-h-10 input:min-h-8 input:w-8 item:min-h-8 item:w-8 input:rounded-full"
       :color
       :disabled="disabled || pending"
       :class="{ clickable: !disabled, mini, flat, shake }"

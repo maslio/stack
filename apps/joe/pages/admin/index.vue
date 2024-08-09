@@ -14,6 +14,12 @@
       page="admin/branches/list"
       skeleton="h-11 h-50"
     />
+    <Open
+      icon="material-symbols:folded-hands-rounded"
+      label="$t:services"
+      page="admin/services/list"
+      skeleton="h-11 h-50"
+    />
   </Card>
   <!-- <Card>
     <Open

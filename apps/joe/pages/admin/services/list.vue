@@ -1,38 +1,30 @@
 <script setup lang="ts">
-const { items } = await useItems('services', {
+const { items, refresh } = await useItems('services', {
   live: true,
 })
 const layout = useLayout()
-const tabs = [
-  { label: '$t:massage_service', value: 'massage' },
-  { label: '$t:nail_service', value: 'nails' },
-]
-const tab = ref('massage')
-function onCreate(item: Record<string, any>) {
-  layout.open('next', {
-    page: 'services/edit',
-    props: { id: item.id },
-  })
+
+function onSave() {
+  refresh()
+  layout.close('next')
 }
-const filteredItems = computed(() => {
-  return items.value.filter(item => item.type === tab.value)
-})
 </script>
 
 <template>
   <Card>
-    <Tabs v-model="tab" :tabs />
-    <List :items="filteredItems">
+    <List :items="items">
       <template #item="{ item }">
         <Open
           :label="item.name"
-          page="services/edit"
-          :props="{ id: item.id }"
+          page="admin/services/edit"
+          :props="{ id: item.id, onSave }"
         >
           <div>
             <div>{{ item.name }}</div>
-            <div class="text-sm font-mono text-faint">
-              {{ Number(item.price).toFixed(0) }}฿
+            <div v-if="item.options" class="flex gap-2 text-sm text-faint">
+              <div v-for="option in item.options" :key="option.duration">
+                {{ option.duration }}={{ option.amount }}฿
+              </div>
             </div>
           </div>
         </Open>
@@ -42,7 +34,7 @@ const filteredItems = computed(() => {
   <Open
     label="$t:create_a_service"
     icon="material-symbols:add"
-    page="services/create"
-    :props="{ onSave: onCreate, type: tab }"
+    page="admin/services/edit"
+    :props="{ onSave }"
   />
 </template>

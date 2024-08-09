@@ -82,6 +82,20 @@ export default defineNuxtConfig({
       asyncContext: true,
     },
   },
+  app: {
+    head: {
+      meta: [
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+        },
+        {
+          name: 'MobileOptimized',
+          content: '320',
+        },
+      ],
+    },
+  },
 })
 
 function getImports() {

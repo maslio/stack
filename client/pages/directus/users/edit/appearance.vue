@@ -24,8 +24,7 @@ async function save() {
   await request(updateUser(user.id, { appearance: model.value }))
   if (me.value?.id === user.id)
     $appearance.value = model.value
-  else
-    emit('save')
+  emit('save')
 }
 </script>
 

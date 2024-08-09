@@ -24,9 +24,7 @@ async function save() {
     await $fetchTranslations(langauge.value)
     $language.value = langauge.value
   }
-  else {
-    emit('save')
-  }
+  emit('save')
 }
 </script>
 

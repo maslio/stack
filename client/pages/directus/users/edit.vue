@@ -52,8 +52,9 @@ function getLanguageName(language: string): string {
   return languages.find(l => l.code === language)?.name ?? ''
 }
 
+const layout = useLayout()
 function onSave() {
-  // next.value?.close()
+  layout.close('next')
   refresh()
   emit('save', id)
 }

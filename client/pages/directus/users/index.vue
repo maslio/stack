@@ -16,6 +16,11 @@ const { data: users } = await useAsyncData('user.list', async () => {
   ] }))
   return users
 })
+const layout = useLayout()
+function onSave(id: string) {
+  layout.close('next')
+  layout.open('next', { page: 'directus/users/edit', props: { id } })
+}
 </script>
 
 <template>
@@ -42,6 +47,7 @@ const { data: users } = await useAsyncData('user.list', async () => {
     icon="material-symbols:add"
     label="$t:create_a_user"
     page="directus/users/create"
+    :props="{ onSave }"
     skeleton="h-28 h-28 h-10"
   />
 </template>

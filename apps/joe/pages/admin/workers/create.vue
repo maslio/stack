@@ -1,39 +1,41 @@
 <script setup lang="ts">
 const props = defineProps<{
-  salon: number
+  branch: number
 }>()
 const emit = defineEmits<{
   (event: 'save', item: Record<string, any>): void
 }>()
+
 const { createItem } = useCollection('workers')
-const groups = [
-  {
-    fields: [
-      { field: 'name', label: '$t:name' },
-    ],
-  },
-  {
-    fields: [
-      { field: 'type', label: '$t:type' },
-      { field: 'salon', label: '$t:salon' },
-    ],
-  },
-]
-const values = {
-  salon: props.salon,
+const worker = ref({
+  name: '',
+  branch: props.branch,
   type: 'employee',
-}
-async function submit(data: Record<string, any>) {
-  const item = await createItem(data)
-  emit('save', item)
+})
+async function save() {
+  await createItem(worker.value)
+  emit('save', worker.value)
 }
 </script>
 
 <template>
-  <Form
-    collection="workers"
-    :groups
-    :submit
-    :values
+  <Card>
+    <InputString
+      v-model="worker.name"
+      label="$t:person.name"
+    />
+  </Card>
+  <Card>
+    <SelectBranch v-model="worker.branch" />
+  </Card>
+  <Card>
+    <Option v-model="worker.type" value="employee" label="Employee" />
+    <Option v-model="worker.type" value="freelancer" label="Freelancer" />
+  </Card>
+  <Button
+    :disabled="!worker.name || !worker.branch || !worker.type"
+    color="primary"
+    label="$t:save"
+    :click="save"
   />
 </template>

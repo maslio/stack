@@ -3,16 +3,16 @@ const { value, multiple } = defineProps<{
   label?: string
   caption?: string
   icon?: string
-  value: string | number
+  value: string | number | boolean | null
   multiple?: boolean
 }>()
 
-const model = defineModel<string | number | (string | number)[]>()
-const modelSingle = model as Ref<string | number>
-const modelMulti = model as Ref<(string | number)[]>
+const model = defineModel<string | number | boolean | null | (string | number)[]>()
+const modelSingle = model as Ref<string | number | boolean | null>
+const modelMulti = model as Ref<(string | number | boolean | null)[]>
 function onClick() {
   if (multiple) {
-    modelMulti.value = modelMulti.value.includes(value)
+    modelMulti.value = value && modelMulti.value.includes(value)
       ? modelMulti.value.filter(v => v !== value)
       : [...modelMulti.value, value]
   }

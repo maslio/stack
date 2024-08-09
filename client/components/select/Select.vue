@@ -2,6 +2,8 @@
 const props = withDefaults(defineProps<{
   label: string
   caption?: string
+  empty?: boolean
+  emptyLabel?: string
   multiple?: boolean
   options?: T[]
   optionValue?: keyof T
@@ -18,6 +20,7 @@ const props = withDefaults(defineProps<{
   optionLabel: () => 'label',
   optionCaption: 'caption',
   optionIcon: 'icon',
+  emptyLabel: '$t:empty',
 })
 const emit = defineEmits<{
   'update:search': [value: string]
@@ -72,6 +75,20 @@ watch(model, () => {
     apply()
 })
 
+const emptyModel = computed({
+  get() {
+    if (props.multiple)
+      return modelMulti.value.length === 0
+    return modelSingle.value === null
+  },
+  set() {
+    if (props.multiple)
+      modelMulti.value = []
+    else
+      modelSingle.value = null
+  },
+})
+
 const open = ref()
 function apply() {
   if (props.multiple)
@@ -91,7 +108,7 @@ function apply() {
     :target
     :value
   >
-    <template #item>
+    <template #default>
       <slot v-if="$slots.item" name="item" />
       <div v-else>
         <div class="flex items-center">
@@ -103,6 +120,13 @@ function apply() {
       </div>
     </template>
     <template #render>
+      <Card v-if="empty">
+        <Option
+          v-model="emptyModel"
+          :value="true"
+          :label="emptyLabel"
+        />
+      </Card>
       <List
         :search="search"
         :items="options"

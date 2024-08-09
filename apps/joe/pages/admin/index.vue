@@ -9,17 +9,11 @@
   </Card>
   <Card>
     <Open
-      icon="material-symbols:house-siding-rounded"
+      icon="material-symbols:store"
       label="$t:branches"
       page="admin/branches/list"
       skeleton="h-11 h-50"
     />
-    <!-- <Open
-      icon="material-symbols:emoji-people"
-      label="$t:workers"
-      page="admin/workers/list"
-      skeleton="h-11 h-50"
-    /> -->
   </Card>
   <!-- <Card>
     <Open

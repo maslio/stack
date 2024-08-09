@@ -1,51 +1,49 @@
 <script setup lang="ts">
 const { items, refresh } = await useItems('workers', {
-  fields: ['id', 'name', 'salon.id', 'salon.name'],
+  fields: ['id', 'name', 'branch', 'type'],
+  live: true,
 })
+
 const layout = useLayout()
-const salon = ref<number>()
+const branch = ref<number>()
 function onCreate(item: Record<string, any>) {
   layout.open('next', {
-    page: 'workers/edit',
+    page: 'admin/workers/edit',
     props: { id: item.id, onSave: onUpdate },
   })
   refresh()
 }
 function onUpdate() {
+  layout.close('next')
   refresh()
 }
+const search = ref<string>('')
 const filteredItems = computed(() => {
-  return items.value.filter(item => item.salon?.id === salon.value)
+  let _items = items.value
+  if (branch.value)
+    _items = _items.filter(item => item.branch === branch.value)
+  if (search.value)
+    _items = _items.filter(item => item.name.toLowerCase().includes(search.value.toLowerCase()))
+  return _items
 })
 </script>
 
 <template>
-  <SelectItems
-    v-model="salon"
-    label="$t:salon"
-    collection="salons"
-    fields="id name"
-    apply-on-change
-    close-on-apply
-  />
+  <SelectBranch v-model="branch" empty />
   <Card>
-    <List :items="filteredItems">
-      <template #item="{ item, index }">
+    <List v-model:search="search" :items="filteredItems">
+      <template #item="{ item }">
         <Open
           :label="item.name"
-          page="workers/edit"
+          page="admin/workers/edit"
           :props="{ id: item.id, onSave: onUpdate }"
         >
-          <div class="flex items-center gap-4">
-            <div class="w-4 text-center">
-              <div class="font-mono">
-                {{ index + 1 }}
-              </div>
-            </div>
+          <div class="flex items-center gap-3">
+            <Avatar :src="item.avatar" size="30" />
             <div>
               <div>{{ item.name }}</div>
               <div class="text-sm text-faint">
-                {{ item.salon?.name }}
+                {{ $t(item.type) }}
               </div>
             </div>
           </div>
@@ -56,7 +54,7 @@ const filteredItems = computed(() => {
   <Open
     label="$t:add_a_worker"
     icon="material-symbols:add"
-    page="workers/create"
-    :props="{ onSave: onCreate, salon }"
+    page="admin/workers/create"
+    :props="{ onSave: onCreate, branch }"
   />
 </template>

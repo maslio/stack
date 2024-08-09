@@ -5,33 +5,32 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'save', item: Record<string, any>): void
 }>()
-const layout = useLayout()
-const { item, updateItem } = await useItem('workers', props.id)
-const groups = [
-  {
-    fields: [
-      { field: 'name', label: '$t:person.name' },
-    ],
-  },
-  {
-    fields: [
-      { field: 'type', label: '$t:type' },
-      { field: 'salon', label: '$t:salon' },
-    ],
-  },
-]
-async function submit(data: Record<string, any>) {
-  updateItem(data)
-  emit('save', data)
-  layout.close()
+
+const { readItem, updateItem } = useCollection('workers')
+const worker = ref(await readItem(props.id))
+async function save() {
+  await updateItem(props.id, worker.value)
+  emit('save', worker.value)
 }
 </script>
 
 <template>
-  <Form
-    collection="workers"
-    :groups="groups"
-    :values="item"
-    :submit
+  <Card>
+    <InputString
+      v-model="worker.name"
+      label="$t:person.name"
+    />
+  </Card>
+  <Card>
+    <SelectBranch v-model="worker.branch" />
+  </Card>
+  <Card>
+    <Option v-model="worker.type" value="employee" label="Employee" />
+    <Option v-model="worker.type" value="freelancer" label="Freelancer" />
+  </Card>
+  <Button
+    color="primary"
+    label="$t:save"
+    :click="save"
   />
 </template>

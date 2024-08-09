@@ -4,6 +4,7 @@
     "lint:fix": "eslint --fix .",
     "dev": "nuxt dev",
     "dev:db": "docker compose -f .directus/docker-compose.yaml up -d",
+    "deploy": "nuxt build --preset bun && docker build -t maslio/joe . && docker push maslio/joe",
     "build": "nuxt build --preset bun",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

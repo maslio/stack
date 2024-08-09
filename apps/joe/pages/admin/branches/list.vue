@@ -5,7 +5,7 @@ const { items } = await useItems('branches', {
 const layout = useLayout()
 function onCreate(item: Record<string, any>) {
   layout.open('next', {
-    page: 'admin/branches/edit',
+    page: 'admin/branches/info',
     props: { id: item.id },
   })
 }
@@ -17,7 +17,7 @@ function onCreate(item: Record<string, any>) {
       <template #item="{ item, index }">
         <Open
           :label="item.name"
-          page="admin/branches/edit"
+          page="admin/branches/info"
           :props="{ id: item.id }"
         >
           <template #item>

@@ -6,6 +6,7 @@ const props = defineProps<{
   icon?: string
   label: string
   value?: string
+  valueClass?: string
   caption?: string
   component?: Component | string
   page?: string
@@ -54,21 +55,21 @@ function onContextmenu(e: MouseEvent) {
   open('side')
 }
 
-function root() {
-  const t = (target.startsWith('dialog') ? 'dialog' : target) as 'next' | 'self' | 'dialog'
-  const opened = layout.opened[t] === id
-  return h(Item, {
-    icon: props.icon,
-    label: props.label,
-    value: props.value,
-    caption: props.caption,
-    clickable: true,
-    opened,
-    rightIcon: 'fluent:chevron-right-16-filled',
-    onClick,
-    onContextmenu,
-  }, { default: slots.default })
-}
+const t = (target.startsWith('dialog') ? 'dialog' : target) as 'next' | 'self' | 'dialog'
+// function root() {
+//   const opened = layout.opened[t] === id
+//   return h(Item, {
+//     icon: props.icon,
+//     label: props.label,
+//     value: props.value,
+//     caption: props.caption,
+//     clickable: true,
+//     opened,
+//     rightIcon: 'fluent:chevron-right-16-filled',
+//     onClick,
+//     onContextmenu,
+//   }, { default: slots.default })
+// }
 
 defineExpose({ close })
 if (props.preload && props.page)
@@ -76,5 +77,32 @@ if (props.preload && props.page)
 </script>
 
 <template>
-  <root />
+  <Item
+    :icon="props.icon"
+    :label="props.label"
+    :value="props.value"
+    :caption="props.caption"
+    clickable
+    :opened="layout.opened[t] === id"
+    right-icon="fluent:chevron-right-16-filled"
+    @click="onClick"
+    @contextmenu="onContextmenu"
+  >
+    <slot v-if="slots.default" />
+    <div v-else class="flex">
+      <Text
+        v-if="$props.label || $props.caption"
+        :label="$props.label"
+        :caption="$props.caption"
+        truncate class="flex-1"
+      />
+      <Text
+        v-if="$props.value"
+        :class="valueClass"
+        :label="$props.value"
+        class="text-faint"
+        truncate
+      />
+    </div>
+  </Item>
 </template>

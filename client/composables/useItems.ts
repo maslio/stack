@@ -82,12 +82,12 @@ export async function useItems(collection: string, options: UseItemsOptions = {}
       })))
     }
     const [items, count] = await Promise.all(requests)
+    // console.log('items', items)
     return { items, count: options.count ? count![0]!.count.id : null }
   }, { watch, immediate: false })
 
   const items = computed<Record<string, any>[]>(() => asyncData.data.value?.items as Record<string, any>[])
   const count = computed<number>(() => asyncData.data.value?.count)
-
   if (options.live) {
     useSubscription(collection, {
       query: getQuery({ filter, fields, search, limit }),

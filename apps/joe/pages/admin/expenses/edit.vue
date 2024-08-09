@@ -37,6 +37,9 @@ async function save() {
     <InputString v-model="item.name" label="$t:name" />
     <InputNumber v-model="item.amount" label="$t:amount" />
   </Card>
+  <div class="px-1 text-sm text-faint">
+    {{ $t('hint.expense_edit_hint') }}
+  </div>
   <Button
     color="primary" :click="save" label="$t:save"
     :disabled="!item.name"

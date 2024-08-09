@@ -2,7 +2,9 @@
 const props = defineProps<{
   id: number
 }>()
-const { item, refresh: refreshBranch } = await useItem('branches', props.id)
+const { item, refresh: refreshBranch } = await useItem('branches', props.id, {
+  fields: ['id', 'name', 'address', 'manager.avatar', 'manager.id'],
+})
 
 const layout = useLayout()
 function onSave() {
@@ -39,5 +41,23 @@ function onSave() {
       :props="{ id: props.id, onSave }"
       icon="material-symbols:emoji-people"
     />
+    <Open
+      page="admin/branches/manager"
+      label="$t:manager"
+      :props="{ branch: item.id, manager: item.manager.id, onSave }"
+      icon="material-symbols:manage-accounts-rounded"
+    >
+      <div class="flex items-center justify-between gap-2">
+        <div>{{ $mt('$t:manager') }}</div>
+        <div class="h-30px">
+          <div v-if="item.manager">
+            <Avatar :src="item.manager.avatar" size="30" />
+          </div>
+        </div>
+      </div>
+    </Open>
   </Card>
+  <div class="px-1 text-sm text-faint">
+    {{ $t('hint.branch_manager_hint') }}
+  </div>
 </template>

@@ -2,6 +2,6 @@
   "scripts": {
     "dev": "nuxt dev",
     "dev:db": "docker compose -f directus/docker-compose.yaml up -d",
-    "dev:app": "nuxt dev --cwd ./app"
+    "dev:app": "nuxt dev --cwd --cwd=app"
   }
 }

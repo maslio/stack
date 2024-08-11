@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-08-01',
   future: { compatibilityVersion: 4 },
-  extends: ['../..'],
+  extends: ['../../../layers/app'],
   serverDir: 'server',
   devServer: { port: 4000 },
   devtools: { enabled: true },

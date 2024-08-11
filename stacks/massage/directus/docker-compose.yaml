@@ -1,0 +1,33 @@
+name: directus-massage
+services:
+  directus:
+    image: directus/directus:11
+    ports:
+      - 4055:8055
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+    environment:
+      - ADMIN_EMAIL=vlad@maslio.com
+      - ADMIN_PASSWORD=273975
+      - DB_CLIENT=pg
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=joe
+      - DB_PASSWORD=joe
+      - DB_DATABASE=joe
+      - WEBSOCKETS_ENABLED=true
+      - CORS_ENABLED=true
+      - CORS_ORIGIN=true
+    env_file:
+      - .env
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - 4432:5432
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=joe
+      - POSTGRES_PASSWORD=joe
+      - POSTGRES_DB=joe

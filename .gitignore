@@ -23,4 +23,5 @@ logs
 .env.*
 !.env.example
 
-.directus
+**/directus/postgres
+**/directus/database

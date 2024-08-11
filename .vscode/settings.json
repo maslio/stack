@@ -52,5 +52,9 @@
   ],
   "i18n-ally.sourceLanguage": "ru-RU",
   "i18n-ally.languageTagSystem": "bcp47",
-  "i18n-ally.displayLanguage": "ru-RU"
+  "i18n-ally.displayLanguage": "ru-RU",
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "nuxt.config.*": "*.env, package.json, uno.config.*, tsconfig.*, app.vue, Dockerfile"
+  }
 }

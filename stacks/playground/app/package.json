@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "dev": "nuxt dev",
+    "postinstall": "nuxt prepare"
+  }
+}

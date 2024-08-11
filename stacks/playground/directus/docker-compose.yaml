@@ -1,0 +1,27 @@
+version: '3'
+name: directus-stack
+services:
+  local:
+    image: directus/directus:11.0.1
+    ports:
+      - 2055:8055
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+      - ./database:/directus/database
+    environment:
+      - ADMIN_EMAIL=vlad@maslio.com
+      - ADMIN_PASSWORD=273975
+      - WEBSOCKETS_ENABLED=true
+  remote:
+    image: directus/directus:11.0.1
+    ports:
+      - 2056:8055
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+      - ./remote:/directus/database
+    environment:
+      - ADMIN_EMAIL=vlad@maslio.com
+      - ADMIN_PASSWORD=273975
+      - WEBSOCKETS_ENABLED=true

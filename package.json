@@ -2,16 +2,9 @@
   "name": "@maslio/stack",
   "type": "module",
   "version": "0.1.0",
-  "engines": {
-    "node": "20"
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "dev": "nuxi dev",
-    "dev:db": "docker compose -f .directus/docker-compose.yaml up -d",
-    "postinstall": "nuxt prepare"
-  },
+  "workspaces": [
+    "layers/*"
+  ],
   "dependencies": {
     "@ai-sdk/openai": "^0.0.40",
     "@directus/sdk": "^17.0.0",

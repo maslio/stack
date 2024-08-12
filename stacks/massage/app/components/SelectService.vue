@@ -8,6 +8,7 @@ const { items } = await useItems('services')
     v-model="model"
     label="$t:service"
     :options="items"
+    option-label="name"
     close-on-apply
     apply-on-change
   >

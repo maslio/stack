@@ -37,6 +37,10 @@ function onApplyService(service: Record<string, any>) {
     // item.value.amount = service.amount
 }
 async function save() {
+  if (!item.value.amount)
+    throw new Error('$t:amount_is_0')
+  if (!item.value.worker)
+    throw new Error('$t:worker_is_required')
   if (props.id)
     await updateItem(props.id, item.value)
   else

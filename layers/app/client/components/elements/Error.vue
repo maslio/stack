@@ -29,7 +29,7 @@ const text = computed(() => {
         <Icon name="material-symbols:error" size="16" />
       </div>
       <div>
-        {{ text }}
+        {{ $mt(text) }}
       </div>
     </div>
   </Transition>

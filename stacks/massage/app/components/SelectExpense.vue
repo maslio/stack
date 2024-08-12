@@ -8,6 +8,7 @@ const { items } = await useItems('expenses')
     v-model="model"
     label="$t:expense"
     :options="items"
+    option-label="name"
     close-on-apply
     apply-on-change
   >

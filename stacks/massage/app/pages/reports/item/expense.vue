@@ -33,6 +33,8 @@ function onApplyExpense(expense: Record<string, any>) {
     item.value.amount = expense.amount
 }
 async function save() {
+  if (!item.value.amount)
+    throw new Error('$t:amount_is_0')
   if (props.id)
     await updateItem(props.id, item.value)
   else

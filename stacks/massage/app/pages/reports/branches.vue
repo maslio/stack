@@ -50,7 +50,7 @@ useInterval(5000, { callback() {
 <template>
   <Date v-model="date" icon="date" icon-color="primary" />
   <Item>
-    <div class="flex pr-3.5">
+    <div class="flex">
       <div class="flex-1">
         {{ $t('all') }}
       </div>

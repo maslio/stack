@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { aggregate } from '@directus/sdk'
-import Item from '../../../../../layers/app/client/components/elements/Item.vue'
 
 const date = ref(dateFormat(new Date()))
 const { request } = useDirectus()
@@ -45,26 +44,29 @@ function sum(branch?: number) {
 useInterval(5000, { callback() {
   refresh()
 } })
+
+const quota = 5000
 </script>
 
 <template>
   <Date v-model="date" icon="date" icon-color="primary" />
-  <Item>
-    <div class="flex">
-      <div class="flex-1">
-        {{ $t('all') }}
-      </div>
-      <Currency :value="sum()" />
-    </div>
-  </Item>
+  <Stat
+    label="$t:all"
+    :value="sum()"
+    :quota="quota * branches.length"
+  />
   <List :items="branches">
-    <template #item="{ item }">
-      <OpenCurrency
-        :label="item.name"
-        page="reports/branch"
-        :props="{ branch: item, date, onRefresh: refresh }"
-        :value="sum(item.id)"
-      />
+    <template #item="{ item, index }">
+      <div>
+        <Separator v-if="index" />
+        <Stat
+          :label="item.name"
+          page="reports/branch"
+          :props="{ branch: item, date, onRefresh: refresh }"
+          :value="sum(item.id)"
+          :quota
+        />
+      </div>
     </template>
   </List>
 </template>

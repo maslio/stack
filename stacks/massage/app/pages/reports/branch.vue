@@ -6,6 +6,7 @@ const { branch, date } = defineProps<{
 const emit = defineEmits<{
   refresh: []
 }>()
+const today = dateFormat(new Date())
 const { items: expenses, refresh: refreshExpenses } = await useItems('expense_items', {
   filter: { date: between(date), branch: branch.id },
   fields: ['id', 'date', 'expense.name', 'amount'],
@@ -157,7 +158,7 @@ const sum = computed(() => {
       </template>
     </List>
   </template>
-  <Sticky>
+  <Sticky v-if="date === today">
     <Open
       icon="material-symbols:add"
       icon-color="primary"

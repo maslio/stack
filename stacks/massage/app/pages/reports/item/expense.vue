@@ -45,10 +45,14 @@ async function save() {
   <Card>
     <SelectExpense
       v-model="item.expense"
+      icon="expense"
+      icon-color="primary"
       @apply="onApplyExpense"
     />
     <SelectWorker
       v-model="item.worker"
+      icon="worker"
+      icon-color="primary"
       :branch="branch.id"
       @apply="onApplyExpense"
     />

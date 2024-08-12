@@ -17,9 +17,11 @@ function onSave() {
           page="admin/services/edit"
           :props="{ id: item.id, onSave }"
         >
-          <div>
-            <div>{{ item.name }}</div>
-            <div v-if="item.options" class="flex gap-2 text-sm text-faint">
+          <div class="flex items-center">
+            <div class="flex-1 truncate">
+              {{ item.name }}
+            </div>
+            <div v-if="item.options" class="text-sm text-faint">
               <div v-for="option in item.options" :key="option.duration">
                 {{ option.duration }}={{ option.amount }}฿
               </div>
@@ -32,6 +34,7 @@ function onSave() {
   <Open
     label="$t:create_a_service"
     icon="material-symbols:add"
+    icon-color="primary"
     page="admin/services/edit"
     :props="{ onSave }"
   />

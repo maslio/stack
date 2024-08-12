@@ -65,10 +65,14 @@ const option = computed({
   <Card>
     <SelectService
       v-model="item.service"
+      icon="service"
+      icon-color="primary"
       @apply="onApplyService"
     />
     <SelectWorker
       v-model="item.worker"
+      icon="worker"
+      icon-color="primary"
       :branch="branch.id"
       @apply="onApplyService"
     />

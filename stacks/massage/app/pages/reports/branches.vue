@@ -4,7 +4,7 @@ const { items: branches } = await useItems('branches')
 </script>
 
 <template>
-  <Date v-model="date" />
+  <Date v-model="date" icon="date" icon-color="primary" />
   <List :items="branches">
     <template #item="{ item }">
       <OpenCurrency

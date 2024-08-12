@@ -74,6 +74,7 @@ function formatTime(date: string) {
   </List>
   <Open
     icon="material-symbols:add"
+    icon-color="primary"
     label="$t:add"
     page="reports/item"
     :props="{ branch, date, onSave: refresh }"

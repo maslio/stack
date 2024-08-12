@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
   <div
-    class="relative h-4 w-4 rounded-md"
+    class="relative h-5 w-5 rounded-md"
     transition duration-100
     ease-out
     :color="selected ? 'primary' : 'neutral'"
@@ -17,9 +17,9 @@ defineProps<{
     >
       <NuxtIcon
         v-if="selected"
-        class="absolute left--3px top--3px"
+        class="absolute left--2px top--2px"
         name="material-symbols:check-small-rounded"
-        size="22"
+        size="24"
       />
     </Transition>
   </div>

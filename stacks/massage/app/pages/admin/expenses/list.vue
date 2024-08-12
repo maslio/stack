@@ -12,7 +12,7 @@ function onSave() {
   <Card>
     <List :items="items">
       <template #item="{ item }">
-        <Open
+        <OpenCurrency
           :label="item.name"
           :value="item.amount"
           page="admin/expenses/edit"
@@ -24,6 +24,7 @@ function onSave() {
   <Open
     label="$t:create_an_expense"
     icon="material-symbols:add"
+    icon-color="primary"
     page="admin/expenses/edit"
     :props="{ onSave }"
   />

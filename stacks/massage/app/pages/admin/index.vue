@@ -1,7 +1,8 @@
 <template>
   <Card>
     <Open
-      icon="material-symbols:person"
+      icon="user"
+      icon-color="primary"
       label="$t:users"
       page="directus/users"
       skeleton="h-11 h-50"
@@ -9,25 +10,29 @@
   </Card>
   <Card>
     <Open
-      icon="material-symbols:store"
+      icon="branch"
+      icon-color="primary"
       label="$t:branches"
       page="admin/branches/list"
       skeleton="h-11 h-50"
     />
     <Open
-      icon="material-symbols:folded-hands-rounded"
+      icon="service"
+      icon-color="primary"
       label="$t:services"
       page="admin/services/list"
       skeleton="h-11 h-50"
     />
     <Open
-      icon="streamline:money-cash-bag-dollar-bag-payment-cash-money-finance"
+      icon="expense"
+      icon-color="primary"
       label="$t:expenses"
       page="admin/expenses/list"
       skeleton="h-11 h-50"
     />
     <Open
-      icon="material-symbols:bar-chart-4-bars"
+      icon="report"
+      icon-color="primary"
       label="$t:reports"
       page="reports/branches"
       skeleton="h-11 h-50"

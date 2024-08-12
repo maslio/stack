@@ -44,7 +44,7 @@ function onSave() {
     <Open
       page="admin/branches/manager"
       label="$t:manager"
-      :props="{ branch: item.id, manager: item.manager.id, onSave }"
+      :props="{ branch: item.id, manager: item.manager?.id, onSave }"
       icon="material-symbols:manage-accounts-rounded"
     >
       <div class="flex items-center justify-between gap-2">

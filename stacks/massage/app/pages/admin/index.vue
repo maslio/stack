@@ -26,5 +26,11 @@
       page="admin/expenses/list"
       skeleton="h-11 h-50"
     />
+    <Open
+      icon="material-symbols:bar-chart-4-bars"
+      label="$t:reports"
+      page="reports/branches"
+      skeleton="h-11 h-50"
+    />
   </Card>
 </template>

@@ -2,6 +2,7 @@
 export interface Props {
   id?: string | number
   icon?: string
+  iconColor?: string
   label?: string
   caption?: string
   value?: string
@@ -48,7 +49,11 @@ const clickable = computed(() => {
     :class="{ clickable, opened }"
     v-bind="$attrs"
   >
-    <Icon v-if="$props.icon" :name="$props.icon" />
+    <Icon
+      v-if="$props.icon"
+      :name="$props.icon"
+      :color="$props.iconColor"
+    />
     <div class="flex-1">
       <slot v-if="$slots.default" />
       <div v-else class="flex">

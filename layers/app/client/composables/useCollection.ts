@@ -15,8 +15,8 @@ type Query = Record<string, any>
 
 export function useCollection(collection: string) {
   const { request } = useDirectus()
-  async function createItem(data: Record<string, any>) {
-    return await request(_createItem(collection, data))
+  async function createItem<T = Record<string, any>>(data: Record<string, any>) {
+    return await request<T>(_createItem(collection, data))
   }
   async function updateItem(id: ID, data: Record<string, any>) {
     return await request(_updateItem(collection, id, data))

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
   label?: string
-  salon?: number
+  branch?: number
 }>(), {
   label: '$t:worker',
 })
@@ -9,13 +9,13 @@ const props = withDefaults(defineProps<{
 const model = defineModel<number | string | null>({ default: null })
 
 const { items } = await useItems('workers', {
-  fields: ['id', 'name', 'salon'],
+  fields: ['id', 'name', 'branch'],
 })
 const search = ref('')
 const options = computed(() => {
   const workers = items.value.filter(item => item.name.includes(search.value))
-  if (props.salon)
-    return workers.filter(item => item.salon === props.salon)
+  if (props.branch)
+    return workers.filter(item => item.branch === props.branch)
   return workers
 })
 

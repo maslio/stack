@@ -24,7 +24,8 @@ const props = withDefaults(defineProps<{
 })
 const emit = defineEmits<{
   'update:search': [value: string]
-  'update:modelValue': [value: Value | Value[]]
+  'update:modelValue': [value: Value | Value[] | null]
+  'apply': [item: T | T[] | null]
   'close': []
 }>()
 defineSlots<{
@@ -46,7 +47,7 @@ watch(() => props.modelValue, () => {
   refreshModel()
 }, { immediate: true })
 
-const modelSingle = model as Ref<Value>
+const modelSingle = model as Ref<Value | null>
 const modelMulti = model as Ref<Value[]>
 
 function getOptionLabel(item?: Record<string, any>) {
@@ -91,10 +92,19 @@ const emptyModel = computed({
 
 const open = ref()
 function apply() {
-  if (props.multiple)
+  if (props.multiple) {
     emit('update:modelValue', [...modelMulti.value])
-  else
+  }
+  else {
     emit('update:modelValue', modelSingle.value)
+    if (modelSingle.value) {
+      const option = props.options?.find(o => o[props.optionValue] === modelSingle.value) ?? null
+      emit('apply', option)
+    }
+    else {
+      emit('apply', null)
+    }
+  }
   if (props.closeOnApply)
     open.value?.close()
 }

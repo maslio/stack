@@ -40,6 +40,7 @@ export default defineConfig({
     'text-negative': 'dark:text-rose-400 light:text-rose-500',
     'bg-primary': 'dark:bg-purple-800 light:bg-purple-600',
     'color-back': 'dark:(bg-dark-900 text-light) light:(bg-neutral-200 text-dark)',
+    'border-back': 'dark:(border-dark-900) light:(border-neutral-200)',
     'color-default': 'dark:(bg-dark-600 text-light clickable:bg-dark-300 opened:bg-neutral-700! focused:bg-dark-300)            light:(bg-light-100 text-dark clickable:bg-light-400 opened:bg-light-500! focused:bg-light-400)',
     'color-contrast': 'dark:(bg-light-300 text-dark clickable:bg-neutral-200) light:(bg-dark-200 text-light clickable:bg-dark-100)',
     'color-primary': 'dark:(bg-purple-800 text-light clickable:bg-purple-700) light:(bg-purple-600 text-light clickable:bg-purple-500)',

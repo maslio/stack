@@ -3,7 +3,9 @@ const { branch, date } = defineProps<{
   branch: Record<string, any>
   date: string
 }>()
-
+const emit = defineEmits<{
+  refresh: []
+}>()
 const { items: expenses, refresh: refreshExpenses } = await useItems('expense_items', {
   filter: { date: between(date), branch: branch.id },
   fields: ['id', 'date', 'expense.name', 'amount'],
@@ -15,6 +17,7 @@ const { items: services, refresh: refreshServices } = await useItems('service_it
 function refresh() {
   refreshExpenses()
   refreshServices()
+  emit('refresh')
 }
 function formatTime(date: string) {
   return date.substring(11, 16)

@@ -12,7 +12,8 @@ const emit = defineEmits<{
   save: []
 }>()
 
-const { $appearance } = useNuxtApp()
+// const { $appearance } = useNuxtApp()
+const { $colorMode } = useNuxtApp()
 
 const model = ref(user.appearance ?? 'auto')
 const options = ['auto', 'dark', 'light'].map(value => ({
@@ -23,7 +24,7 @@ const { request, user: me } = useDirectus()
 async function save() {
   await request(updateUser(user.id, { appearance: model.value }))
   if (me.value?.id === user.id)
-    $appearance.value = model.value
+    $colorMode.preference = model.value === 'auto' ? 'system' : model.value
   emit('save')
 }
 </script>

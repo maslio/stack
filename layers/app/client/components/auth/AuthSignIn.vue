@@ -1,10 +1,14 @@
 <script setup lang="ts">
+// const { $user, $appearance } = useNuxtApp()
 const { login } = useDirectus()
 const email = ref('')
 const password = ref('')
 
 async function click() {
   await login(email.value, password.value)
+  // if ($user.value.appearance)
+  //   $appearance.value = $user.value.appearance
+  // console.log($user.value.appearance)
 }
 </script>
 

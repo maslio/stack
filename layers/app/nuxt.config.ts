@@ -14,6 +14,9 @@ export default defineNuxtConfig({
     join(currentDir, './client/assets/global.css'),
   ],
   modules: [
+    ['@nuxtjs/color-mode', {
+      classSuffix: '',
+    }],
     ['@nuxt/icon', {
       componentName: 'NuxtIcon',
       size: '24px',

@@ -44,7 +44,11 @@ const layout = useLayout()
 const items = computed(() => {
   const items: Translation[] = []
   if (search.value) {
-    const _items = translations.value?.filter(t => t.key.includes(search.value)) ?? []
+    const _search = search.value.toLocaleLowerCase()
+    const _items = translations.value?.filter(t =>
+      t.key.toLocaleLowerCase().includes(_search)
+      || t.values.find(v => v.value.toLocaleLowerCase().includes(_search)),
+    ) ?? []
     if (_items.length === 0)
       items.push(createTranslation(search.value, true))
     else

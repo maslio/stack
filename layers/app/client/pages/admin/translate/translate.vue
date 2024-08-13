@@ -85,6 +85,7 @@ function onSave() {
     v-model:search="search"
     :items
     item-key="key"
+    separator
   >
     <template #item="{ item: translation }">
       <Open

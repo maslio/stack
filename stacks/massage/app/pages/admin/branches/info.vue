@@ -21,6 +21,7 @@ function onSave() {
       </div>
       <div>{{ item.name }}</div>
     </Item>
+    <Separator inset />
     <Item>
       <div class="___ text-sm text-faint">
         {{ $t('address') }}
@@ -35,12 +36,14 @@ function onSave() {
       :props="{ id: props.id, onSave }"
       icon="material-symbols-light:edit"
     />
+    <Separator inset />
     <Open
       page="admin/branches/workers/list"
       label="$t:workers"
       :props="{ id: props.id, onSave }"
       icon="material-symbols:emoji-people"
     />
+    <Separator inset />
     <Open
       page="admin/branches/manager"
       label="$t:manager"

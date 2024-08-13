@@ -14,7 +14,7 @@ function onSave() {
 </script>
 
 <template>
-  <List :items="items">
+  <List :items="items" separator>
     <template #item="{ item: worker }">
       <Open
         :label="worker.name"

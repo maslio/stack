@@ -11,7 +11,7 @@ function onCreate(item: Record<string, any>) {
 
 <template>
   <Card>
-    <List :items="items">
+    <List :items="items" separator>
       <template #item="{ item, index }">
         <Open
           :label="item.name"

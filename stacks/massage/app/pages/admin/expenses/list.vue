@@ -10,7 +10,7 @@ function onSave() {
 
 <template>
   <Card>
-    <List :items="items">
+    <List :items="items" separator>
       <template #item="{ item }">
         <OpenCurrency
           :label="item.name"

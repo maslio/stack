@@ -62,6 +62,7 @@ async function save() {
         <Button icon="close" @click="removeOption(option.id)" />
       </div>
     </div>
+    <Separator inset class="mt-5" />
     <Button label="$t:add_option" @click="addOption({ duration: 0, amount: 0 })" />
   </Card>
   <Button

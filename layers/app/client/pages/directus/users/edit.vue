@@ -77,6 +77,7 @@ function onDelete() {
         page="directus/users/edit/avatar"
         :props="{ user, onSave }"
       />
+      <Separator inset />
       <Open
         v-if="fields.includes('password')"
         icon="material-symbols:passkey"
@@ -96,6 +97,7 @@ function onDelete() {
         :value="getUsername(user)"
         @close="refresh"
       />
+      <Separator inset />
       <Open
         v-if="fields.includes('email')"
         label="$t:email"
@@ -104,6 +106,7 @@ function onDelete() {
         :props="{ user, onSave }"
         :value="user.email ?? ''"
       />
+      <Separator inset />
       <Open
         v-if="fields.includes('role')"
         label="$t:user.role"
@@ -111,6 +114,7 @@ function onDelete() {
         :props="{ user, onSave }"
         :value="user.role?.name"
       />
+      <Separator inset />
       <Open
         v-if="fields.includes('language')"
         label="$t:language"
@@ -118,6 +122,7 @@ function onDelete() {
         :props="{ user, onSave }"
         :value="getLanguageName(user.language ?? 'en-US')"
       />
+      <Separator inset />
       <Open
         v-if="fields.includes('appearance')"
         label="$t:appearance"

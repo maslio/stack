@@ -16,6 +16,7 @@
       page="admin/branches/list"
       skeleton="h-11 h-50"
     />
+    <Separator icon />
     <Open
       icon="service"
       icon-color="primary"
@@ -23,6 +24,7 @@
       page="admin/services/list"
       skeleton="h-11 h-50"
     />
+    <Separator icon />
     <Open
       icon="expense"
       icon-color="primary"
@@ -30,6 +32,8 @@
       page="admin/expenses/list"
       skeleton="h-11 h-50"
     />
+  </Card>
+  <Card>
     <Open
       icon="report"
       icon-color="primary"

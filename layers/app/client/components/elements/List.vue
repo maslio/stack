@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<{
   search?: string | null
   showSearch?: boolean
   showTotal?: boolean
+  separator?: boolean
   transition?: boolean
 }>(), {
   limit: 5,
@@ -156,9 +157,9 @@ const focus = (function () {
             v-for="(item, index) in items"
             :key="String(item[props.itemKey ?? 'id' as keyof T])"
             :class="{ focused: (focus.active && index === focus.index) }"
-            class="flex children:flex-1"
           >
             <slot name="item" :item="item" :index />
+            <Separator v-if="separator && index !== items.length - 1" inset />
           </div>
         </TransitionGroup>
       </template>

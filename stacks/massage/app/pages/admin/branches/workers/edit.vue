@@ -8,13 +8,18 @@ const emit = defineEmits<{
 
 const { readItem, updateItem } = useCollection('workers')
 const worker = ref(await readItem(props.id))
+const newAvatar = ref<File>()
+async function uploadAvatar(files: File[]) {
+  newAvatar.value = files[0]
+}
 async function save() {
-  await updateItem(props.id, worker.value)
+  await updateItem(props.id, { ...worker.value, avatar: newAvatar.value })
   emit('save', worker.value)
 }
 </script>
 
 <template>
+  <FilesUpload @upload="uploadAvatar" />
   <Card>
     <InputString
       v-model="worker.name"

@@ -12,6 +12,7 @@ const groups = [
     fields: [
       { field: 'name', label: '$t:name' },
       { field: 'address', label: '$t:address' },
+      { field: 'quota', label: '$t:quota' },
     ],
   },
 ]

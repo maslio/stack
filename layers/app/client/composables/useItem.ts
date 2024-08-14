@@ -47,14 +47,14 @@ function getQuery(data: any) {
 }
 
 export async function useItem(collection: string, key: string | number, options: UseItemOptions = {}): Promise<UseItem> {
-  const { requestAny } = useDirectus()
+  const { request } = useDirectus()
 
   const fields = getOption(options, 'fields')
 
   const query = getQuery({ fields })
 
   const asyncData = useAsyncData(useId(), async () => {
-    return await requestAny(readItem(collection, key, query))
+    return await request(readItem(collection, key, query))
   }, {
     immediate: false,
   })
@@ -62,10 +62,10 @@ export async function useItem(collection: string, key: string | number, options:
   const item = computed(() => asyncData.data.value as Record<string, any>)
 
   async function updateItem(data: Record<string, any>) {
-    return await requestAny(_updateItem(collection, key, data))
+    return await request(_updateItem(collection, key, data))
   }
   async function deleteItem() {
-    return await requestAny(_deleteItems(collection, [key as string]))
+    return await request(_deleteItems(collection, [key as string]))
   }
 
   if (options.live) {

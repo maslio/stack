@@ -12,8 +12,8 @@ const emit = defineEmits<{
   save: []
 }>()
 const tabs = [
-  { label: '$t:service', value: 'service' },
-  { label: '$t:expense', value: 'expense' },
+  { label: '$t:income', value: 'service' },
+  { label: '$t:outcome', value: 'expense' },
 ]
 const tab = ref<'service' | 'expense'>(props.type ?? 'service')
 const component = computed(() => tab.value === 'service' ? Service : Expense)

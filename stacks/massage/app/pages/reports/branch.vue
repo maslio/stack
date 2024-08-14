@@ -59,11 +59,21 @@ const sum = computed(() => {
       </div>
       <div>{{ format(date) }}</div>
     </Item>
-    <Item icon="date">
-      <div class="text-sm text-faint">
-        {{ $t('profit') }}
+    <Item icon="expense">
+      <div class="flex gap-10">
+        <div>
+          <div class="text-sm text-faint">
+            {{ $t('profit') }}
+          </div>
+          <Currency :value="sum" class="" />
+        </div>
+        <div>
+          <div class="text-sm text-faint">
+            {{ $t('quota') }}
+          </div>
+          <Currency :value="branch.quota" class="" />
+        </div>
       </div>
-      <Currency :value="sum" class="" />
     </Item>
   </Card>
   <!--

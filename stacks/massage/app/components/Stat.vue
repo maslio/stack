@@ -2,12 +2,14 @@
 const props = defineProps<{
   label: string
   value: number
-  quota: number
+  quota?: number
   page?: string
   props?: Record<string, any>
 }>()
 
 const percent = computed(() => {
+  if (!props.quota)
+    return 0
   return Math.round(props.value / props.quota * 100)
 })
 const width = computed(() => {
@@ -16,7 +18,10 @@ const width = computed(() => {
 </script>
 
 <template>
-  <Open :label :page :props="props.props">
+  <Open
+    :label :page :props="props.props"
+    class="h-48px"
+  >
     <div class="flex justify-between">
       <div
         class="absolute left-0 top-0 h-full w-10"
@@ -27,11 +32,14 @@ const width = computed(() => {
       <div
         class="fit"
       >
-        <div class="flex items-center justify-between p-3 pr-6">
+        <div class="flex items-center justify-between p-2 pr-6">
           <div>
             {{ $mt(label) }}
           </div>
-          <Currency :value class="" />
+          <div class="flex-col items-end pr-1 text-right">
+            <Currency :value="value" class="text-sm" />
+            <Currency :value="quota" class="text-sm text-faint" />
+          </div>
         </div>
       </div>
     </div>

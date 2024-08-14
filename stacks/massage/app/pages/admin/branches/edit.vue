@@ -17,7 +17,7 @@ const groups = [
   },
 ]
 async function submit(data: Record<string, any>) {
-  updateItem(data)
+  await updateItem(data)
   emit('save', data)
   layout.close()
 }

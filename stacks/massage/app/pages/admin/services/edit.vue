@@ -18,7 +18,7 @@ function addOption({ duration, amount }: { duration: number, amount: number }) {
 function removeOption(id: number) {
   options.value = options.value.filter(o => o.id !== id)
 }
-const { readItem, updateItem, createItem } = await useCollection('services')
+const { readItem, updateItem, createItem } = useCollection('services')
 const item = ref(props.id
   ? await readItem(props.id)
   : {

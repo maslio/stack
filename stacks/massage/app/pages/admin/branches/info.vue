@@ -7,8 +7,8 @@ const { item, refresh: refreshBranch } = await useItem('branches', props.id, {
 })
 
 const layout = useLayout()
-function onSave() {
-  refreshBranch()
+async function onSave() {
+  await refreshBranch()
   layout.close('next')
 }
 </script>

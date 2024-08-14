@@ -13,7 +13,6 @@ interface Item {
   date: string
   expense: number | null
   amount: number | null
-  worker: number | null
   comment?: string
 }
 const data = props.id
@@ -23,7 +22,6 @@ const data = props.id
       branch: props.branch.id,
       expense: null,
       amount: 0,
-      worker: null,
       comment: '',
     } as Item
 
@@ -49,13 +47,6 @@ async function save() {
       v-model="item.expense"
       icon="expense"
       icon-color="primary"
-      @apply="onApplyExpense"
-    />
-    <SelectWorker
-      v-model="item.worker"
-      icon="worker"
-      icon-color="primary"
-      :branch="branch.id"
       @apply="onApplyExpense"
     />
   </Card>

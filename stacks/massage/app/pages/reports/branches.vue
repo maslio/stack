@@ -45,7 +45,9 @@ useInterval(5000, { callback() {
   refresh()
 } })
 
-const quota = 5000
+const allQuota = computed(() => {
+  return branches.value.reduce((sum, branch) => sum + branch.quota, 0)
+})
 </script>
 
 <template>
@@ -53,7 +55,7 @@ const quota = 5000
   <Stat
     label="$t:all"
     :value="sum()"
-    :quota="quota * branches.length"
+    :quota="allQuota"
   />
   <List :items="branches">
     <template #item="{ item, index }">
@@ -64,7 +66,7 @@ const quota = 5000
           page="reports/branch"
           :props="{ branch: item, date, onRefresh: refresh }"
           :value="sum(item.id)"
-          :quota
+          :quota="item.quota"
         />
       </div>
     </template>

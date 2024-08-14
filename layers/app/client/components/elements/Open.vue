@@ -30,7 +30,13 @@ function close() {
   layout.close(target)
 }
 
+const openable = computed(() => {
+  return props.page || props.component || slots.render
+})
+
 function open(_target = target) {
+  if (!openable.value)
+    return
   layout.open(_target, {
     id,
     label: props.label,
@@ -84,7 +90,7 @@ if (props.preload && props.page)
     :caption="props.caption"
     clickable
     :opened="layout.opened[t] === id"
-    right-icon="fluent:chevron-right-16-filled"
+    :right-icon="openable ? 'fluent:chevron-right-16-filled' : undefined"
     @click="onClick"
     @contextmenu="onContextmenu"
   >
